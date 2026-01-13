@@ -105,10 +105,25 @@ class SpotLightLayer(LayerInterface):
         glDepthFunc(GL_LEQUAL)
         glDepthMask(GL_FALSE)
         
+        # Determine uniforms based on blend mode
+        u_color = self.color
+        u_intensity = self.intensity
+
+        if self.blend_mode == "Multiply":
+            # Special handling for Multiply to make Intensity intuitive (0=No effect, High=Darker)
+            u_intensity = 1.0 # Bake intensity into color
+            if self.intensity <= 1.0:
+                # Interpolate White -> Color
+                u_color = [(1.0 - self.intensity) + c * self.intensity for c in self.color]
+            else:
+                # Interpolate Color -> Black
+                if self.intensity > 0:
+                    u_color = [c / self.intensity for c in self.color]
+        
         glUseProgram(self.shader_program)
         glUniform3f(glGetUniformLocation(self.shader_program, "lightDir"), *self.direction)
-        glUniform3f(glGetUniformLocation(self.shader_program, "lightColor"), *self.color)
-        glUniform1f(glGetUniformLocation(self.shader_program, "intensity"), self.intensity)
+        glUniform3f(glGetUniformLocation(self.shader_program, "lightColor"), *u_color)
+        glUniform1f(glGetUniformLocation(self.shader_program, "intensity"), u_intensity)
         glUniform1f(glGetUniformLocation(self.shader_program, "range"), self.range)
         glUniform1f(glGetUniformLocation(self.shader_program, "blur"), self.blur)
 
