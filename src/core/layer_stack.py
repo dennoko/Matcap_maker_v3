@@ -9,6 +9,7 @@ class LayerStack:
     def remove_layer(self, layer):
         if layer in self._layers:
             self._layers.remove(layer)
+        return layer
             
     def move_layer_up(self, index):
         if 0 <= index < len(self._layers) - 1:

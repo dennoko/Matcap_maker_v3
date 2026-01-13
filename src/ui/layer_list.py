@@ -26,12 +26,22 @@ class LayerListWidget(QWidget):
         self.add_btn.setMenu(self.add_menu)
         
         self.del_btn = QPushButton("Remove")
+        self.del_btn.clicked.connect(self.on_remove_clicked)
         
         btn_layout.addWidget(self.add_btn)
         btn_layout.addWidget(self.del_btn)
         self.layout.addLayout(btn_layout)
         
         self.refresh()
+        
+    def on_remove_clicked(self):
+        row = self.list_widget.currentRow()
+        if row >= 0:
+            item = self.list_widget.item(row)
+            layer = item.data(Qt.UserRole)
+            self.layer_stack.remove_layer(layer)
+            self.refresh()
+            self.layer_selected.emit(None) # Clear selection properties
         
     def refresh(self):
         self.list_widget.clear()
