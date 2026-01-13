@@ -24,8 +24,7 @@ class MainWindow(QMainWindow):
         
         # Initialize Layer List with stack from preview
         self.layer_list = LayerListWidget(self.preview.layer_stack)
-        self.layer_list.add_btn.clicked.connect(self.add_light)
-        self.layer_list.add_spot_btn.clicked.connect(self.add_spot_light) # New Connection
+        self.layer_list.add_layer_requested.connect(self.on_add_layer)
         self.layer_list.layer_selected.connect(self.on_layer_selected)
         
         # 3. Right: Properties
@@ -53,25 +52,23 @@ class MainWindow(QMainWindow):
         self.timer.timeout.connect(self.preview.update)
         self.timer.start(16)
 
-    def add_light(self):
+    def on_add_layer(self, layer_type):
         self.preview.makeCurrent()
         try:
-            l = LightLayer()
-            self.preview.layer_stack.add_layer(l)
-            l.initialize()
+            layer = None
+            if layer_type == "light":
+                layer = LightLayer()
+            elif layer_type == "spot":
+                layer = SpotLightLayer()
+            
+            if layer:
+                self.preview.layer_stack.add_layer(layer)
+                layer.initialize()
         finally:
             self.preview.doneCurrent()
         self.layer_list.refresh()
-
-    def add_spot_light(self):
-        self.preview.makeCurrent()
-        try:
-            l = SpotLightLayer()
-            self.preview.layer_stack.add_layer(l)
-            l.initialize()
-        finally:
-            self.preview.doneCurrent()
-        self.layer_list.refresh()
+        if layer:
+            self.layer_list.select_layer(layer)
 
     def on_layer_selected(self, layer):
         self.properties.set_layer(layer)

@@ -1,8 +1,9 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QSlider, QFormLayout, QDoubleSpinBox
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QFormLayout
 from PySide6.QtCore import Qt
 from src.layers.base_layer import BaseLayer
 from src.layers.light_layer import LightLayer
 from src.layers.spot_light_layer import SpotLightLayer
+from src.ui.params import FloatSlider, ColorPicker
 
 class PropertiesWidget(QWidget):
     def __init__(self):
@@ -27,9 +28,7 @@ class PropertiesWidget(QWidget):
         self.layout.addLayout(form)
         
         if isinstance(layer, BaseLayer):
-            self._add_color_control(form, "Color R", layer.base_color, 0, lambda v: self._update_color(layer.base_color, 0, v, layer))
-            self._add_color_control(form, "Color G", layer.base_color, 1, lambda v: self._update_color(layer.base_color, 1, v, layer))
-            self._add_color_control(form, "Color B", layer.base_color, 2, lambda v: self._update_color(layer.base_color, 2, v, layer))
+            self._add_color_control(form, "Color", layer.base_color, lambda v: self._update_whole_color(layer.base_color, v, layer))
             
         elif isinstance(layer, LightLayer):
             self._add_float_control(form, "Intensity", layer.intensity, 0.0, 5.0, lambda v: self._set_attr(layer, 'intensity', v))
@@ -37,9 +36,7 @@ class PropertiesWidget(QWidget):
             self._add_float_control(form, "Dir Y", layer.direction[1], -1.0, 1.0, lambda v: self._update_list(layer.direction, 1, v, layer))
             self._add_float_control(form, "Dir Z", layer.direction[2], -1.0, 1.0, lambda v: self._update_list(layer.direction, 2, v, layer))
             # Color for Light
-            self._add_color_control(form, "Color R", layer.color, 0, lambda v: self._update_list(layer.color, 0, v, layer))
-            self._add_color_control(form, "Color G", layer.color, 1, lambda v: self._update_list(layer.color, 1, v, layer))
-            self._add_color_control(form, "Color B", layer.color, 2, lambda v: self._update_list(layer.color, 2, v, layer))
+            self._add_color_control(form, "Color", layer.color, lambda v: self._update_whole_color(layer.color, v, layer))
 
         elif isinstance(layer, SpotLightLayer):
             self._add_float_control(form, "Intensity", layer.intensity, 0.0, 5.0, lambda v: self._set_attr(layer, 'intensity', v))
@@ -48,9 +45,7 @@ class PropertiesWidget(QWidget):
             self._add_float_control(form, "Dir X", layer.direction[0], -1.0, 1.0, lambda v: self._update_list(layer.direction, 0, v, layer))
             self._add_float_control(form, "Dir Y", layer.direction[1], -1.0, 1.0, lambda v: self._update_list(layer.direction, 1, v, layer))
             self._add_float_control(form, "Dir Z", layer.direction[2], -1.0, 1.0, lambda v: self._update_list(layer.direction, 2, v, layer))
-            self._add_color_control(form, "Color R", layer.color, 0, lambda v: self._update_list(layer.color, 0, v, layer))
-            self._add_color_control(form, "Color G", layer.color, 1, lambda v: self._update_list(layer.color, 1, v, layer))
-            self._add_color_control(form, "Color B", layer.color, 2, lambda v: self._update_list(layer.color, 2, v, layer))
+            self._add_color_control(form, "Color", layer.color, lambda v: self._update_whole_color(layer.color, v, layer))
 
     def _clear_layout(self, layout):
         if not layout: return
@@ -63,29 +58,25 @@ class PropertiesWidget(QWidget):
                 self._clear_layout(item.layout())
                 item.layout().deleteLater()
 
-    def _add_color_control(self, layout, label, target_list, index, callback):
-        slider = QSlider(Qt.Horizontal)
-        slider.setRange(0, 255)
-        slider.setValue(int(target_list[index] * 255))
-        slider.valueChanged.connect(lambda v: callback(v / 255.0))
-        layout.addRow(label, slider)
+    def _add_color_control(self, layout, label, current_val, callback):
+        # current_val is [r, g, b] float
+        picker = ColorPicker(current_val)
+        picker.colorChanged.connect(callback)
+        layout.addRow(label, picker)
         
     def _add_float_control(self, layout, label, value, min_v, max_v, callback):
-        sb = QDoubleSpinBox()
-        sb.setRange(min_v, max_v)
-        sb.setSingleStep(0.1)
-        sb.setValue(value)
-        sb.valueChanged.connect(callback)
-        layout.addRow(label, sb)
+        slider = FloatSlider(value, min_v, max_v)
+        slider.valueChanged.connect(callback)
+        layout.addRow(label, slider)
 
-    def _update_color(self, target, idx, val, layer):
-        target[idx] = val
-        # Trigger redraw? Signal needed or simple callback
-        # Main Window will handle redraw trigger separately or we pass a callback?
-        # For now, let's assume we rely on main loop or manual trigger.
-        
     def _set_attr(self, obj, name, val):
         setattr(obj, name, val)
         
     def _update_list(self, target, idx, val, layer):
         target[idx] = val
+        
+    def _update_whole_color(self, target_list, new_color, layer):
+        # Update R, G, B in place
+        target_list[0] = new_color[0]
+        target_list[1] = new_color[1]
+        target_list[2] = new_color[2]

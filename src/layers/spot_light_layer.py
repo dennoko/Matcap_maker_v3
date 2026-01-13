@@ -12,7 +12,7 @@ class SpotLightLayer(LayerInterface):
         self.index_count = 0
         
         # Params
-        self.direction = [0.0, 0.0, -1.0] 
+        self.direction = [0.0, 0.0, 1.0] 
         self.color = [1.0, 1.0, 1.0]
         self.intensity = 1.0
         self.range = 0.2    # Size of spot (0.0 to 1.0 approx) -> maps to cutoff
@@ -46,13 +46,14 @@ class SpotLightLayer(LayerInterface):
             // range 1.0 -> cutoff 0.0 (wide)
             float cutoff = 1.0 - range; 
             
-            // Smoothstep for blur
-            // If blur is 0, we want sharp edge.
-            // smoothstep(edge0, edge1, x)
-            // edge0 = cutoff
-            // edge1 = cutoff + max(blur, 0.001)
+            // Improved Blur Logic
+            // We want the fade to happen OUTSIDE the cutoff or INSIDE?
+            // Usually blur softens the edge effectively making the spot slightly larger/smaller.
+            // Let's define: inner_cutoff = cutoff, outer_cutoff = cutoff - blur
+            // But to avoid artifacts when blur is large, we clamp.
             
-            float spot = smoothstep(cutoff, cutoff + max(blur, 0.001), ndotl);
+            float epsilon = blur + 0.0001;
+            float spot = smoothstep(cutoff - epsilon, cutoff + epsilon, ndotl);
             
             vec3 finalColor = spot * lightColor * intensity;
             

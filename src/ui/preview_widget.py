@@ -25,6 +25,9 @@ class PreviewWidget(QOpenGLWidget):
         self.engine = Engine()
         self.layer_stack = LayerStack()
         
+        self.width_ = 400
+        self.height_ = 400
+        
         # Default Layer
         self.base_layer = BaseLayer()
         self.layer_stack.add_layer(self.base_layer)
@@ -50,21 +53,14 @@ class PreviewWidget(QOpenGLWidget):
 
     def resizeGL(self, w, h):
         self.engine.resize(w, h)
-        glViewport(0, 0, w, h)
+        # We don't change viewport here directly because paintGL might need custom viewport for aspect ratio
+        self.width_ = w
+        self.height_ = h
 
     def paintGL(self):
         # Save the QOpenGLWidget's FBO (it might not be 0!)
         default_fbo = glGetIntegerv(GL_FRAMEBUFFER_BINDING)
         
-        # DEBUG: Direct Draw to isolate FBO issues
-        debug_direct_draw = False
-        if debug_direct_draw:
-            glClearColor(0.2, 0.2, 0.2, 1.0)
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-            if self.base_layer:
-                self.base_layer.render()
-            return
-
         # 1. Render Layers to FBO via Engine
         self.engine.render(self.layer_stack)
         
@@ -73,6 +69,12 @@ class PreviewWidget(QOpenGLWidget):
         glBindFramebuffer(GL_FRAMEBUFFER, default_fbo)
         glClearColor(0.2, 0.2, 0.2, 1.0) 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        
+        # Calculate viewport for 1:1 Aspect Ratio
+        side = min(self.width_, self.height_)
+        x = (self.width_ - side) // 2
+        y = (self.height_ - side) // 2
+        glViewport(x, y, side, side)
         
         # Disable Depth Test & Culling for Screen Quad to ensure it always draws
         glDisable(GL_DEPTH_TEST)
@@ -91,6 +93,10 @@ class PreviewWidget(QOpenGLWidget):
             
         # Re-enable defaults if needed (though next frame clears anyway)
         glEnable(GL_DEPTH_TEST)
+        
+        # Restore Viewport for next pass if needed?
+        # Actually standard widget behavior might reset it, but better safe.
+        glViewport(0, 0, self.width_, self.height_)
 
     def _init_quad(self):
         # Remove any existing VAO to force fresh start

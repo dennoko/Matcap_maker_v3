@@ -12,7 +12,7 @@ class LightLayer(LayerInterface):
         self.index_count = 0
         
         # Params
-        self.direction = [0.0, 0.0, -1.0] # Looking from camera (-Z ray direction)
+        self.direction = [0.0, 0.0, 1.0] # Looking from camera (-Z ray direction)
         self.color = [1.0, 1.0, 1.0]
         self.intensity = 1.0
 

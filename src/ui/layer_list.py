@@ -1,8 +1,9 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QListWidget, QListWidgetItem, QPushButton, QHBoxLayout
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QListWidget, QListWidgetItem, QPushButton, QHBoxLayout, QMenu
 from PySide6.QtCore import Qt, Signal
 
 class LayerListWidget(QWidget):
     layer_selected = Signal(object) # Emit layer object
+    add_layer_requested = Signal(str) # Emit type string: "light", "spot"
     
     def __init__(self, layer_stack):
         super().__init__()
@@ -16,11 +17,17 @@ class LayerListWidget(QWidget):
         
         # Buttons
         btn_layout = QHBoxLayout()
-        self.add_btn = QPushButton("Add Light")
-        self.add_spot_btn = QPushButton("Add Spot")
+        
+        # Add Layer Menu Button
+        self.add_btn = QPushButton("Add Layer")
+        self.add_menu = QMenu(self)
+        self.add_menu.addAction("Directional Light", lambda: self.add_layer_requested.emit("light"))
+        self.add_menu.addAction("Spot Light", lambda: self.add_layer_requested.emit("spot"))
+        self.add_btn.setMenu(self.add_menu)
+        
         self.del_btn = QPushButton("Remove")
+        
         btn_layout.addWidget(self.add_btn)
-        btn_layout.addWidget(self.add_spot_btn)
         btn_layout.addWidget(self.del_btn)
         self.layout.addLayout(btn_layout)
         
@@ -38,3 +45,11 @@ class LayerListWidget(QWidget):
             item = self.list_widget.item(row)
             layer = item.data(Qt.UserRole)
             self.layer_selected.emit(layer)
+
+    def select_layer(self, layer):
+        # Find item with this layer
+        for i in range(self.list_widget.count()):
+            item = self.list_widget.item(i)
+            if item.data(Qt.UserRole) == layer:
+                self.list_widget.setCurrentRow(i)
+                break
