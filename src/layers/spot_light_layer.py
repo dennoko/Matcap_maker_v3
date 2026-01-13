@@ -7,6 +7,7 @@ class SpotLightLayer(LayerInterface):
     def __init__(self):
         super().__init__()
         self.name = "Spot Light"
+        self.blend_mode = "Add"
         self.shader_program = None
         self.VAO = None
         self.index_count = 0
@@ -57,7 +58,8 @@ class SpotLightLayer(LayerInterface):
             
             vec3 finalColor = spot * lightColor * intensity;
             
-            FragColor = vec4(finalColor, 1.0); 
+            // Output Alpha = spot (geometric coverage)
+            FragColor = vec4(finalColor, spot); 
         }
         """
         
@@ -99,7 +101,7 @@ class SpotLightLayer(LayerInterface):
         if not self.shader_program or not self.enabled:
             return
 
-        glBlendFunc(GL_ONE, GL_ONE) 
+        self.setup_blend_func() 
         glDepthFunc(GL_LEQUAL)
         glDepthMask(GL_FALSE)
         

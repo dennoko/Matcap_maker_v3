@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QFormLayout
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QFormLayout, QComboBox
 from PySide6.QtCore import Qt
 from src.layers.base_layer import BaseLayer
 from src.layers.light_layer import LightLayer
@@ -30,22 +30,38 @@ class PropertiesWidget(QWidget):
         if isinstance(layer, BaseLayer):
             self._add_color_control(form, "Color", layer.base_color, lambda v: self._update_whole_color(layer.base_color, v, layer))
             
-        elif isinstance(layer, LightLayer):
-            self._add_float_control(form, "Intensity", layer.intensity, 0.0, 5.0, lambda v: self._set_attr(layer, 'intensity', v))
-            self._add_float_control(form, "Dir X", layer.direction[0], -1.0, 1.0, lambda v: self._update_list(layer.direction, 0, v, layer))
-            self._add_float_control(form, "Dir Y", layer.direction[1], -1.0, 1.0, lambda v: self._update_list(layer.direction, 1, v, layer))
-            self._add_float_control(form, "Dir Z", layer.direction[2], -1.0, 1.0, lambda v: self._update_list(layer.direction, 2, v, layer))
-            # Color for Light
-            self._add_color_control(form, "Color", layer.color, lambda v: self._update_whole_color(layer.color, v, layer))
+        else:
+            # Common properties for all effect layers
+            self._add_blend_mode_control(form, layer)
+            
+            if isinstance(layer, LightLayer):
+                self._add_float_control(form, "Intensity", layer.intensity, 0.0, 5.0, lambda v: self._set_attr(layer, 'intensity', v))
+                self._add_float_control(form, "Dir X", layer.direction[0], -1.0, 1.0, lambda v: self._update_list(layer.direction, 0, v, layer))
+                self._add_float_control(form, "Dir Y", layer.direction[1], -1.0, 1.0, lambda v: self._update_list(layer.direction, 1, v, layer))
+                self._add_float_control(form, "Dir Z", layer.direction[2], -1.0, 1.0, lambda v: self._update_list(layer.direction, 2, v, layer))
+                self._add_color_control(form, "Color", layer.color, lambda v: self._update_whole_color(layer.color, v, layer))
 
-        elif isinstance(layer, SpotLightLayer):
-            self._add_float_control(form, "Intensity", layer.intensity, 0.0, 5.0, lambda v: self._set_attr(layer, 'intensity', v))
-            self._add_float_control(form, "Range", layer.range, 0.0, 1.0, lambda v: self._set_attr(layer, 'range', v))
-            self._add_float_control(form, "Blur", layer.blur, 0.0, 1.0, lambda v: self._set_attr(layer, 'blur', v))
-            self._add_float_control(form, "Dir X", layer.direction[0], -1.0, 1.0, lambda v: self._update_list(layer.direction, 0, v, layer))
-            self._add_float_control(form, "Dir Y", layer.direction[1], -1.0, 1.0, lambda v: self._update_list(layer.direction, 1, v, layer))
-            self._add_float_control(form, "Dir Z", layer.direction[2], -1.0, 1.0, lambda v: self._update_list(layer.direction, 2, v, layer))
-            self._add_color_control(form, "Color", layer.color, lambda v: self._update_whole_color(layer.color, v, layer))
+            elif isinstance(layer, SpotLightLayer):
+                self._add_float_control(form, "Intensity", layer.intensity, 0.0, 5.0, lambda v: self._set_attr(layer, 'intensity', v))
+                self._add_float_control(form, "Range", layer.range, 0.0, 1.0, lambda v: self._set_attr(layer, 'range', v))
+                self._add_float_control(form, "Blur", layer.blur, 0.0, 1.0, lambda v: self._set_attr(layer, 'blur', v))
+                self._add_float_control(form, "Dir X", layer.direction[0], -1.0, 1.0, lambda v: self._update_list(layer.direction, 0, v, layer))
+                self._add_float_control(form, "Dir Y", layer.direction[1], -1.0, 1.0, lambda v: self._update_list(layer.direction, 1, v, layer))
+                self._add_float_control(form, "Dir Z", layer.direction[2], -1.0, 1.0, lambda v: self._update_list(layer.direction, 2, v, layer))
+                self._add_color_control(form, "Color", layer.color, lambda v: self._update_whole_color(layer.color, v, layer))
+
+    def _add_blend_mode_control(self, layout, layer):
+        combo = QComboBox()
+        modes = ["Normal", "Add", "Multiply", "Screen"]
+        combo.addItems(modes)
+        
+        current = layer.blend_mode if hasattr(layer, 'blend_mode') else "Normal"
+        index = combo.findText(current)
+        if index >= 0:
+            combo.setCurrentIndex(index)
+            
+        combo.currentTextChanged.connect(lambda text: setattr(layer, 'blend_mode', text))
+        layout.addRow("Blend Mode", combo)
 
     def _clear_layout(self, layout):
         if not layout: return

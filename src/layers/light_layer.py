@@ -7,6 +7,7 @@ class LightLayer(LayerInterface):
     def __init__(self):
         super().__init__()
         self.name = "Directional Light"
+        self.blend_mode = "Add"
         self.shader_program = None
         self.VAO = None
         self.index_count = 0
@@ -41,8 +42,9 @@ class LightLayer(LayerInterface):
             float diff = max(dot(norm, lDir), 0.0);
             vec3 diffuse = diff * lightColor * intensity;
             
-            // Output only the light contribution with alpha for blending (Additive usually)
-            FragColor = vec4(diffuse, 1.0); 
+            // Output with Alpha = diff (geometric coverage)
+            // RGB is already premultiplied by diff (diffuse = diff * color * intensity)
+            FragColor = vec4(diffuse, diff); 
         }
         """
         
@@ -85,8 +87,8 @@ class LightLayer(LayerInterface):
         if not self.shader_program or not self.enabled:
             return
 
-        # Set Blend Mode to ADD for lights
-        glBlendFunc(GL_ONE, GL_ONE)
+        # Set Blend Mode
+        self.setup_blend_func()
         
         # Mulit-pass rendering rules for same geometry:
         # 1. Depth Func needs to be LEQUAL so valid fragments at same depth pass
