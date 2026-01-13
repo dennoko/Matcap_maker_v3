@@ -4,6 +4,7 @@ from src.ui.preview_widget import PreviewWidget
 from src.ui.layer_list import LayerListWidget
 from src.ui.properties import PropertiesWidget
 from src.layers.light_layer import LightLayer
+from src.layers.spot_light_layer import SpotLightLayer
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -24,6 +25,7 @@ class MainWindow(QMainWindow):
         # Initialize Layer List with stack from preview
         self.layer_list = LayerListWidget(self.preview.layer_stack)
         self.layer_list.add_btn.clicked.connect(self.add_light)
+        self.layer_list.add_spot_btn.clicked.connect(self.add_spot_light) # New Connection
         self.layer_list.layer_selected.connect(self.on_layer_selected)
         
         # 3. Right: Properties
@@ -55,6 +57,16 @@ class MainWindow(QMainWindow):
         self.preview.makeCurrent()
         try:
             l = LightLayer()
+            self.preview.layer_stack.add_layer(l)
+            l.initialize()
+        finally:
+            self.preview.doneCurrent()
+        self.layer_list.refresh()
+
+    def add_spot_light(self):
+        self.preview.makeCurrent()
+        try:
+            l = SpotLightLayer()
             self.preview.layer_stack.add_layer(l)
             l.initialize()
         finally:

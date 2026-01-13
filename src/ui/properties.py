@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QSlider, QFormLayout
 from PySide6.QtCore import Qt
 from src.layers.base_layer import BaseLayer
 from src.layers.light_layer import LightLayer
+from src.layers.spot_light_layer import SpotLightLayer
 
 class PropertiesWidget(QWidget):
     def __init__(self):
@@ -35,6 +36,21 @@ class PropertiesWidget(QWidget):
             self._add_float_control(form, "Dir X", layer.direction[0], -1.0, 1.0, lambda v: self._update_list(layer.direction, 0, v, layer))
             self._add_float_control(form, "Dir Y", layer.direction[1], -1.0, 1.0, lambda v: self._update_list(layer.direction, 1, v, layer))
             self._add_float_control(form, "Dir Z", layer.direction[2], -1.0, 1.0, lambda v: self._update_list(layer.direction, 2, v, layer))
+            # Color for Light
+            self._add_color_control(form, "Color R", layer.color, 0, lambda v: self._update_list(layer.color, 0, v, layer))
+            self._add_color_control(form, "Color G", layer.color, 1, lambda v: self._update_list(layer.color, 1, v, layer))
+            self._add_color_control(form, "Color B", layer.color, 2, lambda v: self._update_list(layer.color, 2, v, layer))
+
+        elif isinstance(layer, SpotLightLayer):
+            self._add_float_control(form, "Intensity", layer.intensity, 0.0, 5.0, lambda v: self._set_attr(layer, 'intensity', v))
+            self._add_float_control(form, "Range", layer.range, 0.0, 1.0, lambda v: self._set_attr(layer, 'range', v))
+            self._add_float_control(form, "Blur", layer.blur, 0.0, 1.0, lambda v: self._set_attr(layer, 'blur', v))
+            self._add_float_control(form, "Dir X", layer.direction[0], -1.0, 1.0, lambda v: self._update_list(layer.direction, 0, v, layer))
+            self._add_float_control(form, "Dir Y", layer.direction[1], -1.0, 1.0, lambda v: self._update_list(layer.direction, 1, v, layer))
+            self._add_float_control(form, "Dir Z", layer.direction[2], -1.0, 1.0, lambda v: self._update_list(layer.direction, 2, v, layer))
+            self._add_color_control(form, "Color R", layer.color, 0, lambda v: self._update_list(layer.color, 0, v, layer))
+            self._add_color_control(form, "Color G", layer.color, 1, lambda v: self._update_list(layer.color, 1, v, layer))
+            self._add_color_control(form, "Color B", layer.color, 2, lambda v: self._update_list(layer.color, 2, v, layer))
 
     def _clear_layout(self, layout):
         if not layout: return

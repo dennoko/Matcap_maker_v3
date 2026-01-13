@@ -17,8 +17,10 @@ class LayerListWidget(QWidget):
         # Buttons
         btn_layout = QHBoxLayout()
         self.add_btn = QPushButton("Add Light")
+        self.add_spot_btn = QPushButton("Add Spot")
         self.del_btn = QPushButton("Remove")
         btn_layout.addWidget(self.add_btn)
+        btn_layout.addWidget(self.add_spot_btn)
         btn_layout.addWidget(self.del_btn)
         self.layout.addLayout(btn_layout)
         
