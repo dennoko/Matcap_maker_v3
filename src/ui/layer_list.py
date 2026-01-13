@@ -1,5 +1,46 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QListWidget, QListWidgetItem, QPushButton, QHBoxLayout, QMenu
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QListWidget, QListWidgetItem, QPushButton, QHBoxLayout, QMenu, QLabel, QToolButton
+from PySide6.QtGui import QIcon
+from PySide6.QtCore import Qt, Signal, QSize
+
+class LayerItemWidget(QWidget):
+    # Signals for parent to handle Reorder
+    # emit(layer_object)
+    move_up_requested = Signal(object)
+    move_down_requested = Signal(object)
+    
+    def __init__(self, layer, parent=None):
+        super().__init__(parent)
+        self.layer = layer
+        
+        layout = QHBoxLayout(self)
+        layout.setContentsMargins(5, 2, 5, 2)
+        
+        # Name Label
+        self.label = QLabel(layer.name)
+        layout.addWidget(self.label)
+        
+        layout.addStretch()
+        
+        # Reorder Buttons
+        # Note: In our List (0=Top), "Up" means moving to index i-1
+        # "Down" means moving to index i+1
+        
+        # Up Button (Move visually Up)
+        self.up_btn = QToolButton()
+        self.up_btn.setArrowType(Qt.UpArrow)
+        self.up_btn.setFixedSize(20, 20)
+        self.up_btn.setStyleSheet("border: none;")
+        self.up_btn.clicked.connect(lambda: self.move_up_requested.emit(self.layer))
+        
+        # Down Button (Move visually Down)
+        self.down_btn = QToolButton()
+        self.down_btn.setArrowType(Qt.DownArrow)
+        self.down_btn.setFixedSize(20, 20)
+        self.down_btn.setStyleSheet("border: none;")
+        self.down_btn.clicked.connect(lambda: self.move_down_requested.emit(self.layer))
+        
+        layout.addWidget(self.up_btn)
+        layout.addWidget(self.down_btn)
 
 class LayerListWidget(QWidget):
     layer_selected = Signal(object) # Emit layer object
@@ -48,9 +89,40 @@ class LayerListWidget(QWidget):
     def refresh(self):
         self.list_widget.clear()
         for layer in self.layer_stack:
-             item = QListWidgetItem(layer.name)
+             item = QListWidgetItem()
              item.setData(Qt.UserRole, layer)
+             
+             # Create custom widget
+             item_widget = LayerItemWidget(layer)
+             item_widget.move_up_requested.connect(self.on_move_up)
+             item_widget.move_down_requested.connect(self.on_move_down)
+             
+             # Adjust item size hint
+             item.setSizeHint(item_widget.sizeHint())
+             
              self.list_widget.addItem(item)
+             self.list_widget.setItemWidget(item, item_widget)
+
+    def on_move_up(self, layer):
+        # UI "Up" means index - 1
+        layers = self.layer_stack.get_layers()
+        if layer in layers:
+            idx = layers.index(layer)
+            # In LayerStack, move_layer_down swaps i and i-1
+            # Check logic: move_layer_down(i) -> swaps i and i-1
+            self.layer_stack.move_layer_down(idx)
+            self.refresh()
+            self.select_layer(layer)
+
+    def on_move_down(self, layer):
+        # UI "Down" means index + 1
+        layers = self.layer_stack.get_layers()
+        if layer in layers:
+            idx = layers.index(layer)
+            # In LayerStack, move_layer_up swaps i and i+1
+            self.layer_stack.move_layer_up(idx)
+            self.refresh()
+            self.select_layer(layer)
              
     def on_selection_changed(self, row):
         if row >= 0:

@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QFrame, QFileDialog
+from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QFrame, QFileDialog, QMessageBox
 from PySide6.QtCore import Qt, QTimer
 from src.ui.preview_widget import PreviewWidget
 from src.ui.layer_list import LayerListWidget
@@ -7,6 +7,7 @@ from src.layers.light_layer import LightLayer
 from src.layers.spot_light_layer import SpotLightLayer
 from src.layers.fresnel_layer import FresnelLayer
 from src.layers.noise_layer import NoiseLayer
+from src.core.project_io import ProjectIO
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -17,6 +18,14 @@ class MainWindow(QMainWindow):
         # Menu Bar
         menubar = self.menuBar()
         file_menu = menubar.addMenu("File")
+        
+        load_action = file_menu.addAction("Open Project...")
+        load_action.triggered.connect(self.load_project)
+        
+        save_action = file_menu.addAction("Save Project...")
+        save_action.triggered.connect(self.save_project)
+
+        file_menu.addSeparator()
         
         export_action = file_menu.addAction("Export Image")
         export_action.triggered.connect(self.export_image)
@@ -61,6 +70,39 @@ class MainWindow(QMainWindow):
         self.timer.timeout.connect(self.preview.update)
         self.timer.start(16)
 
+    def load_project(self):
+        file_path, _ = QFileDialog.getOpenFileName(self, "Open Project", "", "JSON Files (*.json)")
+        if not file_path:
+            return
+            
+        # Ensure Context
+        self.preview.makeCurrent()
+        try:
+            # Load new layers
+            new_layers = ProjectIO.load_project(file_path, None)
+            
+            if new_layers is not None:
+                # Clear and Replace
+                self.preview.layer_stack.clear()
+                for layer in new_layers:
+                    self.preview.layer_stack.add_layer(layer)
+                    layer.initialize() # Re-init GL resources (shaders/buffers)
+                
+                # Update UI
+                self.layer_list.refresh()
+                self.properties.set_layer(None) # Clear property panel
+                print(f"Project loaded from {file_path}")
+                
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"Failed to load project:\n{e}")
+        finally:
+            self.preview.doneCurrent()
+
+    def save_project(self):
+        file_path, _ = QFileDialog.getSaveFileName(self, "Save Project", "project.json", "JSON Files (*.json)")
+        if file_path:
+            ProjectIO.save_project(file_path, self.preview.layer_stack)
+
     def on_add_layer(self, layer_type):
         self.preview.makeCurrent()
         try:
@@ -86,17 +128,6 @@ class MainWindow(QMainWindow):
     def export_image(self):
         file_path, _ = QFileDialog.getSaveFileName(self, "Export Image", "matcap.png", "Images (*.png *.jpg)")
         if file_path:
-            # Add timestamp to filename if requested
-            # User asked to "Add timestamp to end of name to avoid overlap"
-            # But normally user chooses name in Dialog.
-            # I will append timestamp automatically to the suggested name inside the logic OR just before save?
-            # Actually, standard behavior is: User picks name. We might overwrite if exists.
-            # User request: "timestmap added to exported name to avoid duplication".
-            # This implies if I save "matcap.png", it becomes "matcap_20230101_120000.png".
-            # But the Dialog asks for name.
-            # I will modify the DEFAULT name in the dialog, or append it to the result.
-            # Let's append it to the result before saving.
-            
             import os
             from datetime import datetime
             

@@ -22,5 +22,8 @@ class LayerStack:
     def get_layers(self):
         return self._layers
     
+    def clear(self):
+        self._layers.clear()
+
     def __iter__(self):
         return iter(self._layers)
