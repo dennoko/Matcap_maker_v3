@@ -44,4 +44,5 @@ class LayerInterface:
             glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_COLOR)
             
         else:
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+            # Fallback (Treat as Normal / Pre-multiplied)
+            glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA)

@@ -3,6 +3,9 @@ from PySide6.QtCore import Qt
 from src.layers.base_layer import BaseLayer
 from src.layers.light_layer import LightLayer
 from src.layers.spot_light_layer import SpotLightLayer
+from src.layers.fresnel_layer import FresnelLayer
+from src.layers.spot_light_layer import SpotLightLayer
+from src.layers.noise_layer import NoiseLayer
 from src.ui.params import FloatSlider, ColorPicker
 
 class PropertiesWidget(QWidget):
@@ -49,6 +52,22 @@ class PropertiesWidget(QWidget):
                 self._add_float_control(form, "Dir Y", layer.direction[1], -1.0, 1.0, lambda v: self._update_list(layer.direction, 1, v, layer))
                 self._add_float_control(form, "Dir Z", layer.direction[2], -1.0, 1.0, lambda v: self._update_list(layer.direction, 2, v, layer))
                 self._add_color_control(form, "Color", layer.color, lambda v: self._update_whole_color(layer.color, v, layer))
+
+            elif isinstance(layer, FresnelLayer):
+                self._add_float_control(form, "Intensity", layer.intensity, 0.0, 5.0, lambda v: self._set_attr(layer, 'intensity', v))
+                self._add_float_control(form, "Power", layer.power, 0.0, 20.0, lambda v: self._set_attr(layer, 'power', v))
+                self._add_float_control(form, "Bias", layer.bias, -1.0, 1.0, lambda v: self._set_attr(layer, 'bias', v))
+                self._add_color_control(form, "Color", layer.color, lambda v: self._update_whole_color(layer.color, v, layer))
+
+            elif isinstance(layer, NoiseLayer):
+                self._add_float_control(form, "Intensity", layer.intensity, 0.0, 1.0, lambda v: self._set_attr(layer, 'intensity', v))
+                self._add_float_control(form, "Scale", layer.scale, 0.1, 10.0, lambda v: self._set_attr(layer, 'scale', v))
+                self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                self._add_color_control(form, "Color", layer.color, lambda v: self._update_whole_color(layer.color, v, layer))
+                
+    def _regen_noise(self, layer, val):
+        layer.seed = int(val)
+        layer.regenerate()
 
     def _add_blend_mode_control(self, layout, layer):
         combo = QComboBox()
