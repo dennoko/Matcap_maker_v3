@@ -1,0 +1,5 @@
+PySide6
+qt-material
+PyOpenGL
+numpy
+Pillow
