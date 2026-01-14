@@ -10,6 +10,10 @@ class Engine:
         self.use_global_normal = False
         self.preview_rotation = 0.0
         
+        self.normal_strength = 1.0
+        self.normal_scale = 1.0
+        self.normal_offset = [0.0, 0.0]
+        
     def initialize(self):
         # Initial creation
         self._create_fbo()
@@ -19,9 +23,12 @@ class Engine:
         self.height = height
         self._create_fbo()
             
-    def set_global_normal_map(self, texture_id, use_map):
+    def set_global_normal_map(self, texture_id, use_map, strength=1.0, scale=1.0, offset=(0.0,0.0)):
         self.global_normal_id = texture_id
         self.use_global_normal = use_map
+        self.normal_strength = strength
+        self.normal_scale = scale
+        self.normal_offset = offset
 
     def set_preview_rotation(self, angle):
         self.preview_rotation = angle
@@ -62,8 +69,13 @@ class Engine:
                 glUseProgram(layer.shader_program)
                 
                 # Set Global Uniforms
+                # Set Global Uniforms
                 glUniform1i(glGetUniformLocation(layer.shader_program, "normalMap"), 5)
                 glUniform1i(glGetUniformLocation(layer.shader_program, "useNormalMap"), 1 if self.use_global_normal else 0)
+                
+                glUniform1f(glGetUniformLocation(layer.shader_program, "normalStrength"), self.normal_strength)
+                glUniform1f(glGetUniformLocation(layer.shader_program, "normalScale"), self.normal_scale)
+                glUniform2f(glGetUniformLocation(layer.shader_program, "normalOffset"), *self.normal_offset)
                 
                 # Preview Rotation Removed
                 # glUniform1f(glGetUniformLocation(layer.shader_program, "previewRotation"), self.preview_rotation)

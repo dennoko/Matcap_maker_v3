@@ -66,10 +66,21 @@ class PreviewWidget(QOpenGLWidget):
         base_layer = self.layer_stack[0]
         if not isinstance(base_layer, BaseLayer): return
         
+        # Check for new layers
+        current_count = len(self.layer_stack)
+        # Initialize tracker if missing
+        if not hasattr(self, "_known_layer_count"):
+            self._known_layer_count = current_count
+            
         # Preview Mode Update
         # We track `current_shape_name` as the geometry state key
-        if base_layer.preview_mode != self.current_shape_name:
+        mode_changed = base_layer.preview_mode != self.current_shape_name
+        layer_count_changed = current_count != self._known_layer_count
+        
+        if mode_changed or layer_count_changed:
             self.current_shape_name = base_layer.preview_mode
+            self._known_layer_count = current_count
+            
             self._update_all_geometry(self.current_shape_name)
             self.update() # Trigger redraw
             
@@ -78,7 +89,16 @@ class PreviewWidget(QOpenGLWidget):
             self._load_normal_map(base_layer.normal_map_path)
             
         # Pass to Engine
-        self.engine.set_global_normal_map(self.normal_map_id, bool(self.normal_map_id))
+        # Only enable normal map if we have one AND we are in "With Normal Map" mode
+        use_normal = bool(self.normal_map_id) and (base_layer.preview_mode == "With Normal Map")
+        
+        self.engine.set_global_normal_map(
+            self.normal_map_id, 
+            use_normal,
+            base_layer.normal_strength,
+            base_layer.normal_scale,
+            base_layer.normal_offset
+        )
 
     def _update_all_geometry(self, mode):
         vertices, indices = [], []

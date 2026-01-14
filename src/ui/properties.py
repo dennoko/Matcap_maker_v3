@@ -44,8 +44,13 @@ class PropertiesWidget(QWidget):
             # Map old "Sphere"/"Combined" values if any? No, we reset default to "Standard".
             # Just ensure UI sets 'preview_mode'.
             self._add_combo_control(sub_form, "Mode", modes, layer.preview_mode, lambda v: self._set_attr(layer, 'preview_mode', v))
-            
             self._add_file_picker(sub_form, "Normal Map", layer.normal_map_path, lambda path: self._set_normal_map(layer, path))
+            
+            # Normal Map Tweaks
+            self._add_float_control(sub_form, "Strength", layer.normal_strength, 0.0, 5.0, lambda v: self._set_attr(layer, 'normal_strength', v))
+            self._add_float_control(sub_form, "Scale", layer.normal_scale, 0.1, 10.0, lambda v: self._set_attr(layer, 'normal_scale', v))
+            self._add_float_control(sub_form, "Offset X", layer.normal_offset[0], -1.0, 1.0, lambda v: self._update_list(layer.normal_offset, 0, v, layer))
+            self._add_float_control(sub_form, "Offset Y", layer.normal_offset[1], -1.0, 1.0, lambda v: self._update_list(layer.normal_offset, 1, v, layer))
             
         else:
             # Common properties for all effect layers

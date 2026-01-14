@@ -17,8 +17,15 @@ class BaseLayer(LayerInterface):
         
         # Properties
         self.preview_mode = "Standard" # "Standard", "With Normal Map"
-        self.normal_map_path = ""
-        self.normal_strength = 1.0 # Planned usage
+        # Default Normal Map
+        import os
+        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        self.normal_map_path = os.path.join(base_dir, "res", "texture", "Leather034D_4K_NormalDX.jpg")
+        
+        # Normal Map Options
+        self.normal_strength = 1.0 
+        self.normal_scale = 1.0
+        self.normal_offset = [0.0, 0.0]
         
         # Internal
         self._normal_map_id = None
