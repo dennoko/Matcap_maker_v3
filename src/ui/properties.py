@@ -6,6 +6,7 @@ from src.layers.spot_light_layer import SpotLightLayer
 from src.layers.fresnel_layer import FresnelLayer
 from src.layers.spot_light_layer import SpotLightLayer
 from src.layers.noise_layer import NoiseLayer
+from src.layers.image_layer import ImageLayer
 from src.ui.params import FloatSlider, ColorPicker
 
 class PropertiesWidget(QWidget):
@@ -59,6 +60,13 @@ class PropertiesWidget(QWidget):
                 self._add_float_control(form, "Bias", layer.bias, -1.0, 1.0, lambda v: self._set_attr(layer, 'bias', v))
                 self._add_color_control(form, "Color", layer.color, lambda v: self._update_whole_color(layer.color, v, layer))
 
+            elif isinstance(layer, ImageLayer):
+                self._add_file_picker(form, "Image", layer.image_path, lambda path: self._set_image_path(layer, path))
+                self._add_combo_control(form, "Mapping", ["Spherical", "Planar"], layer.mapping_mode, lambda v: self._set_attr(layer, 'mapping_mode', v))
+                self._add_float_control(form, "Scale", layer.scale, 0.1, 5.0, lambda v: self._set_attr(layer, 'scale', v))
+                self._add_float_control(form, "Rotation", layer.rotation, 0.0, 360.0, lambda v: self._set_attr(layer, 'rotation', v))
+                self._add_float_control(form, "Opacity", layer.opacity, 0.0, 1.0, lambda v: self._set_attr(layer, 'opacity', v))
+                
             elif isinstance(layer, NoiseLayer):
                 self._add_float_control(form, "Intensity", layer.intensity, 0.0, 1.0, lambda v: self._set_attr(layer, 'intensity', v))
                 self._add_float_control(form, "Scale", layer.scale, 0.1, 10.0, lambda v: self._set_attr(layer, 'scale', v))
@@ -110,6 +118,36 @@ class PropertiesWidget(QWidget):
     def _update_list(self, target, idx, val, layer):
         target[idx] = val
         
+    def _set_image_path(self, layer, path):
+        layer.image_path = path
+        # Trigger reload immediately if possible, but layer handles logic in render loop or we can explicit call
+        layer.load_texture(path)
+        
+    def _add_file_picker(self, layout, label, current_path, callback):
+        from PySide6.QtWidgets import QPushButton, QFileDialog
+        import os
+        
+        btn_text = os.path.basename(current_path) if current_path else "Select Image..."
+        button = QPushButton(btn_text)
+        
+        def on_click():
+            file_path, _ = QFileDialog.getOpenFileName(self, "Select Image", "", "Images (*.png *.jpg *.jpeg *.bmp)")
+            if file_path:
+                callback(file_path)
+                button.setText(os.path.basename(file_path))
+        
+        button.clicked.connect(on_click)
+        layout.addRow(label, button)
+
+    def _add_combo_control(self, layout, label, options, current, callback):
+        combo = QComboBox()
+        combo.addItems(options)
+        index = combo.findText(current)
+        if index >= 0:
+            combo.setCurrentIndex(index)
+        combo.currentTextChanged.connect(callback)
+        layout.addRow(label, combo)
+
     def _update_whole_color(self, target_list, new_color, layer):
         # Update R, G, B in place
         target_list[0] = new_color[0]

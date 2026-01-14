@@ -6,7 +6,9 @@ from src.ui.properties import PropertiesWidget
 from src.layers.light_layer import LightLayer
 from src.layers.spot_light_layer import SpotLightLayer
 from src.layers.fresnel_layer import FresnelLayer
+from src.layers.fresnel_layer import FresnelLayer
 from src.layers.noise_layer import NoiseLayer
+from src.layers.image_layer import ImageLayer
 from src.core.project_io import ProjectIO
 
 class MainWindow(QMainWindow):
@@ -115,6 +117,8 @@ class MainWindow(QMainWindow):
                 layer = FresnelLayer()
             elif layer_type == "noise":
                 layer = NoiseLayer()
+            elif layer_type == "image":
+                layer = ImageLayer()
             
             if layer:
                 self.preview.layer_stack.add_layer(layer)
