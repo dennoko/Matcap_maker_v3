@@ -6,6 +6,10 @@ class LayerStack:
         self._layers.append(layer)
         return layer
         
+    def insert_layer(self, index, layer):
+        self._layers.insert(index, layer)
+        return layer
+        
     def remove_layer(self, layer):
         if layer in self._layers:
             self._layers.remove(layer)

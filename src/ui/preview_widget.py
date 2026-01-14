@@ -198,6 +198,17 @@ class PreviewWidget(QOpenGLWidget):
                 self._warned_shader = True
                 self._init_quad()
 
+        # Check for uninitialized layers (e.g. newly duplicated)
+        for layer in self.layer_stack:
+            if not hasattr(layer, 'shader_program') or layer.shader_program is None:
+                try:
+                    # We are in PaintGL, so Context is Active
+                    layer.initialize()
+                    # Also sync geometry
+                    layer.update_geometry(*GeometryEngine.generate_sphere() if self.current_shape_name=="Standard" else GeometryEngine.generate_comparison_spheres())
+                except Exception as e:
+                    print(f"Error lazy-initializing layer {layer.name}: {e}")
+
         # 1. Render Layers to FBO via Engine
         # print("Render Stack") 
         self.engine.render(self.layer_stack)

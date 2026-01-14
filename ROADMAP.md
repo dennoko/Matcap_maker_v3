@@ -4,6 +4,16 @@
 
 ## 🛠 Core Features (機能強化)
 
+### 0. レスポンシブ・プレビュー (Vertical Layout)
+- **現状**: 左右の並び（横配置）固定。ウィンドウが縦長になってもレイアウトが変わらない。
+- **計画**:
+    - ウィンドウのアスペクト比に応じて自動的に「縦並び」に切り替える。
+    - **実装案**:
+        - `Engine`: `layoutMode` Uniform追加 (0:Horizontal, 1:Vertical)。
+        - `GeometryEngine`: 縦並び用のオフセット（Y軸 ±0.5）生成ロジック追加。
+        - `Shaders`: `FragPos.x` 判定を `FragPos.y` 判定に切り替える条件分岐を追加。
+        - `PreviewWidget`: `resizeGL` でアスペクト比を監視し、モード切り替えとジオメトリ更新を行う。
+
 ### 1. Undo/Redo システム
 - **現状**: 操作を取り消す手段がない。
 - **計画**: Command Patternを導入し、レイヤーの追加・削除・パラメータ変更をスタック管理して、Ctrl+Z / Ctrl+Y で操作を行き来できるようにする。
