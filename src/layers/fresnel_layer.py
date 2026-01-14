@@ -29,15 +29,29 @@ class FresnelLayer(LayerInterface):
         out vec4 FragColor;
         in vec3 Normal;
         in vec3 FragPos; 
+        in vec2 TexCoords;
+        in mat3 TBN;
         
         uniform vec3 color;
         uniform float intensity;
         uniform float power;
         uniform float bias;
         
+        uniform bool useNormalMap;
+        uniform sampler2D normalMap;
+        
+        vec3 getNormal() {
+            if (useNormalMap && FragPos.x > -0.05) {
+                vec3 normal = texture(normalMap, TexCoords).rgb;
+                normal = normal * 2.0 - 1.0;
+                return normalize(TBN * normal);
+            }
+            return normalize(Normal);
+        }
+        
         void main()
         {
-            vec3 norm = normalize(Normal);
+            vec3 norm = getNormal();
             // View direction: from surface toward camera
             // Camera looks down -Z, so view direction is -Z
             vec3 viewDir = vec3(0.0, 0.0, -1.0); 
@@ -103,50 +117,7 @@ class FresnelLayer(LayerInterface):
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         glDepthFunc(GL_LESS)
         glDepthMask(GL_TRUE)
-        glDisable(GL_CULL_FACE) # Restore default
-
-    def _setup_geometry(self):
-        # We need to duplicate this sphere gen code or make it shared. 
-        # For now duplicating to keep file self-contained as per previous pattern.
-        vertices, indices = self._generate_sphere(0.9, 30, 30)
-        self.index_count = len(indices)
-        vertices = np.array(vertices, dtype=np.float32)
-        indices = np.array(indices, dtype=np.uint32)
-
-        self.VAO = glGenVertexArrays(1)
-        vbo = glGenBuffers(1)
-        ebo = glGenBuffers(1)
-        glBindVertexArray(self.VAO)
-        glBindBuffer(GL_ARRAY_BUFFER, vbo)
-        glBufferData(GL_ARRAY_BUFFER, vertices.nbytes, vertices, GL_STATIC_DRAW)
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo)
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.nbytes, indices, GL_STATIC_DRAW)
-        stride = 8 * 4
-        glEnableVertexAttribArray(0)
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, ctypes.c_void_p(0))
-        glEnableVertexAttribArray(1)
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, stride, ctypes.c_void_p(3 * 4))
-        glBindVertexArray(0)
-
     def _load_shader(self, path):
-        with open(path, 'r') as f: return f.read()
+        with open(path, 'r', encoding="utf-8") as f: return f.read()
 
-    def _generate_sphere(self, radius, stacks, sectors):
-        import math
-        vertices = []
-        indices = []
-        for i in range(stacks + 1):
-            lat = math.pi * i / stacks
-            y = math.cos(lat)
-            r_plane = math.sin(lat)
-            for j in range(sectors + 1):
-                lon = 2 * math.pi * j / sectors
-                x = r_plane * math.cos(lon)
-                z = r_plane * math.sin(lon)
-                vertices.extend([x*radius, y*radius, z*radius, x, y, z, j/sectors, i/stacks])
-        for i in range(stacks):
-            for j in range(sectors):
-                first = (i * (sectors + 1)) + j
-                second = first + sectors + 1
-                indices.extend([first, second, first + 1, second, second + 1, first + 1])
-        return vertices, indices
+

@@ -6,6 +6,9 @@ class Engine:
         self.width = width
         self.height = height
         self.fbo = None
+        self.global_normal_id = None
+        self.use_global_normal = False
+        self.preview_rotation = 0.0
         
     def initialize(self):
         # Initial creation
@@ -16,12 +19,21 @@ class Engine:
         self.height = height
         self._create_fbo()
             
+    def set_global_normal_map(self, texture_id, use_map):
+        self.global_normal_id = texture_id
+        self.use_global_normal = use_map
+
+    def set_preview_rotation(self, angle):
+        self.preview_rotation = angle
+
     def render(self, layer_stack):
         if not self.fbo:
             return
             
         # Flush previous errors
         while glGetError() != GL_NO_ERROR: pass
+
+        # print(f"Engine Render: Layers={len(layer_stack)} FBO={self.fbo.handle()} GlobalNorm={self.use_global_normal}")
 
         # 1. Bind FBO
         self.fbo.bind()
@@ -34,9 +46,28 @@ class Engine:
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         
+        # Setup Global Normal Map (Unit 5)
+        glActiveTexture(GL_TEXTURE5)
+        if self.use_global_normal and self.global_normal_id:
+            glBindTexture(GL_TEXTURE_2D, self.global_normal_id)
+        else:
+            glBindTexture(GL_TEXTURE_2D, 0)
+        
         # Render All Layers
         for layer in layer_stack:
-            if layer.enabled:
+            if layer.enabled and layer.shader_program:
+                # We need to set uniforms AFTER glUseProgram, which happens in layer.render()
+                # BUT we can't inject it easily without modifying layer.render() or calling glUseProgram beforehand.
+                # Calling glUseProgram twice is fine (internal GL check is fast).
+                glUseProgram(layer.shader_program)
+                
+                # Set Global Uniforms
+                glUniform1i(glGetUniformLocation(layer.shader_program, "normalMap"), 5)
+                glUniform1i(glGetUniformLocation(layer.shader_program, "useNormalMap"), 1 if self.use_global_normal else 0)
+                
+                # Preview Rotation Removed
+                # glUniform1f(glGetUniformLocation(layer.shader_program, "previewRotation"), self.preview_rotation)
+                
                 layer.render()
                 
         # 2. Release FBO

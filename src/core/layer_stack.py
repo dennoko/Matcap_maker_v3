@@ -27,3 +27,9 @@ class LayerStack:
 
     def __iter__(self):
         return iter(self._layers)
+
+    def __getitem__(self, index):
+        return self._layers[index]
+
+    def __len__(self):
+        return len(self._layers)

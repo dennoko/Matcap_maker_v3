@@ -28,23 +28,8 @@ class ImageLayer(LayerInterface):
         
     def initialize(self):
         # Vertex Shader
-        vertex_src = """#version 330 core
-        layout (location = 0) in vec3 aPos;
-        layout (location = 1) in vec3 aNormal;
-        layout (location = 2) in vec2 aTexCoords;
-
-        out vec3 Normal;
-        out vec3 FragPos;
-        out vec2 TexCoords;
-
-        void main()
-        {
-            FragPos = aPos;
-            Normal = aNormal;
-            TexCoords = aTexCoords;
-            gl_Position = vec4(aPos, 1.0);
-        }
-        """
+        # Vertex Shader (Load shared base shader with TBN support)
+        vertex_src = self._load_shader("src/shaders/layer_base.vert")
         
         # Fragment Shader
         fragment_src = """#version 330 core
@@ -52,6 +37,7 @@ class ImageLayer(LayerInterface):
         in vec3 Normal;
         in vec3 FragPos; 
         in vec2 TexCoords;
+        in mat3 TBN;
         
         uniform sampler2D imageTexture;
         uniform int mappingMode; // 0=Spherical, 1=Planar
@@ -60,7 +46,19 @@ class ImageLayer(LayerInterface):
         uniform vec2 offset;
         uniform float opacity;
         
+        uniform bool useNormalMap;
+        uniform sampler2D normalMap;
+        
         #define PI 3.14159265359
+        
+        vec3 getNormal() {
+            if (useNormalMap && FragPos.x > -0.05) {
+                vec3 normal = texture(normalMap, TexCoords).rgb;
+                normal = normal * 2.0 - 1.0;
+                return normalize(TBN * normal);
+            }
+            return normalize(Normal);
+        }
         
         vec2 rotateUV(vec2 uv, float angle)
         {
@@ -78,8 +76,21 @@ class ImageLayer(LayerInterface):
             vec2 uv;
             
             if (mappingMode == 0) {
-                // Spherical Mapping
-                uv = TexCoords;
+                // Spherical Mapping (Matcap)
+                // Use perturbed normal!
+                vec3 n = getNormal();
+                
+                // Matcap Mapping:
+                // View Space Normal?
+                // We assume View Dir is fixed -Z (0,0,-1) in local space?
+                // Camera looks down -Z.
+                // Standard Matcap: UV = N.xy * 0.5 + 0.5
+                // This assumes N is in View Space.
+                // Our Normal is in... World Space (Object Space since static camera).
+                // If Camera is fixed, World Space == View Space (roughly).
+                
+                uv = n.xy * 0.5 + 0.5;
+                
             } else {
                 // Planar Mapping
                 vec2 clipPos = FragPos.xy; 
@@ -87,7 +98,6 @@ class ImageLayer(LayerInterface):
             }
             
             // Apply Offset (Inverse translation to move image)
-            // Move image by offset => Coordinate system by -offset
             uv -= offset;
             
             // Apply Rotation
@@ -182,48 +192,11 @@ class ImageLayer(LayerInterface):
         
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         glDepthFunc(GL_LESS)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+        glDepthFunc(GL_LESS)
         glDepthMask(GL_TRUE)
 
-    def _setup_geometry(self):
-        # Shared sphere generation (copied for now)
-        vertices, indices = self._generate_sphere(0.9, 30, 30)
-        self.index_count = len(indices)
-        vertices = np.array(vertices, dtype=np.float32)
-        indices = np.array(indices, dtype=np.uint32)
+    def _load_shader(self, path):
+        with open(path, 'r', encoding="utf-8") as f: return f.read()
 
-        self.VAO = glGenVertexArrays(1)
-        vbo = glGenBuffers(1)
-        ebo = glGenBuffers(1)
-        glBindVertexArray(self.VAO)
-        glBindBuffer(GL_ARRAY_BUFFER, vbo)
-        glBufferData(GL_ARRAY_BUFFER, vertices.nbytes, vertices, GL_STATIC_DRAW)
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo)
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.nbytes, indices, GL_STATIC_DRAW)
-        stride = 8 * 4
-        glEnableVertexAttribArray(0)
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, ctypes.c_void_p(0))
-        glEnableVertexAttribArray(1)
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, stride, ctypes.c_void_p(3 * 4))
-        glEnableVertexAttribArray(2)
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, stride, ctypes.c_void_p(6 * 4))
-        glBindVertexArray(0)
 
-    def _generate_sphere(self, radius, stacks, sectors):
-        import math
-        vertices = []
-        indices = []
-        for i in range(stacks + 1):
-            lat = math.pi * i / stacks
-            y = math.cos(lat)
-            r_plane = math.sin(lat)
-            for j in range(sectors + 1):
-                lon = 2 * math.pi * j / sectors
-                x = r_plane * math.cos(lon)
-                z = r_plane * math.sin(lon)
-                vertices.extend([x*radius, y*radius, z*radius, x, y, z, j/sectors, i/stacks])
-        for i in range(stacks):
-            for j in range(sectors):
-                first = (i * (sectors + 1)) + j
-                second = first + sectors + 1
-                indices.extend([first, second, first + 1, second, second + 1, first + 1])
-        return vertices, indices

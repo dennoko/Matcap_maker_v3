@@ -1,5 +1,5 @@
 from PySide6.QtOpenGLWidgets import QOpenGLWidget
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QTimer
 from OpenGL.GL import *
 from OpenGL.GL import shaders
 import numpy as np
@@ -9,6 +9,9 @@ from src.core.layer_stack import LayerStack
 from src.layers.base_layer import BaseLayer
 from src.layers.blend_layer import BlendLayer
 from src.core.settings import Settings
+from src.core.geometry import GeometryEngine
+from PIL import Image
+import os
 
 from PySide6.QtGui import QSurfaceFormat
 
@@ -46,17 +49,114 @@ class PreviewWidget(QOpenGLWidget):
         self.quad_shader = None
         self.quad_vao = None
         
-    def initializeGL(self):
-        # Initialize Engine (FBOs)
-
-        self.engine.initialize()
+        # Global State
+        self.current_shape_name = "Standard"
+        self.current_normal_path = ""
+        self.normal_map_id = None
         
-        # Initialize Layers
-        for layer in self.layer_stack:
-            layer.initialize()
+        # NOTE: Animation removed as requested.
+        print("DEBUG: PreviewWidget Instance Created (Rev 3 - No Anim)")
+        import sys
+        sys.stdout.flush()
+        
+    # Animation methods removed
+    
+    def _update_global_state(self):
+        if not self.layer_stack: return
+        base_layer = self.layer_stack[0]
+        if not isinstance(base_layer, BaseLayer): return
+        
+        # Preview Mode Update
+        # We track `current_shape_name` as the geometry state key
+        if base_layer.preview_mode != self.current_shape_name:
+            self.current_shape_name = base_layer.preview_mode
+            self._update_all_geometry(self.current_shape_name)
+            self.update() # Trigger redraw
             
-        # Initialize Screen Quad
-        self._init_quad()
+        # Normal Map Update
+        if base_layer.normal_map_path != self.current_normal_path:
+            self._load_normal_map(base_layer.normal_map_path)
+            
+        # Pass to Engine
+        self.engine.set_global_normal_map(self.normal_map_id, bool(self.normal_map_id))
+
+    def _update_all_geometry(self, mode):
+        vertices, indices = [], []
+        
+        if mode == "Standard":
+            # Single Sphere
+            vertices, indices = GeometryEngine.generate_sphere()
+            
+        elif mode == "With Normal Map":
+            # Side-by-Side Spheres
+            vertices, indices = GeometryEngine.generate_comparison_spheres()
+            
+        else:
+            # Fallback
+            vertices, indices = GeometryEngine.generate_sphere()
+            
+        # Update all layers
+        # TODO: Handle multi-threading if ever needed, but for now main thread
+        # We need CURRENT OpenGL Context?
+        # update_geometry mainly writes to arrays? No, it buffers data to GPU using GL calls.
+        # So we MUST be in context. _update_global_state is called in paintGL (Context Active).
+        for layer in self.layer_stack:
+            layer.update_geometry(vertices, indices)
+            
+    def _load_normal_map(self, path):
+        self.current_normal_path = path
+        if self.normal_map_id:
+            glDeleteTextures([self.normal_map_id])
+            self.normal_map_id = None
+            
+        if not path or not os.path.exists(path):
+            return
+
+        try:
+            img = Image.open(path)
+            img = img.transpose(Image.FLIP_TOP_BOTTOM)
+            img_data = img.convert("RGB").tobytes() # Normals don't need alpha usually
+            w, h = img.size
+            
+            self.normal_map_id = glGenTextures(1)
+            glBindTexture(GL_TEXTURE_2D, self.normal_map_id)
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR)
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+            
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, img_data)
+            glGenerateMipmap(GL_TEXTURE_2D)
+            glBindTexture(GL_TEXTURE_2D, 0)
+            
+            print(f"Loaded Normal Map: {path}")
+            
+        except Exception as e:
+            print(f"Failed to load normal map {path}: {e}")
+
+        
+    def initializeGL(self):
+        print(f"PreviewWidget: InitializeGL called. Context: {self.context()}")
+        try:
+            # Initialize Engine (FBOs)
+            self.engine.initialize()
+            
+            # Initialize Layers
+            for layer in self.layer_stack:
+                try:
+                    layer.initialize()
+                except Exception as e:
+                    print(f"ERROR initializing layer {layer.name}: {e}")
+                    import traceback
+                    traceback.print_exc()
+            
+            # Initialize Screen Quad
+            self._init_quad()
+            
+        except Exception as e:
+             print(f"CRITICAL ERROR in initializeGL: {e}")
+             import traceback
+             traceback.print_exc()
 
     def resizeGL(self, w, h):
         self.engine.resize(w, h)
@@ -68,7 +168,18 @@ class PreviewWidget(QOpenGLWidget):
         # Save the QOpenGLWidget's FBO (it might not be 0!)
         default_fbo = glGetIntegerv(GL_FRAMEBUFFER_BINDING)
         
+        # Check Updates
+        self._update_global_state()
+        
+        # Lazy Init Fallback
+        if not self.quad_shader:
+            if not hasattr(self, "_warned_shader"):
+                print("WARNING: Quad Shader is None in paintGL. Attempting lazy init...")
+                self._warned_shader = True
+                self._init_quad()
+
         # 1. Render Layers to FBO via Engine
+        # print("Render Stack") 
         self.engine.render(self.layer_stack)
         
         # 2. Render FBO Texture to Screen
@@ -140,14 +251,31 @@ class PreviewWidget(QOpenGLWidget):
         glBindVertexArray(0)
         
         try:
-            with open("src/shaders/quad.vert", "r") as f: vert_src = f.read()
-            with open("src/shaders/quad.frag", "r") as f: frag_src = f.read()
+            # Construct absolute path to ensure headers are found
+            base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            # base_dir should be .../src
+            # shaders are in .../src/shaders
+            vert_path = os.path.join(base_dir, "shaders", "quad.vert")
+            frag_path = os.path.join(base_dir, "shaders", "quad.frag")
+            
+            print(f"Loading shaders from: {vert_path}")
+            
+            if not os.path.exists(vert_path):
+                print(f"ERROR: Vertex shader not found at {vert_path}")
+            if not os.path.exists(frag_path):
+                print(f"ERROR: Fragment shader not found at {frag_path}")
+
+            with open(vert_path, "r", encoding="utf-8") as f: vert_src = f.read()
+            with open(frag_path, "r", encoding="utf-8") as f: frag_src = f.read()
             
             vs = shaders.compileShader(vert_src, GL_VERTEX_SHADER)
             fs = shaders.compileShader(frag_src, GL_FRAGMENT_SHADER)
             self.quad_shader = shaders.compileProgram(vs, fs)
+            print(f"Quad Shader Compiled Successfully: {self.quad_shader}")
         except Exception as e:
-            print(f"Quad Shader error: {e}")
+            print(f"Quad Shader FATAL error: {e}")
+            import traceback
+            traceback.print_exc()
 
     def save_render(self, path):
         # Use Settings for resolution

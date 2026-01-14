@@ -34,6 +34,19 @@ class PropertiesWidget(QWidget):
         if isinstance(layer, BaseLayer):
             self._add_color_control(form, "Color", layer.base_color, lambda v: self._update_whole_color(layer.base_color, v, layer))
             
+            # Preview Settings
+            self.layout.addWidget(QLabel("Preview Options")) # Changed label as requested
+            sub_form = QFormLayout()
+            self.layout.addLayout(sub_form)
+            
+            # Preview Mode Selector
+            modes = ["Standard", "With Normal Map"]
+            # Map old "Sphere"/"Combined" values if any? No, we reset default to "Standard".
+            # Just ensure UI sets 'preview_mode'.
+            self._add_combo_control(sub_form, "Mode", modes, layer.preview_mode, lambda v: self._set_attr(layer, 'preview_mode', v))
+            
+            self._add_file_picker(sub_form, "Normal Map", layer.normal_map_path, lambda path: self._set_normal_map(layer, path))
+            
         else:
             # Common properties for all effect layers
             self._add_blend_mode_control(form, layer)
@@ -124,6 +137,12 @@ class PropertiesWidget(QWidget):
         layer.image_path = path
         # Trigger reload immediately if possible, but layer handles logic in render loop or we can explicit call
         layer.load_texture(path)
+
+    def _set_normal_map(self, layer, path):
+         layer.normal_map_path = path
+         # No immediate reload method on BaseLayer yet, logic will be handled in PreviewWidget
+         # But maybe we should notify PreviewWidget?
+         # Property changes are picked up next frame.
         
     def _add_file_picker(self, layout, label, current_path, callback):
         from PySide6.QtWidgets import QPushButton, QFileDialog

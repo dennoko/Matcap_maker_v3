@@ -16,6 +16,58 @@ class LayerInterface:
     def set_parameter(self, name, value):
         """Update a parameter"""
         pass
+        
+    def _setup_geometry(self):
+        """Default geometry setup (Sphere)"""
+        from src.core.geometry import GeometryEngine
+        verts, inds = GeometryEngine.generate_sphere()
+        self.update_geometry(verts, inds)
+
+    def update_geometry(self, vertices, indices):
+        """Update the VAO/VBO with new geometry data"""
+        from OpenGL.GL import glGenVertexArrays, glGenBuffers, glBindVertexArray, glBindBuffer, glBufferData, glEnableVertexAttribArray, glVertexAttribPointer, GL_ARRAY_BUFFER, GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW, GL_FLOAT, GL_FALSE, GL_UNSIGNED_INT
+        import numpy as np
+        import ctypes
+        
+        self.index_count = len(indices)
+        # print(f"Update Geometry: Count={self.index_count}")
+        
+        # Cleanup old if exists
+        # (Skipping delete for brevity/safety, usually fine for this tool scope, but ideally delete old buffers)
+        
+        self.VAO = glGenVertexArrays(1)
+        vbo = glGenBuffers(1)
+        ebo = glGenBuffers(1)
+        
+        glBindVertexArray(self.VAO)
+        
+        glBindBuffer(GL_ARRAY_BUFFER, vbo)
+        glBufferData(GL_ARRAY_BUFFER, vertices.nbytes, vertices, GL_STATIC_DRAW)
+        
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo)
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.nbytes, indices, GL_STATIC_DRAW)
+        
+        # Stride: 11 floats * 4 bytes
+        # [Px, Py, Pz, Nx, Ny, Nz, U, V, Tx, Ty, Tz]
+        stride = 11 * 4
+        
+        # 0: Pos (3)
+        glEnableVertexAttribArray(0)
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, ctypes.c_void_p(0))
+        
+        # 1: Norm (3)
+        glEnableVertexAttribArray(1)
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, stride, ctypes.c_void_p(3 * 4))
+        
+        # 2: UV (2)
+        glEnableVertexAttribArray(2)
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, stride, ctypes.c_void_p(6 * 4))
+        
+        # 3: Tangent (3)
+        glEnableVertexAttribArray(3)
+        glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, stride, ctypes.c_void_p(8 * 4))
+        
+        glBindVertexArray(0)
 
     def to_dict(self):
         """Serialize layer state to dictionary"""
