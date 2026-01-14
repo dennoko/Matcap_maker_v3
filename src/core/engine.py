@@ -104,8 +104,11 @@ class Engine:
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
             
             # Standard GL Settings for Layer Rendering
-            glEnable(GL_BLEND)
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+            # We must DISABLE blending here to ensure we capture the RAW (Straight) RGB and Alpha from the layer shader.
+            # If we enable blend, we get Pre-multiplied Alpha on the black background, but our composite shader
+            # expects Straight RGB for its math (mix(Dst, Src, Alpha)).
+            glDisable(GL_BLEND)
+            # glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
             
             # Setup Uniforms & Render
             glUseProgram(layer.shader_program)
