@@ -50,15 +50,16 @@ class GeometryEngine:
     @staticmethod
     def generate_comparison_spheres():
         """
-        Left Sphere (-0.6) for Matcap Generator.
-        Right Sphere (+0.6) for Normal Map Preview.
-        Radius 0.55.
+        Left Sphere (-0.5) for Matcap Generator.
+        Right Sphere (+0.5) for Normal Map Preview.
+        Radius 0.45.
+        Fits within standard NDC [-1, 1].
         """
         # Left Sphere
-        s1_verts, s1_inds = GeometryEngine.generate_sphere(radius=0.55, offset_x=-0.6)
+        s1_verts, s1_inds = GeometryEngine.generate_sphere(radius=0.45, offset_x=-0.5)
         
         # Right Sphere
-        s2_verts, s2_inds = GeometryEngine.generate_sphere(radius=0.55, offset_x=0.6)
+        s2_verts, s2_inds = GeometryEngine.generate_sphere(radius=0.45, offset_x=0.5)
         
         # Merge
         s2_inds_offset = s2_inds + (len(s1_verts) // 11)

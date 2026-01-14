@@ -41,7 +41,7 @@ class FresnelLayer(LayerInterface):
         uniform sampler2D normalMap;
         
         vec3 getNormal() {
-            if (useNormalMap && FragPos.x > -0.05) {
+            if (useNormalMap && FragPos.x > 0.0) {
                 vec3 normal = texture(normalMap, TexCoords).rgb;
                 normal = normal * 2.0 - 1.0;
                 return normalize(TBN * normal);

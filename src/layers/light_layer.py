@@ -39,9 +39,8 @@ class LightLayer(LayerInterface):
         uniform sampler2D normalMap;
         
         vec3 getNormal() {
-            // Only apply Normal Map to Preview Object (Right Side or Center)
-            // Left Side (x < -0.05) is Generator (Smooth)
-            if (useNormalMap && FragPos.x > -0.05) {
+            // Only apply Normal Map to Preview Object (Right Side, > 0.0)
+            if (useNormalMap && FragPos.x > 0.0) {
                 vec3 normal = texture(normalMap, TexCoords).rgb;
                 normal = normal * 2.0 - 1.0;
                 return normalize(TBN * normal);
