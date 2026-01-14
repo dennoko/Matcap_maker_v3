@@ -30,8 +30,16 @@ class PreviewWidget(QOpenGLWidget):
         
         # Default Layer
         self.base_layer = BaseLayer()
+        self.base_layer.base_color = [0.0, 0.0, 0.0] # Default Black as requested
         self.layer_stack.add_layer(self.base_layer)
-        # self.layer_stack.add_layer(BlendLayer()) # Checkpoint 3 Add
+        
+        # Default Spot Light
+        from src.layers.spot_light_layer import SpotLightLayer
+        spot = SpotLightLayer()
+        spot.range = 0.13
+        spot.blur = 1.0
+        spot.direction = [0.35, -0.22, 1.0]
+        self.layer_stack.add_layer(spot)
         
         # Quad for drawing texture to screen
         self.quad_shader = None
