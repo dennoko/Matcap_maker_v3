@@ -87,7 +87,7 @@ class MainWindow(QMainWindow):
 
         # Right (Properties)
         right_container = QFrame()
-        right_container.setFixedWidth(350) # Fixed width as requested by user
+        right_container.setFixedWidth(400) # Fixed width as requested by user
         right_layout = QVBoxLayout(right_container)
         right_layout.addWidget(self.properties)
         self.main_layout.addWidget(right_container, 0) # 0 stretch factor since fixed width

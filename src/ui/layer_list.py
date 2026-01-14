@@ -118,7 +118,10 @@ class LayerListWidget(QWidget):
             self.layer_selected.emit(None) # Clear selection properties
         
     def refresh(self):
+        # Block signals to prevent unnecessary updates during rebuild
+        self.list_widget.blockSignals(True)
         self.list_widget.clear()
+        
         for layer in self.layer_stack:
              item = QListWidgetItem()
              item.setData(Qt.UserRole, layer)
@@ -134,6 +137,10 @@ class LayerListWidget(QWidget):
              
              self.list_widget.addItem(item)
              self.list_widget.setItemWidget(item, item_widget)
+        
+        self.list_widget.blockSignals(False)
+        
+        self.list_widget.update() # Force redraw
              
         # Set Context Menu Policy
         self.list_widget.setContextMenuPolicy(Qt.CustomContextMenu)

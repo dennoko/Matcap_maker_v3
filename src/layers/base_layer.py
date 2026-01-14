@@ -20,7 +20,7 @@ class BaseLayer(LayerInterface):
         # Default Normal Map
         import os
         base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        self.normal_map_path = os.path.join(base_dir, "res", "texture", "Leather034D_4K_NormalDX.jpg")
+        self.normal_map_path = os.path.join(base_dir, "res", "texture", "test_leather.jpg")
         
         # Normal Map Options
         self.normal_strength = 1.0 

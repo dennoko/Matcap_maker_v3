@@ -19,6 +19,7 @@ class ImageLayer(LayerInterface):
         # Params
         self.image_path = ""
         self.mapping_mode = "UV" # "UV", "Planar" ("Spherical" omitted)
+        self.blend_mode = "Add" # Default changed from Normal to Add per user request
         self.scale = 1.0
         self.rotation = 0.0 # Degrees
         self.offset = [0.0, 0.0] # [x, y]
