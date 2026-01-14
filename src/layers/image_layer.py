@@ -21,6 +21,7 @@ class ImageLayer(LayerInterface):
         self.mapping_mode = "Spherical" # "Spherical", "Planar"
         self.scale = 1.0
         self.rotation = 0.0 # Degrees
+        self.offset = [0.0, 0.0] # [x, y]
         
         # Internal state
         self._texture_loaded_path = None # To track reloading necessity
@@ -56,6 +57,7 @@ class ImageLayer(LayerInterface):
         uniform int mappingMode; // 0=Spherical, 1=Planar
         uniform float scale;
         uniform float rotation;
+        uniform vec2 offset;
         uniform float opacity;
         
         #define PI 3.14159265359
@@ -76,43 +78,25 @@ class ImageLayer(LayerInterface):
             vec2 uv;
             
             if (mappingMode == 0) {
-                // Spherical Mapping (Equirectangular-ish using Sphere UVs)
-                // Existing TexCoords from sphere generation are: u = sector/sectors, v = stack/stacks
-                // This maps the 2D image around the sphere.
+                // Spherical Mapping
                 uv = TexCoords;
-                
-                // Adjust for scale/rotation? 
-                // Spherical rotation usually shifts U. 
-                // Let's keep it simple for V3: apply generic 2D transform to UV 
-                // though it might look weird at poles.
-                uv = rotateUV(uv, radians(rotation));
-                
-                // Scale around center (0.5, 0.5)
-                uv = (uv - 0.5) / scale + 0.5;
-                
             } else {
-                // Planar Mapping (Clip Space XY)
-                // Map vertex position (-1 to 1) to UV (0 to 1)
-                // FragPos is in clip space approximately (since we don't multiply by MVP)
-                vec2 clipPos = FragPos.xy; // -1 to 1 range (assuming radius ~1)
-                
-                // Correct aspect? Sphere is 1x1. Image aspect ratio matters?
-                // For now, map 1:1 square.
-                
+                // Planar Mapping
+                vec2 clipPos = FragPos.xy; 
                 uv = clipPos * 0.5 + 0.5;
-                
-                // Apply Transform
-                uv = rotateUV(uv, radians(rotation));
-                uv = (uv - 0.5) / scale + 0.5;
             }
             
-            vec4 texColor = texture(imageTexture, uv);
+            // Apply Offset (Inverse translation to move image)
+            // Move image by offset => Coordinate system by -offset
+            uv -= offset;
             
-            // Check bounds for non-repeating
-            // Actually GL_REPEAT is default, let's allow repeat for now or clamp?
-            // Usually decal wants ClampToBorder (transparent).
-            // But tile texture wants Repeat.
-            // Let's assume Repeat for now.
+            // Apply Rotation
+            uv = rotateUV(uv, radians(rotation));
+            
+            // Apply Scale
+            uv = (uv - 0.5) / scale + 0.5;
+            
+            vec4 texColor = texture(imageTexture, uv);
             
             FragColor = vec4(texColor.rgb, texColor.a * opacity);
         }
@@ -132,7 +116,7 @@ class ImageLayer(LayerInterface):
         # Load Texture if needed
         if self.image_path:
             self.load_texture(self.image_path)
-
+            
     def load_texture(self, path):
         if not path:
             return
@@ -171,8 +155,6 @@ class ImageLayer(LayerInterface):
         if not self.shader_program or not self.enabled or not self.texture_id:
             return
 
-        # If path changed and not reloaded (e.g. from load_project set_parameter?), handle it?
-        # Typically load_project calls set_parameter/from_dict, we should ensure texture loads.
         if self.image_path and self.image_path != self._texture_loaded_path:
             self.load_texture(self.image_path)
 
@@ -191,6 +173,7 @@ class ImageLayer(LayerInterface):
         
         glUniform1f(glGetUniformLocation(self.shader_program, "scale"), self.scale)
         glUniform1f(glGetUniformLocation(self.shader_program, "rotation"), self.rotation)
+        glUniform2f(glGetUniformLocation(self.shader_program, "offset"), *self.offset)
         glUniform1f(glGetUniformLocation(self.shader_program, "opacity"), self.opacity)
 
         glBindVertexArray(self.VAO)
