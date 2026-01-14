@@ -57,3 +57,52 @@ class Engine:
         self.fbo = QOpenGLFramebufferObject(self.width, self.height, fmt)
         if not self.fbo.isValid():
             print("ERROR: QOpenGLFramebufferObject is invalid!")
+
+    def render_offscreen(self, width, height, layer_stack):
+        """Render the stack to an image at specific resolution"""
+        # Create temp FBO
+        fmt = QOpenGLFramebufferObjectFormat()
+        fmt.setAttachment(QOpenGLFramebufferObject.CombinedDepthStencil)
+        temp_fbo = QOpenGLFramebufferObject(width, height, fmt)
+        
+        if not temp_fbo.isValid():
+            print("Failed to create offscreen FBO")
+            return None
+            
+        temp_fbo.bind()
+        
+        # Setup Viewport for this FBO
+        glViewport(0, 0, width, height)
+        
+        # Clear
+        glClearColor(0.0, 0.0, 0.0, 0.0)
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        
+        # Blending
+        glEnable(GL_BLEND)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+        
+        # Render Layers
+        # IMPORTANT: Layers rely on current viewport? 
+        # Most layers (Base, Light) assume viewport is set correctly.
+        # However, if they used cached aspect ratio or screen size, might be issue.
+        # But our shaders rely on `gl_Position` (Clip Space) and `aTexCoords`, so Resolution Independent.
+        # EXCEPT PreviewWidget centering logic? No, that's Quad. Engines layers are 3D.
+        # Light Directions are valid.
+        # SpotLight "Range" maps to dot product, resolution independent.
+        # Noise Scale is resolution independent (UV based).
+        # Image Scale is UV based.
+        
+        for layer in layer_stack:
+            if layer.enabled:
+                layer.render()
+                
+        # Capture Image
+        image = temp_fbo.toImage()
+        
+        temp_fbo.release()
+        
+        # Cleanup (del might not be enough immediately but Python GC handles it usually)
+        # QOpenGLFramebufferObject cleans up GL resource on destruction
+        
+        return image

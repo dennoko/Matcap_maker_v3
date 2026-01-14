@@ -8,6 +8,7 @@ from src.core.engine import Engine
 from src.core.layer_stack import LayerStack
 from src.layers.base_layer import BaseLayer
 from src.layers.blend_layer import BlendLayer
+from src.core.settings import Settings
 
 from PySide6.QtGui import QSurfaceFormat
 
@@ -147,4 +148,24 @@ class PreviewWidget(QOpenGLWidget):
             self.quad_shader = shaders.compileProgram(vs, fs)
         except Exception as e:
             print(f"Quad Shader error: {e}")
+
+    def save_render(self, path):
+        # Use Settings for resolution
+        settings = Settings()
+        res = settings.export_resolution
+        
+        self.makeCurrent()
+        try:
+            # 1. Render Offscreen via Engine
+            image = self.engine.render_offscreen(res, res, self.layer_stack)
+            
+            if image and not image.isNull():
+                image.save(path)
+                print(f"Saved render to {path} ({res}x{res})")
+            else:
+                print("Failed to capture render.")
+        except Exception as e:
+            print(f"Save Render Error: {e}")
+        finally:
+            self.doneCurrent()
 

@@ -10,6 +10,7 @@ from src.layers.fresnel_layer import FresnelLayer
 from src.layers.noise_layer import NoiseLayer
 from src.layers.image_layer import ImageLayer
 from src.core.project_io import ProjectIO
+from src.core.settings import Settings
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -31,6 +32,28 @@ class MainWindow(QMainWindow):
         
         export_action = file_menu.addAction("Export Image")
         export_action.triggered.connect(self.export_image)
+
+        # Options Menu
+        options_menu = menubar.addMenu("Options")
+        res_menu = options_menu.addMenu("Resolution")
+        
+        resolutions = [64, 128, 256, 512, 1024, 2048, 4096]
+        self.res_actions = {}
+        
+        settings = Settings()
+        current_res = settings.export_resolution
+        
+        from PySide6.QtGui import QAction, QActionGroup
+        res_group = QActionGroup(self)
+        
+        for r in resolutions:
+            act = QAction(f"{r}x{r}", self, checkable=True)
+            if r == current_res:
+                act.setChecked(True)
+            act.triggered.connect(lambda checked, res=r: self.set_resolution(res))
+            res_group.addAction(act)
+            res_menu.addAction(act)
+            self.res_actions[r] = act
 
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
@@ -73,7 +96,8 @@ class MainWindow(QMainWindow):
         self.timer.start(16)
 
     def load_project(self):
-        file_path, _ = QFileDialog.getOpenFileName(self, "Open Project", "", "JSON Files (*.json)")
+        start_dir = Settings().get_projects_dir()
+        file_path, _ = QFileDialog.getOpenFileName(self, "Open Project", start_dir, "JSON Files (*.json)")
         if not file_path:
             return
             
@@ -101,7 +125,8 @@ class MainWindow(QMainWindow):
             self.preview.doneCurrent()
 
     def save_project(self):
-        file_path, _ = QFileDialog.getSaveFileName(self, "Save Project", "project.json", "JSON Files (*.json)")
+        start_dir = Settings().get_projects_dir()
+        file_path, _ = QFileDialog.getSaveFileName(self, "Save Project", f"{start_dir}/project.json", "JSON Files (*.json)")
         if file_path:
             ProjectIO.save_project(file_path, self.preview.layer_stack)
 
@@ -130,7 +155,8 @@ class MainWindow(QMainWindow):
             self.layer_list.select_layer(layer)
 
     def export_image(self):
-        file_path, _ = QFileDialog.getSaveFileName(self, "Export Image", "matcap.png", "Images (*.png *.jpg)")
+        start_dir = Settings().get_output_dir()
+        file_path, _ = QFileDialog.getSaveFileName(self, "Export Image", f"{start_dir}/matcap.png", "Images (*.png *.jpg)")
         if file_path:
             import os
             from datetime import datetime
@@ -141,5 +167,9 @@ class MainWindow(QMainWindow):
             
             self.preview.save_render(final_path)
 
+    def set_resolution(self, res):
+        Settings().export_resolution = res
+        print(f"Export resolution set to {res}")
+        
     def on_layer_selected(self, layer):
         self.properties.set_layer(layer)

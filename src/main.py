@@ -23,7 +23,20 @@ def main():
         
         # Apply Material Theme
         apply_stylesheet(app, theme='dark_teal.xml')
-        print("Theme applied.")
+        
+        # Override highlights to be less bright (User Request)
+        # Replacing bright primary highlight with subtle white overlay
+        custom_css = """
+        QListWidget::item:hover, QMenu::item:selected {
+            background-color: rgba(255, 255, 255, 30);
+            color: white;
+        }
+        QListWidget::item:selected:hover {
+            background-color: rgba(255, 255, 255, 40);
+        }
+        """
+        app.setStyleSheet(app.styleSheet() + custom_css)
+        print("Theme applied with custom highlights.")
 
         window = MainWindow()
         window.show()
