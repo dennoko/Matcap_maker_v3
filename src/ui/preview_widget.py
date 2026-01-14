@@ -38,10 +38,8 @@ class PreviewWidget(QOpenGLWidget):
         self.quad_vao = None
         
     def initializeGL(self):
-        print(f"GL_VERSION: {glGetString(GL_VERSION)}")
-        print(f"GL_RENDERER: {glGetString(GL_RENDERER)}")
-        
         # Initialize Engine (FBOs)
+
         self.engine.initialize()
         
         # Initialize Layers
@@ -132,7 +130,6 @@ class PreviewWidget(QOpenGLWidget):
         
         glBindVertexArray(0)
         
-        print("DEBUG: Quad VAO Initialized")
         try:
             with open("src/shaders/quad.vert", "r") as f: vert_src = f.read()
             with open("src/shaders/quad.frag", "r") as f: frag_src = f.read()
