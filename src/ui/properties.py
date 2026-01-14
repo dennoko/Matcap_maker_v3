@@ -79,8 +79,9 @@ class PropertiesWidget(QWidget):
                 self._add_color_control(form, "Color", layer.color, lambda v: self._update_whole_color(layer.color, v, layer))
 
             elif isinstance(layer, ImageLayer):
-                self._add_file_picker(form, "Image", layer.image_path, lambda path: self._set_image_path(layer, path))
-                self._add_combo_control(form, "Mapping", ["Spherical", "Planar"], layer.mapping_mode, lambda v: self._set_attr(layer, 'mapping_mode', v))
+                # Image Layer
+                self._add_file_picker(form, "Image", layer.image_path, lambda path: self._set_attr(layer, 'image_path', path))
+                self._add_combo_control(form, "Mapping", ["UV", "Planar"], layer.mapping_mode, lambda v: self._set_attr(layer, 'mapping_mode', v))
                 self._add_float_control(form, "Offset X", layer.offset[0], -1.0, 1.0, lambda v: self._update_list(layer.offset, 0, v, layer))
                 self._add_float_control(form, "Offset Y", layer.offset[1], -1.0, 1.0, lambda v: self._update_list(layer.offset, 1, v, layer))
                 self._add_float_control(form, "Scale", layer.scale, 0.1, 5.0, lambda v: self._set_attr(layer, 'scale', v))

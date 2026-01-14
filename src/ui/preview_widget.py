@@ -99,6 +99,11 @@ class PreviewWidget(QOpenGLWidget):
             base_layer.normal_scale,
             base_layer.normal_offset
         )
+        
+        # Set Preview Mode Int
+        # 0 = Standard, 1 = With Normal Map
+        mode_int = 1 if base_layer.preview_mode == "With Normal Map" else 0
+        self.engine.set_preview_mode(mode_int)
 
     def _update_all_geometry(self, mode):
         vertices, indices = [], []

@@ -18,10 +18,11 @@ class ImageLayer(LayerInterface):
         
         # Params
         self.image_path = ""
-        self.mapping_mode = "Spherical" # "Spherical", "Planar"
+        self.mapping_mode = "UV" # "UV", "Planar" ("Spherical" omitted)
         self.scale = 1.0
         self.rotation = 0.0 # Degrees
         self.offset = [0.0, 0.0] # [x, y]
+        self.aspect_ratio = 1.0 # width / height
         
         # Internal state
         self._texture_loaded_path = None # To track reloading necessity
@@ -40,11 +41,14 @@ class ImageLayer(LayerInterface):
         in mat3 TBN;
         
         uniform sampler2D imageTexture;
-        uniform int mappingMode; // 0=Spherical, 1=Planar
+        uniform int mappingMode; // 0=UV, 1=Planar
         uniform float scale;
         uniform float rotation;
         uniform vec2 offset;
         uniform float opacity;
+        uniform float aspectRatio; // Image Aspect Ratio (w/h)
+        
+        uniform int previewMode; // 0=Standard, 1=Comparison
         
         uniform bool useNormalMap;
         uniform sampler2D normalMap;
@@ -67,51 +71,97 @@ class ImageLayer(LayerInterface):
         
         vec2 rotateUV(vec2 uv, float angle)
         {
-            uv -= 0.5;
             float s = sin(angle);
             float c = cos(angle);
             mat2 rot = mat2(c, -s, s, c);
-            uv = rot * uv;
-            uv += 0.5;
-            return uv;
+            return rot * uv;
         }
 
         void main()
         {
             vec2 uv;
             
-            if (mappingMode == 0) {
-                // Spherical Mapping (Matcap)
-                // Use perturbed normal!
-                vec3 n = getNormal();
-                
-                // Matcap Mapping:
-                // View Space Normal?
-                // We assume View Dir is fixed -Z (0,0,-1) in local space?
-                // Camera looks down -Z.
-                // Standard Matcap: UV = N.xy * 0.5 + 0.5
-                // This assumes N is in View Space.
-                // Our Normal is in... World Space (Object Space since static camera).
-                // If Camera is fixed, World Space == View Space (roughly).
-                
+            // ---------------------------------------------------------
+            // 1. Determine which Mapping Logic to use
+            // ---------------------------------------------------------
+            
+            bool isRightSidePreview = (previewMode == 1) && (FragPos.x > 0.0);
+            
+            if (isRightSidePreview) {
+                // [RIGHT SIDE PREVIEW]
+                // Driven by Surface Normal (Matcap Simulation)
+                vec3 n = getNormal(); // Includes Normal Map distortion
                 uv = n.xy * 0.5 + 0.5;
                 
             } else {
-                // Planar Mapping
-                vec2 clipPos = FragPos.xy; 
-                uv = clipPos * 0.5 + 0.5;
+                // [LEFT SIDE GENERATOR] or [STANDARD MODE]
+                
+                if (mappingMode == 0) {
+                    // --- UV (Wrapped) ---
+                    // Maps texture using Mesh UV coordinates.
+                    uv = TexCoords;
+                    uv.y = 1.0 - uv.y; // Fix inverted UVs from Geometry
+                } else {
+                    // --- Planar (Screen Space) ---
+                    float centerX = (previewMode == 1) ? -0.5 : 0.0;
+                    vec2 centerInfo = vec2(centerX, 0.0);
+                    vec2 pos = FragPos.xy - centerInfo;
+                    uv = pos + 0.5;
+                }
             }
             
-            // Apply Offset (Inverse translation to move image)
-            uv -= offset;
+            // ---------------------------------------------------------
+            // 2. Aspect Ratio Correction (Before Rotation/Scale)
+            // ---------------------------------------------------------
+            // Correct for image Aspect Ratio to prevent stretching usage logic:
+            // Center is 0.5
+            uv -= 0.5;
             
-            // Apply Rotation
+            // If AR > 1 (Wide), we want to squash Y (uv.y * AR) to make pixels square
+            // If AR < 1 (Tall), we want to squash X (uv.x / AR) -> (uv.x * (1/AR))
+            
+            if (aspectRatio > 1.0) {
+                uv.y *= aspectRatio;
+            } else {
+                uv.x *= (1.0 / aspectRatio);
+            }
+            
+            // ---------------------------------------------------------
+            // 3. Apply Transforms (Offset, Rotation, Scale)
+            // ---------------------------------------------------------
+            
+            // Rotation
             uv = rotateUV(uv, radians(rotation));
             
-            // Apply Scale
-            uv = (uv - 0.5) / scale + 0.5;
+            // Scale
+            uv = uv / scale;
+            
+            // Offset (Applied after scale/rot? Or before? User usually expects "Move image")
+            // If we move AFTER scaling/aspect, "Offset" unit depends on scale/aspect.
+            // Let's apply Offset LAST (so it translates the final image window)
+            // Wait, standard UV math:
+            // Pos -> Scale -> Rot -> Trans -> UV
+            // Here we are doing Inverse: UV -> Inverse Trans -> Inverse Rot -> Inverse Scale -> Image
+            // So:
+            // uv -= offset; // Move the window
+            // uv = rot(uv);
+            // uv = uv / scale;
+            
+            // Re-center for transform calc was already done at "uv -= 0.5"
+            // Let's add offset here.
+            uv -= offset;
+            
+            // Shift back to 0..1 range
+            uv += 0.5;
+
+            // ---------------------------------------------------------
+            // 4. Sample & Output
+            // ---------------------------------------------------------
             
             vec4 texColor = texture(imageTexture, uv);
+            
+            // Check Bounds for Planar? (Clamp to border?)
+            // GL_REPEAT is set in load_texture, so it repeats.
             
             FragColor = vec4(texColor.rgb, texColor.a * opacity);
         }
@@ -141,6 +191,7 @@ class ImageLayer(LayerInterface):
             img = img.transpose(Image.FLIP_TOP_BOTTOM) # OpenGL origin is bottom-left
             img_data = img.convert("RGBA").tobytes()
             w, h = img.size
+            self.aspect_ratio = float(w) / float(h)
             
             if self.texture_id:
                 glDeleteTextures([self.texture_id])
@@ -167,11 +218,16 @@ class ImageLayer(LayerInterface):
             print(f"Failed to load texture {path}: {e}")
 
     def render(self):
-        if not self.shader_program or not self.enabled or not self.texture_id:
+        if not self.shader_program or not self.enabled:
             return
 
+        # Check if we need to load/reload texture BEFORE checking texture_id
         if self.image_path and self.image_path != self._texture_loaded_path:
             self.load_texture(self.image_path)
+        
+        # Now check if texture exists
+        if not self.texture_id:
+            return
 
         self.setup_blend_func() 
         glDepthFunc(GL_LEQUAL)
@@ -183,20 +239,25 @@ class ImageLayer(LayerInterface):
         glBindTexture(GL_TEXTURE_2D, self.texture_id)
         glUniform1i(glGetUniformLocation(self.shader_program, "imageTexture"), 0)
         
-        mode_int = 0 if self.mapping_mode == "Spherical" else 1
+        if self.mapping_mode == "UV":
+            mode_int = 0
+        else:  # Planar
+            mode_int = 1
+            
         glUniform1i(glGetUniformLocation(self.shader_program, "mappingMode"), mode_int)
         
         glUniform1f(glGetUniformLocation(self.shader_program, "scale"), self.scale)
         glUniform1f(glGetUniformLocation(self.shader_program, "rotation"), self.rotation)
         glUniform2f(glGetUniformLocation(self.shader_program, "offset"), *self.offset)
         glUniform1f(glGetUniformLocation(self.shader_program, "opacity"), self.opacity)
+        
+        # Pass Aspect Ratio
+        glUniform1f(glGetUniformLocation(self.shader_program, "aspectRatio"), self.aspect_ratio)
 
         glBindVertexArray(self.VAO)
         glDrawElements(GL_TRIANGLES, self.index_count, GL_UNSIGNED_INT, None)
         glBindVertexArray(0)
         
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-        glDepthFunc(GL_LESS)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         glDepthFunc(GL_LESS)
         glDepthMask(GL_TRUE)

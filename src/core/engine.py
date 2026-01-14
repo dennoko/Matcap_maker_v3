@@ -30,6 +30,10 @@ class Engine:
         self.normal_scale = scale
         self.normal_offset = offset
 
+    def set_preview_mode(self, mode_int):
+        # 0 = Standard, 1 = Comparison (With Normal Map)
+        self.preview_mode_int = mode_int
+
     def set_preview_rotation(self, angle):
         self.preview_rotation = angle
 
@@ -76,6 +80,11 @@ class Engine:
                 glUniform1f(glGetUniformLocation(layer.shader_program, "normalStrength"), self.normal_strength)
                 glUniform1f(glGetUniformLocation(layer.shader_program, "normalScale"), self.normal_scale)
                 glUniform2f(glGetUniformLocation(layer.shader_program, "normalOffset"), *self.normal_offset)
+                
+                # Preview Mode (0=Standard, 1=Comparison)
+                # Ensure it exists in Engine state
+                pm = getattr(self, "preview_mode_int", 0) 
+                glUniform1i(glGetUniformLocation(layer.shader_program, "previewMode"), pm)
                 
                 # Preview Rotation Removed
                 # glUniform1f(glGetUniformLocation(layer.shader_program, "previewRotation"), self.preview_rotation)
