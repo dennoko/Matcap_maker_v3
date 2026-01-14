@@ -24,7 +24,7 @@ class LayerInterface:
         for key, value in self.__dict__.items():
             if key.startswith('_'): continue
             # Skip non-serializable objects (like OpenGL IDs)
-            if key in ["shader_program", "VAO", "VBO", "EBO", "index_count", "name", "enabled", "blend_mode"]:
+            if key in ["shader_program", "VAO", "VBO", "EBO", "index_count", "name", "enabled", "blend_mode", "texture_id", "_texture_loaded_path"]:
                 continue
             params[key] = value
             

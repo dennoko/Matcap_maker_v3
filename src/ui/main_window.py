@@ -11,6 +11,8 @@ from src.layers.noise_layer import NoiseLayer
 from src.layers.image_layer import ImageLayer
 from src.core.project_io import ProjectIO
 from src.core.settings import Settings
+import os
+from datetime import datetime
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -126,9 +128,22 @@ class MainWindow(QMainWindow):
 
     def save_project(self):
         start_dir = Settings().get_projects_dir()
-        file_path, _ = QFileDialog.getSaveFileName(self, "Save Project", f"{start_dir}/project.json", "JSON Files (*.json)")
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        default_name = f"project_{timestamp}.json"
+        full_path = os.path.join(start_dir, default_name)
+        
+        file_path, _ = QFileDialog.getSaveFileName(self, "Save Project", full_path, "JSON Files (*.json)")
         if file_path:
-            ProjectIO.save_project(file_path, self.preview.layer_stack)
+            success, errors = ProjectIO.save_project(file_path, self.preview.layer_stack)
+            
+            if not success:
+                QMessageBox.critical(self, "Error", f"Failed to save project:\n{errors}")
+            elif errors:
+                # Partial success (copy failed)
+                msg = "Project saved, but some assets could not be copied:\n" + "\n".join(errors)
+                QMessageBox.warning(self, "Warning", msg)
+            else:
+                print("Project saved successfully.")
 
     def on_add_layer(self, layer_type):
         self.preview.makeCurrent()
@@ -156,16 +171,13 @@ class MainWindow(QMainWindow):
 
     def export_image(self):
         start_dir = Settings().get_output_dir()
-        file_path, _ = QFileDialog.getSaveFileName(self, "Export Image", f"{start_dir}/matcap.png", "Images (*.png *.jpg)")
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        default_name = f"matcap_{timestamp}.png"
+        full_path = os.path.join(start_dir, default_name)
+        
+        file_path, _ = QFileDialog.getSaveFileName(self, "Export Image", full_path, "Images (*.png *.jpg)")
         if file_path:
-            import os
-            from datetime import datetime
-            
-            root, ext = os.path.splitext(file_path)
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            final_path = f"{root}_{timestamp}{ext}"
-            
-            self.preview.save_render(final_path)
+            self.preview.save_render(file_path)
 
     def set_resolution(self, res):
         Settings().export_resolution = res
