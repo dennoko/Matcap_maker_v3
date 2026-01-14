@@ -71,6 +71,7 @@ class LayerInterface:
 
     def to_dict(self):
         """Serialize layer state to dictionary"""
+        import copy
         # Collect all instance attributes that are not private or special types
         params = {}
         for key, value in self.__dict__.items():
@@ -78,7 +79,13 @@ class LayerInterface:
             # Skip non-serializable objects (like OpenGL IDs)
             if key in ["shader_program", "VAO", "VBO", "EBO", "index_count", "name", "enabled", "blend_mode", "texture_id", "_texture_loaded_path"]:
                 continue
-            params[key] = value
+            
+            # Deep copy mutable values (lists, dicts etc) to prevent sharing refs
+            try:
+                params[key] = copy.deepcopy(value)
+            except Exception:
+                # Fallback for non-copyable (shouldn't happen for basic types)
+                params[key] = value
             
         return {
             "type": self.__class__.__name__,
