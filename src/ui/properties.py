@@ -100,13 +100,16 @@ class PropertiesWidget(QWidget):
 
     def _add_blend_mode_control(self, layout, layer):
         combo = QComboBox()
-        modes = ["Normal", "Add", "Multiply", "Screen"]
+        modes = [
+            "Normal", "Add", "Multiply", "Screen", 
+            "Subtract", "Lighten", "Darken",
+            "Overlay", "Soft Light", "Hard Light",
+            "Color Dodge", "Difference"
+        ]
         combo.addItems(modes)
-        
-        current = layer.blend_mode if hasattr(layer, 'blend_mode') else "Normal"
-        index = combo.findText(current)
-        if index >= 0:
-            combo.setCurrentIndex(index)
+        idx = combo.findText(layer.blend_mode)
+        if idx >= 0:
+            combo.setCurrentIndex(idx)
             
         combo.currentTextChanged.connect(lambda text: setattr(layer, 'blend_mode', text))
         layout.addRow("Blend Mode", combo)

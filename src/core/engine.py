@@ -1,11 +1,38 @@
 from OpenGL.GL import *
+from OpenGL.GL import shaders
 from PySide6.QtOpenGL import QOpenGLFramebufferObject, QOpenGLFramebufferObjectFormat
+import numpy as np
 
 class Engine:
+    # Blend Modes Mapping (Must match shader defines)
+    BLEND_MODES = {
+        "Normal": 0,
+        "Add": 1,
+        "Multiply": 2,
+        "Screen": 3,
+        "Subtract": 4,
+        "Lighten": 5,
+        "Darken": 6,
+        "Overlay": 7,
+        "Soft Light": 8,
+        "Hard Light": 9,
+        "Color Dodge": 10,
+        "Difference": 11
+    }
+
     def __init__(self, width=512, height=512):
         self.width = width
         self.height = height
-        self.fbo = None
+        
+        # FBOs for Ping-Pong Compositing
+        self.fbo_layer = None # Temps for current layer render
+        self.fbo_ping = None  # Accumulator A
+        self.fbo_pong = None  # Accumulator B
+        
+        # Shader
+        self.blend_program = None
+        self.quad_vao = None
+        
         self.global_normal_id = None
         self.use_global_normal = False
         self.preview_rotation = 0.0
@@ -16,12 +43,14 @@ class Engine:
         
     def initialize(self):
         # Initial creation
-        self._create_fbo()
+        self._create_fbos()
+        self._init_blend_shader()
+        self._init_quad_geometry()
         
     def resize(self, width, height):
         self.width = width
         self.height = height
-        self._create_fbo()
+        self._create_fbos()
             
     def set_global_normal_map(self, texture_id, use_map, strength=1.0, scale=1.0, offset=(0.0,0.0)):
         self.global_normal_id = texture_id
@@ -38,123 +67,208 @@ class Engine:
         self.preview_rotation = angle
 
     def render(self, layer_stack):
-        if not self.fbo:
+        if not self.fbo_ping:
             return
             
         # Flush previous errors
         while glGetError() != GL_NO_ERROR: pass
 
-        # print(f"Engine Render: Layers={len(layer_stack)} FBO={self.fbo.handle()} GlobalNorm={self.use_global_normal}")
-
-        # 1. Bind FBO
-        self.fbo.bind()
+        # -------------------------------------------------------------
+        # Ping-Pong Compositing Logic
+        # -------------------------------------------------------------
         
-        # Clear FBO
+        # 1. Clear accumulators
+        self.fbo_ping.bind()
+        glClearColor(0.0, 0.0, 0.0, 0.0) # Transparent Black background
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        self.fbo_ping.release()
+        
+        self.fbo_pong.bind()
         glClearColor(0.0, 0.0, 0.0, 0.0)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        self.fbo_pong.release()
         
-        # Standard blending
-        glEnable(GL_BLEND)
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+        # Current accumulator is ping initially
+        current_fbo = self.fbo_ping
+        next_fbo = self.fbo_pong
         
-        # Setup Global Normal Map (Unit 5)
-        glActiveTexture(GL_TEXTURE5)
-        if self.use_global_normal and self.global_normal_id:
-            glBindTexture(GL_TEXTURE_2D, self.global_normal_id)
-        else:
-            glBindTexture(GL_TEXTURE_2D, 0)
+        # Enable Blending for internal layer logic (opacity etc within layer draw)
         
-        # Render All Layers
         for layer in layer_stack:
-            if layer.enabled and layer.shader_program:
-                # We need to set uniforms AFTER glUseProgram, which happens in layer.render()
-                # BUT we can't inject it easily without modifying layer.render() or calling glUseProgram beforehand.
-                # Calling glUseProgram twice is fine (internal GL check is fast).
-                glUseProgram(layer.shader_program)
+            if not layer.enabled or not layer.shader_program:
+                continue
+            
+            # --- Step A: Render Layer to fbo_layer (Intermediate) ---
+            self.fbo_layer.bind()
+            glClearColor(0.0, 0.0, 0.0, 0.0)
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+            
+            # Standard GL Settings for Layer Rendering
+            glEnable(GL_BLEND)
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+            
+            # Setup Uniforms & Render
+            glUseProgram(layer.shader_program)
+            
+            # Global Uniforms
+            glUniform1i(glGetUniformLocation(layer.shader_program, "normalMap"), 5)
+            glActiveTexture(GL_TEXTURE5)
+            if self.use_global_normal and self.global_normal_id:
+                glBindTexture(GL_TEXTURE_2D, self.global_normal_id)
+            else:
+                glBindTexture(GL_TEXTURE_2D, 0)
                 
-                # Set Global Uniforms
-                # Set Global Uniforms
-                glUniform1i(glGetUniformLocation(layer.shader_program, "normalMap"), 5)
-                glUniform1i(glGetUniformLocation(layer.shader_program, "useNormalMap"), 1 if self.use_global_normal else 0)
-                
-                glUniform1f(glGetUniformLocation(layer.shader_program, "normalStrength"), self.normal_strength)
-                glUniform1f(glGetUniformLocation(layer.shader_program, "normalScale"), self.normal_scale)
-                glUniform2f(glGetUniformLocation(layer.shader_program, "normalOffset"), *self.normal_offset)
-                
-                # Preview Mode (0=Standard, 1=Comparison)
-                # Ensure it exists in Engine state
-                pm = getattr(self, "preview_mode_int", 0) 
-                glUniform1i(glGetUniformLocation(layer.shader_program, "previewMode"), pm)
-                
-                # Preview Rotation Removed
-                # glUniform1f(glGetUniformLocation(layer.shader_program, "previewRotation"), self.preview_rotation)
-                
-                layer.render()
-                
-        # 2. Release FBO
-        self.fbo.release()
+            glUniform1i(glGetUniformLocation(layer.shader_program, "useNormalMap"), 1 if self.use_global_normal else 0)
+            glUniform1f(glGetUniformLocation(layer.shader_program, "normalStrength"), self.normal_strength)
+            glUniform1f(glGetUniformLocation(layer.shader_program, "normalScale"), self.normal_scale)
+            glUniform2f(glGetUniformLocation(layer.shader_program, "normalOffset"), *self.normal_offset)
+            
+            pm = getattr(self, "preview_mode_int", 0) 
+            glUniform1i(glGetUniformLocation(layer.shader_program, "previewMode"), pm)
+            
+            layer.render()
+            
+            self.fbo_layer.release()
+            
+            # --- Step B: Composite (Blend) fbo_layer over current_fbo into next_fbo ---
+            next_fbo.bind()
+            glClearColor(0.0, 0.0, 0.0, 0.0) # Clear dest
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) # Actually usually we just overwrite full screen quad
+            
+            glUseProgram(self.blend_program)
+            
+            # Bind Textures
+            # Unit 0: Foreground (Layer Result)
+            glActiveTexture(GL_TEXTURE0)
+            glBindTexture(GL_TEXTURE_2D, self.fbo_layer.texture())
+            glUniform1i(glGetUniformLocation(self.blend_program, "uSrc"), 0)
+            
+            # Unit 1: Background (Accumulated Result)
+            glActiveTexture(GL_TEXTURE1)
+            glBindTexture(GL_TEXTURE_2D, current_fbo.texture())
+            glUniform1i(glGetUniformLocation(self.blend_program, "uDst"), 1)
+            
+            # Uniforms
+            mode_id = self.BLEND_MODES.get(layer.blend_mode, 0)
+            glUniform1i(glGetUniformLocation(self.blend_program, "uMode"), mode_id)
+            glUniform1f(glGetUniformLocation(self.blend_program, "uOpacity"), 1.0) # Opacity is handled in Layer Shader? Yes.
+            # Wait, verify image_layer opacity.
+            # Image Layer: FragColor = tex * opacity. So fbo_layer result IS premultiplied by opacity (in alpha sense? no straight alpha usually)
+            # Standard GL BlendFunc(SrcAlpha, OneMinus) -> SrcRGB * SrcA + DstRGB * (1-SrcA).
+            # If layer shader outputs: A = TexA * Opacity.
+            # Then fbo_layer contains correct alpha-weighted color?
+            # NO. fbo_layer contains (RGB, A).
+            # If we blend it using Shader, we need to apply Opacity there?
+            # Or is Opacity already applied to A in fbo_layer?
+            # Yes, ImageLayer L254: FragColor.a = tex.a * opacity.
+            # So `uOpacity` in Blend Shader should be 1.0 if it's already baked into fbo_layer.alpha.
+            # BUT if we want "Group B" blends (Overlay etc), they often ignore Alpha for color math, then mix using alpha.
+            # My Blend Shader uses `srcAlpha` from texture input. So it works.
+            
+            # Draw Quad
+            glBindVertexArray(self.quad_vao)
+            glDrawArrays(GL_TRIANGLES, 0, 6)
+            glBindVertexArray(0)
+            
+            next_fbo.release()
+            
+            # Swap Ping-Pong
+            current_fbo, next_fbo = next_fbo, current_fbo
+            
+        # End of Loop
+        # Valid result is in `current_fbo`
+        
+        # We want the result to remain in a stable FBO for "get_texture_id"
+        # If `current_fbo` is `fbo_ping`, calling get_texture_id handles it?
+        # `fbo` property is gone. We need to track which one has the result.
+        self.final_fbo = current_fbo
         
     def get_texture_id(self):
-        return self.fbo.texture() if self.fbo else 0
+        return self.final_fbo.texture() if hasattr(self, 'final_fbo') and self.final_fbo else 0
 
-    def _create_fbo(self):
-        # Recreate FBO
-        if self.fbo:
-            del self.fbo
-            self.fbo = None
-            
-        fmt = QOpenGLFramebufferObjectFormat()
-        fmt.setAttachment(QOpenGLFramebufferObject.CombinedDepthStencil)
+    def _create_fbos(self):
+        # Helper
+        def make_fbo(w, h):
+            fmt = QOpenGLFramebufferObjectFormat()
+            fmt.setAttachment(QOpenGLFramebufferObject.CombinedDepthStencil)
+            fbo = QOpenGLFramebufferObject(w, h, fmt)
+            if not fbo.isValid():
+                print("ERROR: FBO invalid")
+            return fbo
+
+        # Cleanup
+        if self.fbo_layer: del self.fbo_layer
+        if self.fbo_ping: del self.fbo_ping
+        if self.fbo_pong: del self.fbo_pong
         
-        self.fbo = QOpenGLFramebufferObject(self.width, self.height, fmt)
-        if not self.fbo.isValid():
-            print("ERROR: QOpenGLFramebufferObject is invalid!")
+        self.fbo_layer = make_fbo(self.width, self.height)
+        self.fbo_ping = make_fbo(self.width, self.height)
+        self.fbo_pong = make_fbo(self.width, self.height)
+        self.final_fbo = self.fbo_ping # Default
+        
+    def _init_blend_shader(self):
+        def load_src(path):
+            with open(path, 'r', encoding='utf-8') as f: return f.read()
+            
+        vs = load_src("src/shaders/quad.vert")
+        fs = load_src("src/shaders/blend.frag")
+        
+        try:
+            vertex = shaders.compileShader(vs, GL_VERTEX_SHADER)
+            fragment = shaders.compileShader(fs, GL_FRAGMENT_SHADER)
+            self.blend_program = shaders.compileProgram(vertex, fragment)
+        except Exception as e:
+            print(f"Blend Shader Compile Error: {e}")
+            
+    def _init_quad_geometry(self):
+        # Simple Quad -1..1
+        quad_vertices = np.array([
+            # Pos(2), UV(2)
+            -1.0,  1.0,  0.0, 1.0,
+            -1.0, -1.0,  0.0, 0.0,
+             1.0, -1.0,  1.0, 0.0,
+             
+            -1.0,  1.0,  0.0, 1.0,
+             1.0, -1.0,  1.0, 0.0,
+             1.0,  1.0,  1.0, 1.0
+        ], dtype=np.float32)
+        
+        self.quad_vao = glGenVertexArrays(1)
+        vbo = glGenBuffers(1)
+        
+        glBindVertexArray(self.quad_vao)
+        glBindBuffer(GL_ARRAY_BUFFER, vbo)
+        glBufferData(GL_ARRAY_BUFFER, quad_vertices.nbytes, quad_vertices, GL_STATIC_DRAW)
+        
+        # Pos
+        glEnableVertexAttribArray(0)
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * 4, ctypes.c_void_p(0))
+        # UV
+        glEnableVertexAttribArray(1)
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * 4, ctypes.c_void_p(2 * 4))
+        
+        glBindVertexArray(0)
 
     def render_offscreen(self, width, height, layer_stack):
-        """Render the stack to an image at specific resolution"""
-        # Create temp FBO
-        fmt = QOpenGLFramebufferObjectFormat()
-        fmt.setAttachment(QOpenGLFramebufferObject.CombinedDepthStencil)
-        temp_fbo = QOpenGLFramebufferObject(width, height, fmt)
+        """Render to image using temp engine instance to handle resolution change"""
+        # Create a temp engine with desired res
+        temp_engine = Engine(width, height)
+        temp_engine.initialize()
         
-        if not temp_fbo.isValid():
-            print("Failed to create offscreen FBO")
-            return None
-            
-        temp_fbo.bind()
+        # Copy global state
+        temp_engine.set_global_normal_map(self.global_normal_id, self.use_global_normal, 
+                                          self.normal_strength, self.normal_scale, self.normal_offset)
+        temp_engine.set_preview_mode(getattr(self, 'preview_mode_int', 0))
         
-        # Setup Viewport for this FBO
-        glViewport(0, 0, width, height)
+        # Render
+        temp_engine.render(layer_stack)
         
-        # Clear
-        glClearColor(0.0, 0.0, 0.0, 0.0)
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        # Get Image
+        img = temp_engine.final_fbo.toImage()
         
-        # Blending
-        glEnable(GL_BLEND)
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+        # Cleanup (explicitly delete FBOs to free GPU mem immediately if possible)
+        del temp_engine.fbo_layer
+        del temp_engine.fbo_ping
+        del temp_engine.fbo_pong
         
-        # Render Layers
-        # IMPORTANT: Layers rely on current viewport? 
-        # Most layers (Base, Light) assume viewport is set correctly.
-        # However, if they used cached aspect ratio or screen size, might be issue.
-        # But our shaders rely on `gl_Position` (Clip Space) and `aTexCoords`, so Resolution Independent.
-        # EXCEPT PreviewWidget centering logic? No, that's Quad. Engines layers are 3D.
-        # Light Directions are valid.
-        # SpotLight "Range" maps to dot product, resolution independent.
-        # Noise Scale is resolution independent (UV based).
-        # Image Scale is UV based.
-        
-        for layer in layer_stack:
-            if layer.enabled:
-                layer.render()
-                
-        # Capture Image
-        image = temp_fbo.toImage()
-        
-        temp_fbo.release()
-        
-        # Cleanup (del might not be enough immediately but Python GC handles it usually)
-        # QOpenGLFramebufferObject cleans up GL resource on destruction
-        
-        return image
+        return img
