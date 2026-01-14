@@ -88,22 +88,61 @@ class ImageLayer(LayerInterface):
             
             bool isRightSidePreview = (previewMode == 1) && (FragPos.x > 0.0);
             
-            if (isRightSidePreview) {
-                // [RIGHT SIDE PREVIEW]
-                // Driven by Surface Normal (Matcap Simulation)
-                vec3 n = getNormal(); // Includes Normal Map distortion
-                uv = n.xy * 0.5 + 0.5;
+            if (mappingMode == 0) {
+                // --- UV (Wrapped) ---
+                // Maps texture using Mesh UV coordinates.
+                uv = TexCoords;
                 
+                // distortion from normal map
+                // If we have a normal map, we want to distort the UVs based on the bumps.
+                // Concept: Position shift = Normal_Map_Value * Strength
+                // We can approximate this by shifting UVs based on the difference between 
+                // the Geometric Normal and the Mapped Normal.
+                
+                if (useNormalMap) {
+                    // Original normal vs Mapped normal
+                    vec3 geomNormal = normalize(Normal);
+                    vec3 mappedNormal = getNormal();
+                    
+                    // Start with simple offset based on normal deviation in Tangent Space?
+                    // Or just use the TBN projected difference.
+                    // Let's use the XY components of the mapped normal in Tangent Space?
+                    // getNormal returns World Space normal.
+                    // We need Tangent Space deviation to shift UVs reasonably.
+                    
+                    // Re-calculate Tangent Space Normal from World Space Mapped Normal
+                    // N_tangent = TBN_inverse * mappedNormal
+                    // TBN is orthogonal, so Inverse = Transpose
+                    
+                    vec3 tangentNormal = transpose(TBN) * mappedNormal;
+                    
+                    // tangentNormal.xy contains the slope information (perturbation).
+                    // If Strength is 0, tangentNormal is (0,0,1).
+                    // If Strength > 0, xy deviates from 0.
+                    
+                    // We can subtract the "flat" vector (0,0,1) or just take xy.
+                    // Direction of shift?
+                    // Usually looking at a bump, the texture behind it should distort.
+                    // Parallax mapping uses ViewDir, but here we just want basic "wobble".
+                    // Simply adding (normal.xy * 0.5) roughly simulates refraction/distortion.
+                    
+                    // Scale factor tuning might be needed.
+                    uv -= tangentNormal.xy * 0.1; // 0.1 is an arbitrary factor to make it look nice
+                }
+
+                uv.y = 1.0 - uv.y; // Fix inverted UVs from Geometry
             } else {
-                // [LEFT SIDE GENERATOR] or [STANDARD MODE]
+                // --- Planar (Screen Space / Matcap) ---
                 
-                if (mappingMode == 0) {
-                    // --- UV (Wrapped) ---
-                    // Maps texture using Mesh UV coordinates.
-                    uv = TexCoords;
-                    uv.y = 1.0 - uv.y; // Fix inverted UVs from Geometry
+                if (isRightSidePreview) {
+                    // [RIGHT SIDE PREVIEW - PLANAR MODE]
+                    // If we are in Planar mode, the user likely wants to see how this Matcap looks 
+                    // on the sphere (Spherical Mapping driven by Normal).
+                    vec3 n = getNormal(); // Includes Normal Map distortion
+                    uv = n.xy * 0.5 + 0.5;
                 } else {
-                    // --- Planar (Screen Space) ---
+                    // [LEFT SIDE GENERATOR - PLANAR MODE]
+                    // Standard Screen Space mapping for creating the Matcap.
                     float centerX = (previewMode == 1) ? -0.5 : 0.0;
                     vec2 centerInfo = vec2(centerX, 0.0);
                     vec2 pos = FragPos.xy - centerInfo;

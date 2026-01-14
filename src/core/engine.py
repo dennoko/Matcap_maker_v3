@@ -135,6 +135,10 @@ class Engine:
             glClearColor(0.0, 0.0, 0.0, 0.0) # Clear dest
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) # Actually usually we just overwrite full screen quad
             
+            # Disable blend for the composite operation itself, as the shader handles the mixing logic
+            # and outputs the final color/alpha which should overwrite the destination buffer
+            glDisable(GL_BLEND)
+
             glUseProgram(self.blend_program)
             
             # Bind Textures
