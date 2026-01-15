@@ -13,7 +13,7 @@ from src.core.geometry import GeometryEngine
 from PIL import Image
 import os
 
-from PySide6.QtGui import QSurfaceFormat
+from PySide6.QtGui import QSurfaceFormat, QImage
 
 class PreviewWidget(QOpenGLWidget):
     def __init__(self, parent=None):
@@ -337,6 +337,169 @@ class PreviewWidget(QOpenGLWidget):
                 
             # 3. Render Offscreen via Engine with Override Mode = 0 (Standard) and Force No Normal
             image = self.engine.render_offscreen(res, res, self.layer_stack, preview_mode_override=0, force_no_normal=True)
+            
+            # 4. Apply Padding (Edge Extension) if requested
+            padding = settings.export_padding
+            if padding > 0 and image and not image.isNull():
+                print(f"Applying padding: {padding}px")
+                try:
+                    # Convert to Numpy
+                    # QImage to bytes
+                    if image.format() != QImage.Format.Format_RGBA8888:
+                        image = image.convertToFormat(QImage.Format.Format_RGBA8888)
+                        
+                    width = image.width()
+                    height = image.height()
+                    ptr = image.constBits()
+                    
+                    # Use np.frombuffer with the pointer
+                    # Note: constBits returns a memoryview-compatible object in PySide6?
+                    # Or we need to be careful about the size.
+                    # bytesPerLine * height is the total size.
+                    
+                    bpl = image.bytesPerLine()
+                    total_bytes = bpl * height
+                    
+                    # Create array from buffer
+                    # We assume tight packing for simple reshaping, but if bpl != w*4, we have padding.
+                    arr_raw = np.frombuffer(ptr, dtype=np.uint8, count=total_bytes)
+                    
+                    # Reshape including potential stride padding
+                    # Shape: (Height, BytesPerLine)
+                    # Then slice to (Height, Width * 4)
+                    arr_strided = arr_raw.reshape(height, bpl)
+                    
+                    # Extract valid data (first w*4 bytes of each line)
+                    # Shape (Height, Width, 4)
+                    arr = arr_strided[:, :width*4].reshape(height, width, 4)
+                    
+                    print(f"Numpy Array Shape: {arr.shape}")
+                    
+                    # Algorithm: Iterative Dilation
+                    # For N steps:
+                    #   Find edge pixels (alpha=0 but neighbor alpha>0)
+                    #   Fill with neighbor color
+                    
+                    # To avoid complex loops in Python, use checking shifts.
+                    # We want to fill transparent pixels with data from non-transparent neighbors.
+                    
+                    current_img = arr.copy()
+                    
+                    for _ in range(padding):
+                        # Mask of VALID pixels (Alpha > 0)
+                        mask = current_img[:, :, 3] > 0
+                        
+                        # We want pixels that represent HOLES (Alpha == 0)
+                        holes = ~mask
+                        
+                        # Prepare an accumulator for new colors to fill holes
+                        # We will average available neighbors? Or just take one (max)?
+                        # Max is dangerous for colors.
+                        # Simple directional smear:
+                        # For each of 8 directions, if neighbor is valid, copy it.
+                        
+                        # We can do this efficiently by shifting the image.
+                        # If pixel is hole, take pixel from shift.
+                        
+                        # Priority: Up, Down, Left, Right ...
+                        
+                        shifts = [
+                            (-1, 0), (1, 0), (0, -1), (0, 1), # Cardinal
+                            (-1, -1), (-1, 1), (1, -1), (1, 1) # Diagonal
+                        ]
+                        
+                        mixed_color = np.zeros_like(current_img, dtype=np.float32)
+                        # Count must match mixed_color dimensions for easy division, or manage broadcasting
+                        # Let's use (H, W, 1) for count
+                        count = np.zeros((height, width, 1), dtype=np.float32)
+                        
+                        for dy, dx in shifts:
+                            # Shifted image (rolled)
+                            # Note: np.roll wraps around, which is bad. We need slice.
+                            # Use slicing to shift.
+                            
+                            rolled = np.zeros_like(current_img)
+                            
+                            # Source slices
+                            sy_start = max(0, -dy)
+                            sy_end = min(height, height - dy)
+                            sx_start = max(0, -dx)
+                            sx_end = min(width, width - dx)
+                            
+                            # Dest slices
+                            dy_start = max(0, dy)
+                            dy_end = min(height, height + dy)
+                            dx_start = max(0, dx)
+                            dx_end = min(width, width + dx)
+                            
+                            rolled[dy_start:dy_end, dx_start:dx_end] = current_img[sy_start:sy_end, sx_start:sx_end]
+                            
+                            # Mask of rolled
+                            rolled_mask = rolled[:, :, 3] > 0
+                            
+                            # Where current is hole AND rolled is valid -> candidate
+                            fill_candidate = holes & rolled_mask
+                            
+                            # Accumulate
+                            # mixed_color[mask] returns (N, 4)
+                            mixed_color[fill_candidate] += rolled[fill_candidate]
+                            
+                            # count is (H, W, 1). count[mask] returns (N, 1)
+                            count[fill_candidate] += 1 
+                            
+                        # Normalize average
+                        # valid_fills is mask where count > 0
+                        valid_fills = count[:, :, 0] > 0
+                        
+                        # Divide
+                        # mixed_color[valid_fills] is (N, 4)
+                        # count[valid_fills] is (N, 1)
+                        # Broadcasting works: (N, 4) / (N, 1) -> (N, 4)
+                        mixed_color[valid_fills] /= count[valid_fills] 
+                        
+                        # Update current_img where we have valid fills
+                        # Convert back to uint8
+                        fill_values = mixed_color.astype(np.uint8)
+                        
+                        current_img[valid_fills] = fill_values[valid_fills]
+                        # Explicitly set alpha to 0 for filled pixels?
+                        # No, the user WANTS extended color.
+                        # But Matcap usage usually relies on Alpha masking to apply to sphere only?
+                        # If we extend alpha, the sphere gets bigger.
+                        # Wait. User said "sphere outside color sampling".
+                        # If the app using Matcap uses the Alpha channel to cut the sphere, then extending alpha is pointless (it will just be cut).
+                        # BUT usually Matcaps are mapped to geometry UVs (Sphere Mapping).
+                        # In Sphere Mapping (Matcap UVs), the corners are sampled when the normal points away (perpendicular).
+                        # If the renderer doesn't clamp UVs perfectly or MIP mapping blurs edges, it samples black background.
+                        # So we WANT to extend the COLOR, but what about ALPHA?
+                        # If we keep Alpha=0 and extend RGB, then if the app uses premultiplied alpha or ignores RGB when Alpha=0, it fails.
+                        # Most Matcap shaders ignore Alpha and just use RGB.
+                        # So we should fill RGB.
+                        # Should we set Alpha = 255 (Full) for the padding?
+                        # Yes, effectively widening the sphere.
+                        
+                        # Let's verify: If we just extend RGB but leave Alpha=0, it looks transparent in PNG viewers.
+                        # But if the user uses it as a texture, it might work.
+                        # However, for robust "Extension", we usually make it opaque.
+                        # Let's make it opaque (take Alpha from neighbor).
+                        
+                        pass
+                    
+                    # Convert back to QImage
+                    # Ref: https://doc.qt.io/qtforpython/PySide6/QtGui/QImage.html
+                    # Must ensure data controls life cycle or copy
+                    
+                    # current_img is H, W, 4
+                    current_img = current_img.copy() # Ensure contiguous
+                    h, w, c = current_img.shape
+                    new_qimage = QImage(current_img.data, w, h, w * 4, QImage.Format.Format_RGBA8888).copy()
+                    image = new_qimage
+                    print("Padding applied successfully.")
+                    
+                except Exception as e:
+                    print(f"Padding failed: {e}")
+                    import traceback
+                    traceback.print_exc()
             
             if image and not image.isNull():
                 image.save(path)

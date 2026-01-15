@@ -57,6 +57,23 @@ class MainWindow(QMainWindow):
             res_menu.addAction(act)
             self.res_actions[r] = act
 
+        # Padding Menu
+        pad_menu = options_menu.addMenu("Padding")
+        pads = [0, 2, 4, 8, 16, 32]
+        self.pad_actions = {}
+        
+        current_pad = settings.export_padding
+        pad_group = QActionGroup(self)
+        
+        for p in pads:
+            act = QAction(f"{p}px", self, checkable=True)
+            if p == current_pad:
+                act.setChecked(True)
+            act.triggered.connect(lambda checked, pad=p: self.set_padding(pad))
+            pad_group.addAction(act)
+            pad_menu.addAction(act)
+            self.pad_actions[p] = act
+
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
         self.main_layout = QHBoxLayout(self.central_widget)
@@ -194,6 +211,10 @@ class MainWindow(QMainWindow):
     def set_resolution(self, res):
         Settings().export_resolution = res
         print(f"Export resolution set to {res}")
+        
+    def set_padding(self, pad):
+        Settings().export_padding = pad
+        print(f"Export padding set to {pad}px")
         
     def on_layer_selected(self, layer):
         self.properties.set_layer(layer)

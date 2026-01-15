@@ -12,6 +12,7 @@ class Settings:
     
     def _init(self):
         self.export_resolution = 2048
+        self.export_padding = 4 # Default padding pixels
         
         # Paths
         # User requested: Documents/MatcapMakerV2/output/ and projects/
