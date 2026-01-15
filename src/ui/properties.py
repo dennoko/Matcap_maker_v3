@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QFormLayout, QComboBox
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal # Added Signal
 from src.layers.base_layer import BaseLayer
 from src.layers.spot_light_layer import SpotLightLayer
 from src.layers.fresnel_layer import FresnelLayer
@@ -9,6 +9,8 @@ from src.layers.image_layer import ImageLayer
 from src.ui.params import FloatSlider, ColorPicker
 
 class PropertiesWidget(QWidget):
+    propertyChanged = Signal() # New Signal
+
     def __init__(self):
         super().__init__()
         self.layout = QVBoxLayout(self)
@@ -16,6 +18,7 @@ class PropertiesWidget(QWidget):
         self.layout.setAlignment(Qt.AlignTop)
         
     def set_layer(self, layer):
+
         self.current_layer = layer
         # Clear existing controls properly
         self._clear_layout(self.layout)
@@ -94,6 +97,7 @@ class PropertiesWidget(QWidget):
     def _regen_noise(self, layer, val):
         layer.seed = int(val)
         layer.regenerate()
+        self.propertyChanged.emit()
 
     def _add_blend_mode_control(self, layout, layer):
         combo = QComboBox()
@@ -108,7 +112,11 @@ class PropertiesWidget(QWidget):
         if idx >= 0:
             combo.setCurrentIndex(idx)
             
-        combo.currentTextChanged.connect(lambda text: setattr(layer, 'blend_mode', text))
+        def on_change(text):
+            setattr(layer, 'blend_mode', text)
+            self.propertyChanged.emit()
+            
+        combo.currentTextChanged.connect(on_change)
         layout.addRow("Blend Mode", combo)
 
     def _clear_layout(self, layout):
@@ -135,20 +143,24 @@ class PropertiesWidget(QWidget):
 
     def _set_attr(self, obj, name, val):
         setattr(obj, name, val)
+        self.propertyChanged.emit()
         
     def _update_list(self, target, idx, val, layer):
         target[idx] = val
+        self.propertyChanged.emit()
         
     def _set_image_path(self, layer, path):
         layer.image_path = path
         # Trigger reload immediately if possible, but layer handles logic in render loop or we can explicit call
         layer.load_texture(path)
+        self.propertyChanged.emit()
 
     def _set_normal_map(self, layer, path):
          layer.normal_map_path = path
          # No immediate reload method on BaseLayer yet, logic will be handled in PreviewWidget
          # But maybe we should notify PreviewWidget?
          # Property changes are picked up next frame.
+         self.propertyChanged.emit()
         
     def _add_file_picker(self, layout, label, current_path, callback):
         from PySide6.QtWidgets import QPushButton, QFileDialog
@@ -180,3 +192,4 @@ class PropertiesWidget(QWidget):
         target_list[0] = new_color[0]
         target_list[1] = new_color[1]
         target_list[2] = new_color[2]
+        self.propertyChanged.emit()

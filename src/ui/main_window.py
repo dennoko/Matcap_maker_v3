@@ -119,11 +119,13 @@ class MainWindow(QMainWindow):
         right_layout.addWidget(self.properties)
         self.main_layout.addWidget(right_container, 0) # 0 stretch factor since fixed width
 
-        # Update Timer (Simple 60 FPS redraw to catch property changes)
-        # Real app should use signals, but for V3 rapid dev, constant redraw is safer for smooth param preview
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.preview.update)
-        self.timer.start(16)
+        # Update Logic (Event Driven)
+        self.properties.propertyChanged.connect(self.request_render)
+        self.layer_list.layer_changed.connect(self.request_render)
+        self.layer_list.stack_changed.connect(self.request_render)
+        
+    def request_render(self):
+        self.preview.update()
 
     def load_project(self):
         start_dir = Settings().get_projects_dir()
@@ -147,6 +149,7 @@ class MainWindow(QMainWindow):
                 # Update UI
                 self.layer_list.refresh()
                 self.properties.set_layer(None) # Clear property panel
+                self.request_render()
                 print(f"Project loaded from {file_path}")
                 
         except Exception as e:
@@ -195,6 +198,7 @@ class MainWindow(QMainWindow):
         self.layer_list.refresh()
         if layer:
             self.layer_list.select_layer(layer)
+        self.request_render()
 
     def export_image(self):
         start_dir = Settings().get_output_dir()

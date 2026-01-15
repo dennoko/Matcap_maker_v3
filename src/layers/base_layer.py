@@ -32,21 +32,15 @@ class BaseLayer(LayerInterface):
         self._loaded_normal_path = None
 
     def initialize(self):
-        # 1. Compile Shaders
-        vertex_src = self._load_shader("src/shaders/layer_base.vert")
-        fragment_src = self._load_shader("src/shaders/layer_base.frag")
+        # 1. Compile Shaders via ResourceManager
+        from src.core.resource_manager import ResourceManager
+        self.shader_program = ResourceManager().get_shader("src/shaders/layer_base.vert", "src/shaders/layer_base.frag")
         
-        try:
-            vertex_shader = shaders.compileShader(vertex_src, GL_VERTEX_SHADER)
-            fragment_shader = shaders.compileShader(fragment_src, GL_FRAGMENT_SHADER)
-            self.shader_program = shaders.compileProgram(vertex_shader, fragment_shader)
-        except Exception as e:
-            print(f"Shader compilation error: {e}")
+        if not self.shader_program:
+            print("Failed to load BaseLayer shaders")
             return
 
-        except Exception as e:
-            print(f"Shader compilation error: {e}")
-            return
+
 
         # 2. Setup Geometry
         self._setup_geometry()
@@ -68,8 +62,6 @@ class BaseLayer(LayerInterface):
     def set_color(self, r, g, b):
         self.base_color = [r, g, b]
 
-    def _load_shader(self, path):
-        with open(path, 'r', encoding="utf-8") as f:
-            return f.read()
+
 
 

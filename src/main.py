@@ -2,8 +2,8 @@ import sys
 import os
 from PySide6.QtWidgets import QApplication
 from PySide6.QtGui import QSurfaceFormat
-from qt_material import apply_stylesheet
 from src.ui.main_window import MainWindow
+from src.ui.theme import apply_app_theme
 
 def main():
     try:
@@ -21,23 +21,9 @@ def main():
         app = QApplication(sys.argv)
         print("QApplication created.")
         
-        # Apply Material Theme
-        apply_stylesheet(app, theme='dark_teal.xml')
+        # Apply Theme
+        apply_app_theme(app)
         
-        # Override highlights to be less bright (User Request)
-        # Replacing bright primary highlight with subtle white overlay
-        custom_css = """
-        QListWidget::item:hover, QMenu::item:selected {
-            background-color: rgba(255, 255, 255, 30);
-            color: white;
-        }
-        QListWidget::item:selected:hover {
-            background-color: rgba(255, 255, 255, 40);
-        }
-        """
-        app.setStyleSheet(app.styleSheet() + custom_css)
-        print("Theme applied with custom highlights.")
-
         window = MainWindow()
         window.show()
         print("Window shown. Entering event loop.")

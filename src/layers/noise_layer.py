@@ -21,62 +21,9 @@ class NoiseLayer(LayerInterface):
 
     def initialize(self):
         # Vertex Shader
-        vertex_src = self._load_shader("src/shaders/layer_base.vert")
-        
-        fragment_src = """#version 330 core
-        out vec4 FragColor;
-        in vec3 Normal;
-        in vec2 TexCoords; 
-        
-        uniform sampler2D noiseTexture;
-        uniform float scale;
-        uniform float intensity;
-        uniform vec3 color;
-        
-        void main()
-        {
-            vec2 uv = TexCoords * scale;
-            
-            vec4 texColor = texture(noiseTexture, uv);
-            float noiseVal = texColor.r; 
-            
-            // For Multiply mode:
-            // We want base color to be white (1,1,1) where noise is 0? No wait.
-            // Noise 0..1. 
-            // If noise is black (0), result is 0?
-            
-            // Let's implement modulation:
-            // Final = mix(White, Color, NoiseVal * Intensity) ?
-            // Usually noise is used as a mask or direct overlay.
-            
-            // If Blend Mode is Multiply:
-            // Output = 1.0 (No change) where we want no noise.
-            // Output = Color where we want noise.
-            
-            // Assume NoiseVal 0..1 (Random).
-            // We want to interpolate between White (1,1,1) and TargetColor based on NoiseVal * Intensity.
-            
-            vec3 target = color;
-            vec3 white = vec3(1.0);
-            
-            vec3 finalColor = mix(white, target, noiseVal * intensity);
-            
-            // Alpha should be 1.0 because we output "the color to be multiplied".
-            // If we use Alpha blending, we need to match glBlendFunc logic.
-            // Multiply func: Dst * (Src + 1 - A).
-            // If we output A=1, result is Dst * Src.
-            
-            FragColor = vec4(finalColor, 1.0); 
-        }
-        """
-        
-        try:
-            vertex_shader = shaders.compileShader(vertex_src, GL_VERTEX_SHADER)
-            fragment_shader = shaders.compileShader(fragment_src, GL_FRAGMENT_SHADER)
-            self.shader_program = shaders.compileProgram(vertex_shader, fragment_shader)
-        except Exception as e:
-            print(f"NoiseLayer Shader Error: {e}")
-            return
+        from src.core.resource_manager import ResourceManager
+        self.shader_program = ResourceManager().get_shader("src/shaders/layer_base.vert", "src/shaders/layer_noise.frag")
+
 
         self._setup_geometry()
         self._generate_noise_texture()
@@ -128,7 +75,6 @@ class NoiseLayer(LayerInterface):
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 
-    def _load_shader(self, path):
-        with open(path, 'r', encoding="utf-8") as f: return f.read()
+
 
 

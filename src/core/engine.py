@@ -217,18 +217,8 @@ class Engine:
         self.final_fbo = self.fbo_ping # Default
         
     def _init_blend_shader(self):
-        def load_src(path):
-            with open(path, 'r', encoding='utf-8') as f: return f.read()
-            
-        vs = load_src("src/shaders/quad.vert")
-        fs = load_src("src/shaders/blend.frag")
-        
-        try:
-            vertex = shaders.compileShader(vs, GL_VERTEX_SHADER)
-            fragment = shaders.compileShader(fs, GL_FRAGMENT_SHADER)
-            self.blend_program = shaders.compileProgram(vertex, fragment)
-        except Exception as e:
-            print(f"Blend Shader Compile Error: {e}")
+        from src.core.resource_manager import ResourceManager
+        self.blend_program = ResourceManager().get_shader("src/shaders/quad.vert", "src/shaders/blend.frag")
             
     def _init_quad_geometry(self):
         # Simple Quad -1..1

@@ -75,6 +75,7 @@ class LayerListWidget(QWidget):
     layer_selected = Signal(object) # Emit layer object
     add_layer_requested = Signal(str) # Emit type string: "light", "spot"
     layer_changed = Signal(object) # Emit layer object when internal state changes (e.g. visibility)
+    stack_changed = Signal() # Emit when structure changes (add/remove/order)
     
     def __init__(self, layer_stack):
         super().__init__()
@@ -115,6 +116,7 @@ class LayerListWidget(QWidget):
             self.layer_stack.remove_layer(layer)
             self.refresh()
             self.layer_selected.emit(None) # Clear selection properties
+            self.stack_changed.emit()
         
     def refresh(self):
         # Block signals to prevent unnecessary updates during rebuild
@@ -246,12 +248,13 @@ class LayerListWidget(QWidget):
             # I'll rely on `layer_selected`? No.
             
             # Let's add a signal `layer_added`?
-            pass
+            self.stack_changed.emit()
 
     def remove_layer(self, layer):
         self.layer_stack.remove_layer(layer)
         self.refresh()
         self.layer_selected.emit(None)
+        self.stack_changed.emit()
         # UI "Up" means index - 1
         layers = self.layer_stack.get_layers()
         if layer in layers:
@@ -268,6 +271,7 @@ class LayerListWidget(QWidget):
             self.layer_stack.move_layer_down(idx)
             self.refresh()
             self.select_layer(layer)
+            self.stack_changed.emit()
 
     def on_move_down(self, layer):
         # UI "Down" means index + 1
@@ -278,6 +282,7 @@ class LayerListWidget(QWidget):
             self.layer_stack.move_layer_up(idx)
             self.refresh()
             self.select_layer(layer)
+            self.stack_changed.emit()
              
     def on_selection_changed(self, row):
         if row >= 0:
