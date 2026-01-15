@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QFrame, QFileDialog, QMessageBox
+from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QFrame, QFileDialog, QMessageBox, QPushButton
 from PySide6.QtCore import Qt, QTimer
 from src.ui.preview_widget import PreviewWidget
 from src.ui.layer_list import LayerListWidget
@@ -82,8 +82,19 @@ class MainWindow(QMainWindow):
         left_layout.addWidget(self.layer_list)
         self.main_layout.addWidget(left_container, 1)
 
-        # Center (Preview)
-        self.main_layout.addWidget(self.preview, 3)
+        # Center (Preview + Export Button)
+        center_container = QWidget()
+        center_layout = QVBoxLayout(center_container)
+        center_layout.setContentsMargins(0, 0, 0, 0) # align perfectly with sides
+        
+        center_layout.addWidget(self.preview, 1) # Expand preview
+        
+        self.export_btn = QPushButton("Export Image")
+        self.export_btn.setMinimumHeight(40) # Make it easy to click
+        self.export_btn.clicked.connect(self.export_image)
+        center_layout.addWidget(self.export_btn, 0)
+        
+        self.main_layout.addWidget(center_container, 3)
 
         # Right (Properties)
         right_container = QFrame()
