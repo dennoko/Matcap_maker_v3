@@ -335,8 +335,8 @@ class PreviewWidget(QOpenGLWidget):
             for layer in self.layer_stack:
                 layer.update_geometry(verts, inds)
                 
-            # 3. Render Offscreen via Engine with Override Mode = 0 (Standard)
-            image = self.engine.render_offscreen(res, res, self.layer_stack, preview_mode_override=0)
+            # 3. Render Offscreen via Engine with Override Mode = 0 (Standard) and Force No Normal
+            image = self.engine.render_offscreen(res, res, self.layer_stack, preview_mode_override=0, force_no_normal=True)
             
             if image and not image.isNull():
                 image.save(path)

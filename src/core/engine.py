@@ -259,14 +259,18 @@ class Engine:
         
         glBindVertexArray(0)
 
-    def render_offscreen(self, width, height, layer_stack, preview_mode_override=None):
+    def render_offscreen(self, width, height, layer_stack, preview_mode_override=None, force_no_normal=False):
         """Render to image using temp engine instance to handle resolution change"""
         # Create a temp engine with desired res
         temp_engine = Engine(width, height)
         temp_engine.initialize()
         
         # Copy global state
-        temp_engine.set_global_normal_map(self.global_normal_id, self.use_global_normal, 
+        use_normal = self.use_global_normal
+        if force_no_normal:
+            use_normal = False
+            
+        temp_engine.set_global_normal_map(self.global_normal_id, use_normal, 
                                           self.normal_strength, self.normal_scale, self.normal_offset)
         
         mode = preview_mode_override if preview_mode_override is not None else getattr(self, 'preview_mode_int', 0)
