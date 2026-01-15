@@ -77,6 +77,9 @@ class Engine:
         # Ping-Pong Compositing Logic
         # -------------------------------------------------------------
         
+        # Ensure Viewport matches current FBO size
+        glViewport(0, 0, self.width, self.height)
+        
         # 1. Clear accumulators
         self.fbo_ping.bind()
         glClearColor(0.0, 0.0, 0.0, 0.0) # Transparent Black background
@@ -256,7 +259,7 @@ class Engine:
         
         glBindVertexArray(0)
 
-    def render_offscreen(self, width, height, layer_stack):
+    def render_offscreen(self, width, height, layer_stack, preview_mode_override=None):
         """Render to image using temp engine instance to handle resolution change"""
         # Create a temp engine with desired res
         temp_engine = Engine(width, height)
@@ -265,7 +268,9 @@ class Engine:
         # Copy global state
         temp_engine.set_global_normal_map(self.global_normal_id, self.use_global_normal, 
                                           self.normal_strength, self.normal_scale, self.normal_offset)
-        temp_engine.set_preview_mode(getattr(self, 'preview_mode_int', 0))
+        
+        mode = preview_mode_override if preview_mode_override is not None else getattr(self, 'preview_mode_int', 0)
+        temp_engine.set_preview_mode(mode)
         
         # Render
         temp_engine.render(layer_stack)

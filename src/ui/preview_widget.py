@@ -320,16 +320,42 @@ class PreviewWidget(QOpenGLWidget):
         
         self.makeCurrent()
         try:
-            # 1. Render Offscreen via Engine
-            image = self.engine.render_offscreen(res, res, self.layer_stack)
+            # FORCE STANDARD GEOMETRY FOR EXPORT
+            # We must update all layers to use the standard sphere geometry temporarily
+            # to ensure the export is perfect even if view is Comparison/Cube.
+            
+            # 1. Save current state
+            old_shape = self.current_shape_name
+            
+            # 2. Force Standard Geometry
+            # Note: We don't change self.current_shape_name visually to avoid UI flicker if possible,
+            # but since we are blocking main thread, it's fine.
+            verts, inds = GeometryEngine.generate_sphere() # Default radius 1.0 now
+            
+            for layer in self.layer_stack:
+                layer.update_geometry(verts, inds)
+                
+            # 3. Render Offscreen via Engine with Override Mode = 0 (Standard)
+            image = self.engine.render_offscreen(res, res, self.layer_stack, preview_mode_override=0)
             
             if image and not image.isNull():
                 image.save(path)
                 print(f"Saved render to {path} ({res}x{res})")
             else:
                 print("Failed to capture render.")
+                
+            # 4. Restore Geometry (if needed)
+            if old_shape != "Standard":
+                # Restore to whatever it was
+                self._update_all_geometry(old_shape)
+            else:
+                # WAS Standard, but we regenerated it anyway. No harm keeping it.
+                pass
+                
         except Exception as e:
             print(f"Save Render Error: {e}")
+            import traceback
+            traceback.print_exc()
         finally:
             self.doneCurrent()
 

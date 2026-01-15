@@ -3,7 +3,7 @@ import math
 
 class GeometryEngine:
     @staticmethod
-    def generate_sphere(radius=0.9, stacks=30, sectors=30, offset_x=0.0):
+    def generate_sphere(radius=1.0, stacks=30, sectors=30, offset_x=0.0):
         """
         Generate Sphere with Position, Normal, UV, and Tangent.
         Format: [Pos(3), Normal(3), UV(2), Tangent(3)]
