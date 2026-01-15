@@ -179,6 +179,22 @@ class MainWindow(QMainWindow):
                 msg = "Project saved, but some assets could not be copied:\n" + "\n".join(errors)
                 QMessageBox.warning(self, "Warning", msg)
             else:
+                # Success: Save Preview Image
+                try:
+                    from pathlib import Path
+                    path_obj = Path(file_path)
+                    if path_obj.suffix == '.json':
+                        project_dir = path_obj.parent / path_obj.stem
+                    else:
+                        project_dir = path_obj
+                        
+                    preview_path = project_dir / "preview.png"
+                    # Save a 512x512 preview with no padding
+                    self.preview.save_render(str(preview_path), resolution=512, padding=0)
+                    print(f"Project preview saved to {preview_path}")
+                except Exception as e:
+                    print(f"Failed to save project preview: {e}")
+                    
                 print("Project saved successfully.")
 
     def on_add_layer(self, layer_type):

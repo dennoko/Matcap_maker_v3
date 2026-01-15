@@ -313,10 +313,11 @@ class PreviewWidget(QOpenGLWidget):
             import traceback
             traceback.print_exc()
 
-    def save_render(self, path):
-        # Use Settings for resolution
+    def save_render(self, path, resolution=None, padding=None):
+        # Use Settings for resolution if not provided
         settings = Settings()
-        res = settings.export_resolution
+        res = resolution if resolution is not None else settings.export_resolution
+        pad = padding if padding is not None else settings.export_padding
         
         self.makeCurrent()
         try:
@@ -339,7 +340,7 @@ class PreviewWidget(QOpenGLWidget):
             image = self.engine.render_offscreen(res, res, self.layer_stack, preview_mode_override=0, force_no_normal=True)
             
             # 4. Apply Padding (Edge Extension) if requested
-            padding = settings.export_padding
+            padding = pad
             if padding > 0 and image and not image.isNull():
                 print(f"Applying padding: {padding}px")
                 try:
