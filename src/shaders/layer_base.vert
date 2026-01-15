@@ -10,6 +10,7 @@ out mat3 TBN;
 out vec3 Normal; // Fallback
 
 uniform float previewRotation;
+uniform vec3 uScale; // Aspect Ratio Scaling
 
 void main()
 {
@@ -122,5 +123,9 @@ void main()
     vec3 B = cross(N, T);
     TBN = mat3(T, B, N);
     
-    gl_Position = vec4(pos, 1.0);
+    // Apply Aspect Ratio Scaling
+    // uScale.z is ignored usually, set to 1.0
+    vec3 scaledPos = pos * uScale;
+    
+    gl_Position = vec4(scaledPos, 1.0);
 }

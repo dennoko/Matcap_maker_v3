@@ -221,14 +221,14 @@ class PreviewWidget(QOpenGLWidget):
         # 2. Render FBO Texture to Screen
         # Restore the widget's FBO
         glBindFramebuffer(GL_FRAMEBUFFER, default_fbo)
-        glClearColor(0.2, 0.2, 0.2, 1.0) 
+        # 2. Render FBO Texture to Screen
+        # Restore the widget's FBO
+        glBindFramebuffer(GL_FRAMEBUFFER, default_fbo)
+        glClearColor(0.0, 0.0, 0.0, 1.0) # Black Background
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         
-        # Calculate viewport for 1:1 Aspect Ratio
-        side = min(self.width_, self.height_)
-        x = (self.width_ - side) // 2
-        y = (self.height_ - side) // 2
-        glViewport(x, y, side, side)
+        # Use Full Viewport
+        glViewport(0, 0, self.width_, self.height_)
         
         # Disable Depth Test & Culling for Screen Quad to ensure it always draws
         glDisable(GL_DEPTH_TEST)

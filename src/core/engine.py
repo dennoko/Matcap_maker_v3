@@ -129,8 +129,63 @@ class Engine:
             glUniform1f(glGetUniformLocation(layer.shader_program, "normalScale"), self.normal_scale)
             glUniform2f(glGetUniformLocation(layer.shader_program, "normalOffset"), *self.normal_offset)
             
+            glUniform2f(glGetUniformLocation(layer.shader_program, "normalOffset"), *self.normal_offset)
+            
             pm = getattr(self, "preview_mode_int", 0) 
             glUniform1i(glGetUniformLocation(layer.shader_program, "previewMode"), pm)
+            
+            # --- Aspect Ratio & Scaling Logic ---
+            # Standard Mode (0): Content is Square (1.0 x 1.0 half-extent) -> Bounds [-1, 1] x [-1, 1]
+            # Comparison Mode (1): Content is Wide (~0.95 x 0.45 half-extent) -> Bounds [-0.95, 0.95] x [-0.45, 0.45]
+            
+            # Note: We want to Maximize the content in the viewport without stretching.
+            
+            # 1. Define Content Half-Extents (Approximation)
+            content_hw = 1.0
+            content_hh = 1.0
+            
+            if pm == 1: # Comparison Mode
+                 content_hw = 0.95
+                 content_hh = 0.45
+            
+            content_aspect = content_hw / content_hh
+            
+            # 2. Viewport Aspect Ratio
+            # self.width / self.height
+            # Avoid division by zero
+            vp_w = max(1.0, float(self.width))
+            vp_h = max(1.0, float(self.height))
+            screen_aspect = vp_w / vp_h
+            
+            # 3. Calculate Zoom factor to Fit
+            # if screen_aspect > content_aspect: Screen is Wider -> Fit Height
+            # else: Screen is Narrower -> Fit Width
+            
+            raw_zoom = 1.0
+            if screen_aspect > content_aspect:
+                # Fit Height
+                # raw_zoom * content_hh = 1.0 (NDC Top)
+                raw_zoom = 1.0 / content_hh
+            else:
+                # Fit Width
+                # We need x_ndc range to cover [-1, 1]
+                # x_ndc = x_local * raw_zoom / screen_aspect (due to x shrinking below)
+                # actually let's just stick to "Dimension Mapping"
+                # raw_zoom * content_hw = screen_aspect * 1.0??
+                # No. 
+                # If Fit Width: raw_zoom = screen_aspect / content_hw.
+                raw_zoom = screen_aspect / content_hw
+
+            # 4. Apply Aspect Correction to X axis
+            # NDC X range [-1, 1] maps to Width pixels. 
+            # NDC Y range [-1, 1] maps to Height pixels.
+            # To preserve squareness, X units must be smaller if Width is larger.
+            # scale.x = scale.y / screen_aspect.
+            
+            scale_y = raw_zoom
+            scale_x = raw_zoom / screen_aspect
+            
+            glUniform3f(glGetUniformLocation(layer.shader_program, "uScale"), scale_x, scale_y, 1.0)
             
             layer.render()
             
