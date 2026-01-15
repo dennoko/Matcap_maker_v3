@@ -465,25 +465,14 @@ class PreviewWidget(QOpenGLWidget):
                         # Explicitly set alpha to 0 for filled pixels?
                         # No, the user WANTS extended color.
                         # But Matcap usage usually relies on Alpha masking to apply to sphere only?
-                        # If we extend alpha, the sphere gets bigger.
-                        # Wait. User said "sphere outside color sampling".
-                        # If the app using Matcap uses the Alpha channel to cut the sphere, then extending alpha is pointless (it will just be cut).
-                        # BUT usually Matcaps are mapped to geometry UVs (Sphere Mapping).
-                        # In Sphere Mapping (Matcap UVs), the corners are sampled when the normal points away (perpendicular).
-                        # If the renderer doesn't clamp UVs perfectly or MIP mapping blurs edges, it samples black background.
-                        # So we WANT to extend the COLOR, but what about ALPHA?
-                        # If we keep Alpha=0 and extend RGB, then if the app uses premultiplied alpha or ignores RGB when Alpha=0, it fails.
-                        # Most Matcap shaders ignore Alpha and just use RGB.
-                        # So we should fill RGB.
-                        # Should we set Alpha = 255 (Full) for the padding?
-                        # Yes, effectively widening the sphere.
-                        
-                        # Let's verify: If we just extend RGB but leave Alpha=0, it looks transparent in PNG viewers.
-                        # But if the user uses it as a texture, it might work.
-                        # However, for robust "Extension", we usually make it opaque.
-                        # Let's make it opaque (take Alpha from neighbor).
-                        
                         pass
+                        
+                    # 5. Fill remaining transparent area with Black (Background)
+                    # User requested: "Fill transparent part around generated image with black"
+                    # This refers to the area OUTSIDE the padding.
+                    
+                    final_mask = current_img[:, :, 3] == 0
+                    current_img[final_mask] = [0, 0, 0, 255]
                     
                     # Convert back to QImage
                     # Ref: https://doc.qt.io/qtforpython/PySide6/QtGui/QImage.html

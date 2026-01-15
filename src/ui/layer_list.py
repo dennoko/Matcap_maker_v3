@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QListWidget, QListWidgetItem, QPushButton, QHBoxLayout, QMenu, QLabel, QToolButton
 from PySide6.QtGui import QIcon
-from PySide6.QtCore import Qt, Signal, QSize
+from PySide6.QtCore import Qt, Signal, QSize, QTimer
 
 class LayerItemWidget(QWidget):
     # Signals for parent to handle Reorder
@@ -160,9 +160,10 @@ class LayerListWidget(QWidget):
         action = menu.exec(self.list_widget.mapToGlobal(pos))
         
         if action == duplicate_action:
-            self.duplicate_layer(layer)
+            # Use singleShot to allow menu to close properly before heavy operation
+            QTimer.singleShot(0, lambda: self.duplicate_layer(layer))
         elif action == delete_action:
-            self.remove_layer(layer)
+            QTimer.singleShot(0, lambda: self.remove_layer(layer))
             
     def duplicate_layer(self, layer):
         # 1. Serialize
