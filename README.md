@@ -62,3 +62,16 @@ uv pip install -r requirements.txt
 ```bash
 python -m src.main
 ```
+
+## License
+
+This project uses several third-party libraries. Please verify their licenses in the `LICENSE/` directory.
+
+### Third Party Libraries
+*   **PySide6**: LGPLv3
+*   **qt-material**: BSD-2-Clause
+*   **PyOpenGL**: BSD-style
+*   **NumPy**: BSD-3-Clause
+*   **Pillow**: HPND
+
+See `LICENSE/ThirdPartyNotices.md` for more details.

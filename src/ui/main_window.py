@@ -73,6 +73,11 @@ class MainWindow(QMainWindow):
             pad_menu.addAction(act)
             self.pad_actions[p] = act
 
+        # Help Menu
+        help_menu = menubar.addMenu("Help")
+        about_action = help_menu.addAction("Third Party Notices")
+        about_action.triggered.connect(self.show_about_dialog)
+
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
         self.main_layout = QHBoxLayout(self.central_widget)
@@ -220,3 +225,8 @@ class MainWindow(QMainWindow):
         
     def on_layer_selected(self, layer):
         self.properties.set_layer(layer)
+        
+    def show_about_dialog(self):
+        from src.ui.about_dialog import AboutDialog
+        dlg = AboutDialog(self)
+        dlg.exec()

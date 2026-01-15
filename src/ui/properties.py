@@ -13,19 +13,34 @@ class PropertiesWidget(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.layout = QVBoxLayout(self)
+        # Main layout holds the content widget
+        self.main_layout = QVBoxLayout(self)
+        self.main_layout.setAlignment(Qt.AlignTop)
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
+        
+        # Container for dynamic content
+        self.content_widget = QWidget()
+        self.main_layout.addWidget(self.content_widget)
         self.current_layer = None
-        self.layout.setAlignment(Qt.AlignTop)
         
     def set_layer(self, layer):
-
         self.current_layer = layer
-        # Clear existing controls properly
-        self._clear_layout(self.layout)
-                
+        
+        # 1. Remove old content widget
+        self.main_layout.removeWidget(self.content_widget)
+        self.content_widget.deleteLater()
+        
+        # 2. Create new content widget
+        self.content_widget = QWidget()
+        self.main_layout.addWidget(self.content_widget)
+        
         if not layer:
             return
             
+        # 3. Build new layout
+        self.layout = QVBoxLayout(self.content_widget)
+        self.layout.setAlignment(Qt.AlignTop)
+        
         # Common Header
         self.layout.addWidget(QLabel(f"Properties: {layer.name}"))
         
@@ -118,17 +133,6 @@ class PropertiesWidget(QWidget):
             
         combo.currentTextChanged.connect(on_change)
         layout.addRow("Blend Mode", combo)
-
-    def _clear_layout(self, layout):
-        if not layout: return
-        while layout.count():
-            item = layout.takeAt(0)
-            widget = item.widget()
-            if widget:
-                widget.deleteLater()
-            elif item.layout():
-                self._clear_layout(item.layout())
-                item.layout().deleteLater()
 
     def _add_color_control(self, layout, label, current_val, callback):
         # current_val is [r, g, b] float

@@ -8,13 +8,18 @@ class LayerItemWidget(QWidget):
     move_up_requested = Signal(object)
     move_down_requested = Signal(object)
     visibility_toggled = Signal(object) # emit(layer)
-    
+    layer_changed = Signal(object) # emit(layer)
+    selection_needed = Signal(object) # emit(layer)
+
     def __init__(self, layer, parent=None):
         super().__init__(parent)
         self.layer = layer
         
         layout = QHBoxLayout(self)
-        layout.setContentsMargins(5, 2, 5, 2)
+        layout.setContentsMargins(5, 8, 5, 8) # Increased vertical padding
+        layout.setAlignment(Qt.AlignVCenter)
+        
+        self.setMinimumHeight(36) # Ensure minimum height for touch/click friendliness
         
         # Visibility Toggle
         self.vis_btn = QPushButton()
@@ -28,6 +33,14 @@ class LayerItemWidget(QWidget):
         # Name Label
         self.label = QLabel(layer.name)
         layout.addWidget(self.label)
+        
+        # Color Icon (if layer has color)
+        if hasattr(self.layer, 'color'):
+            self.color_btn = QPushButton()
+            self.color_btn.setFixedSize(18, 18)
+            self.color_btn.clicked.connect(self.on_color_clicked)
+            layout.addWidget(self.color_btn)
+            self.update_color_style()
         
         layout.addStretch()
         
@@ -70,6 +83,65 @@ class LayerItemWidget(QWidget):
                 border: 1px solid #FFF;
             }}
         """)
+
+    def update_color_style(self):
+        if not hasattr(self.layer, 'color'):
+            return
+            
+        # layer.color is typically [r, g, b] float 0-1
+        c = self.layer.color
+        r = int(c[0] * 255)
+        g = int(c[1] * 255)
+        b = int(c[2] * 255)
+        hex_color = f"#{r:02x}{g:02x}{b:02x}"
+        
+        self.color_btn.setStyleSheet(f"""
+            QPushButton {{
+                background-color: {hex_color};
+                border-radius: 4px; /* Rounded Square */
+                border: 1px solid #666;
+            }}
+            QPushButton:hover {{
+                border: 1px solid #FFF;
+            }}
+        """)
+
+    def on_color_clicked(self):
+        # 1. Request Selection
+        # We can't emit selection directly to list widget via signal here easily without custom signal
+        # But we can assume the logical flow: User clicked this row's internal widget
+        # The parent ListWidget doesn't automatically know, so we might need a signal
+        
+        # Actually, let's emit a signal that LayerListWidget can catch
+        # We need a new signal in LayerItemWidget "selection_requested"?
+        # Or just reuse one?
+        # Let's add a "color_clicked" signal?
+        # Wait, the instruction said "click to show property and color window".
+        # So we should probably select the item first.
+        self.open_color_picker()
+
+    def open_color_picker(self):
+        from PySide6.QtWidgets import QColorDialog
+        from PySide6.QtGui import QColor
+        
+        c = self.layer.color
+        initial = QColor.fromRgbF(c[0], c[1], c[2])
+        
+        # We need to emit a signal so the main window knows to select this layer
+        # But we are inside the ItemWidget.
+        # We can emit a signal that LayerListWidget connects to.
+        # Let's add `color_change_requested`?
+        # Or simply handle it here and just emit `layer_changed` after update.
+        # But we also want to SELECT the layer.
+        
+        self.selection_needed.emit(self.layer)
+        
+        color = QColorDialog.getColor(initial, self, "Select Layer Color")
+        if color.isValid():
+            new_c = [color.redF(), color.greenF(), color.blueF()]
+            self.layer.color = new_c
+            self.update_color_style()
+            self.layer_changed.emit(self.layer)
 
 class LayerListWidget(QWidget):
     layer_selected = Signal(object) # Emit layer object
@@ -132,6 +204,8 @@ class LayerListWidget(QWidget):
              item_widget.move_up_requested.connect(self.on_move_up)
              item_widget.move_down_requested.connect(self.on_move_down)
              item_widget.visibility_toggled.connect(lambda l: self.layer_changed.emit(l))
+             item_widget.layer_changed.connect(lambda l: self.layer_changed.emit(l)) # For color changes
+             item_widget.selection_needed.connect(self.select_layer)
              
              # Adjust item size hint
              item.setSizeHint(item_widget.sizeHint())
