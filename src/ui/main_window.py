@@ -3,7 +3,6 @@ from PySide6.QtCore import Qt, QTimer
 from src.ui.preview_widget import PreviewWidget
 from src.ui.layer_list import LayerListWidget
 from src.ui.properties import PropertiesWidget
-from src.layers.light_layer import LightLayer
 from src.layers.spot_light_layer import SpotLightLayer
 from src.layers.fresnel_layer import FresnelLayer
 from src.layers.fresnel_layer import FresnelLayer
@@ -178,9 +177,8 @@ class MainWindow(QMainWindow):
         self.preview.makeCurrent()
         try:
             layer = None
-            if layer_type == "light":
-                layer = LightLayer()
-            elif layer_type == "spot":
+            layer = None
+            if layer_type == "spot":
                 layer = SpotLightLayer()
             elif layer_type == "fresnel":
                 layer = FresnelLayer()

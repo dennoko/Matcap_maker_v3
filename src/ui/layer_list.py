@@ -92,7 +92,6 @@ class LayerListWidget(QWidget):
         # Add Layer Menu Button
         self.add_btn = QPushButton("Add Layer")
         self.add_menu = QMenu(self)
-        self.add_menu.addAction("Directional Light", lambda: self.add_layer_requested.emit("light"))
         self.add_menu.addAction("Spot Light", lambda: self.add_layer_requested.emit("spot"))
         self.add_menu.addAction("Fresnel / Rim", lambda: self.add_layer_requested.emit("fresnel"))
         self.add_menu.addAction("Noise", lambda: self.add_layer_requested.emit("noise"))

@@ -1,7 +1,6 @@
 import json
 import logging
 from src.layers.base_layer import BaseLayer
-from src.layers.light_layer import LightLayer
 from src.layers.spot_light_layer import SpotLightLayer
 from src.layers.fresnel_layer import FresnelLayer
 from src.layers.fresnel_layer import FresnelLayer
@@ -15,7 +14,6 @@ class ProjectIO:
     # Key: Class Name string, Value: Class Type
     LAYER_REGISTRY = {
         "BaseLayer": BaseLayer,
-        "LightLayer": LightLayer,
         "SpotLightLayer": SpotLightLayer,
         "FresnelLayer": FresnelLayer,
         "FresnelLayer": FresnelLayer,

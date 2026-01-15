@@ -18,6 +18,11 @@ class SpotLightLayer(LayerInterface):
         self.intensity = 1.0
         self.range = 0.2    # Size of spot (0.0 to 1.0 approx) -> maps to cutoff
         self.blur = 0.1     # Softness
+        
+        # New Params for shape
+        self.scale_x = 1.0
+        self.scale_y = 1.0
+        self.rotation = 0.0
 
     def initialize(self):
         vertex_src = self._load_shader("src/shaders/layer_base.vert")
@@ -35,6 +40,11 @@ class SpotLightLayer(LayerInterface):
         uniform float intensity;
         uniform float range;
         uniform float blur;
+        
+        // New Shape Uniforms
+        uniform float scaleX;
+        uniform float scaleY;
+        uniform float rotation;
         
         uniform bool useNormalMap;
         uniform sampler2D normalMap;
@@ -56,28 +66,56 @@ class SpotLightLayer(LayerInterface):
         void main()
         {
             vec3 norm = getNormal();
-            // Invert lightDir for calculation (direction TO light)
-            vec3 lDir = normalize(-lightDir); 
             
-            float ndotl = dot(norm, lDir);
+            // 1. Light Basis Construction
+            // We want a coordinate system where Z is pointing TO the light (L).
+            vec3 L = normalize(-lightDir); 
             
-            // Map range to cutoff (larger range = smaller cutoff req)
-            // range 0.0 -> cutoff 1.0 (strict)
-            // range 1.0 -> cutoff 0.0 (wide)
+            // Standard backface check
+            float raw_ndotl = dot(norm, L);
+            if (raw_ndotl <= 0.0) {
+                FragColor = vec4(0.0);
+                return;
+            }
+            
+            // Construct orthogonal basis (Gram-Schmidt-like)
+            vec3 UpGuess = abs(L.y) < 0.99 ? vec3(0, 1, 0) : vec3(1, 0, 0);
+            vec3 Right = normalize(cross(UpGuess, L));
+            vec3 Up = cross(L, Right);
+            
+            // 2. Project Normal onto this basis (Local Light Coordinates)
+            // x, y represents the 'deviation' from the light center
+            float x = dot(norm, Right);
+            float y = dot(norm, Up);
+            
+            // 3. Apply 2D Rotation
+            float rad = radians(rotation);
+            float c = cos(rad);
+            float s = sin(rad);
+            float rx = x * c - y * s;
+            float ry = x * s + y * c;
+            
+            // 4. Apply Scale (Inverse scaling of the coordinate stretches the feature)
+            // Scale > 1.0 -> Coordinate smaller -> Deviation smaller -> Spot WIDER
+            float sx = rx / max(0.001, scaleX);
+            float sy = ry / max(0.001, scaleY);
+            
+            // 5. Reconstruct "Modified Z" (Pseudo NdotL)
+            // dist_sq is sin^2(theta) in the distorted space
+            float dist_sq = sx*sx + sy*sy;
+            
+            // If dist_sq > 1, it means the normal is 'behind' the plane in distorted space (clamped)
+            float modified_ndotl = sqrt(max(0.0, 1.0 - dist_sq));
+            
+            // 6. Apply Standard Spot Logic with modified_ndotl
+            // Map range to cutoff (larger range = smaller cutoff req = wider spot)
             float cutoff = 1.0 - range; 
             
-            // Improved Blur Logic
-            // We want the fade to happen OUTSIDE the cutoff or INSIDE?
-            // Usually blur softens the edge effectively making the spot slightly larger/smaller.
-            // Let's define: inner_cutoff = cutoff, outer_cutoff = cutoff - blur
-            // But to avoid artifacts when blur is large, we clamp.
-            
             float epsilon = blur + 0.0001;
-            float spot = smoothstep(cutoff - epsilon, cutoff + epsilon, ndotl);
+            float spot = smoothstep(cutoff - epsilon, cutoff + epsilon, modified_ndotl);
             
             vec3 finalColor = spot * lightColor * intensity;
             
-            // Output Alpha = spot (geometric coverage)
             FragColor = vec4(finalColor, spot); 
         }
         """
@@ -86,10 +124,6 @@ class SpotLightLayer(LayerInterface):
             vertex_shader = shaders.compileShader(vertex_src, GL_VERTEX_SHADER)
             fragment_shader = shaders.compileShader(fragment_src, GL_FRAGMENT_SHADER)
             self.shader_program = shaders.compileProgram(vertex_shader, fragment_shader)
-        except Exception as e:
-            print(f"SpotLightLayer Shader Error: {e}")
-            return
-
         except Exception as e:
             print(f"SpotLightLayer Shader Error: {e}")
             return
@@ -110,13 +144,11 @@ class SpotLightLayer(LayerInterface):
         u_intensity = self.intensity
 
         if self.blend_mode == "Multiply":
-            # Special handling for Multiply to make Intensity intuitive (0=No effect, High=Darker)
-            u_intensity = 1.0 # Bake intensity into color
+            # Special handling for Multiply
+            u_intensity = 1.0 
             if self.intensity <= 1.0:
-                # Interpolate White -> Color
                 u_color = [(1.0 - self.intensity) + c * self.intensity for c in self.color]
             else:
-                # Interpolate Color -> Black
                 if self.intensity > 0:
                     u_color = [c / self.intensity for c in self.color]
         
@@ -126,6 +158,11 @@ class SpotLightLayer(LayerInterface):
         glUniform1f(glGetUniformLocation(self.shader_program, "intensity"), u_intensity)
         glUniform1f(glGetUniformLocation(self.shader_program, "range"), self.range)
         glUniform1f(glGetUniformLocation(self.shader_program, "blur"), self.blur)
+        
+        # New Params
+        glUniform1f(glGetUniformLocation(self.shader_program, "scaleX"), self.scale_x)
+        glUniform1f(glGetUniformLocation(self.shader_program, "scaleY"), self.scale_y)
+        glUniform1f(glGetUniformLocation(self.shader_program, "rotation"), self.rotation)
 
         glBindVertexArray(self.VAO)
         glDrawElements(GL_TRIANGLES, self.index_count, GL_UNSIGNED_INT, None)

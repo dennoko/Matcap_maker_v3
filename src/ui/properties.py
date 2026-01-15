@@ -1,7 +1,6 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QFormLayout, QComboBox
 from PySide6.QtCore import Qt
 from src.layers.base_layer import BaseLayer
-from src.layers.light_layer import LightLayer
 from src.layers.spot_light_layer import SpotLightLayer
 from src.layers.fresnel_layer import FresnelLayer
 from src.layers.spot_light_layer import SpotLightLayer
@@ -56,17 +55,15 @@ class PropertiesWidget(QWidget):
             # Common properties for all effect layers
             self._add_blend_mode_control(form, layer)
             
-            if isinstance(layer, LightLayer):
-                self._add_float_control(form, "Intensity", layer.intensity, 0.0, 5.0, lambda v: self._set_attr(layer, 'intensity', v))
-                self._add_float_control(form, "Dir X", layer.direction[0], -1.0, 1.0, lambda v: self._update_list(layer.direction, 0, v, layer))
-                self._add_float_control(form, "Dir Y", layer.direction[1], -1.0, 1.0, lambda v: self._update_list(layer.direction, 1, v, layer))
-                self._add_float_control(form, "Dir Z", layer.direction[2], -1.0, 1.0, lambda v: self._update_list(layer.direction, 2, v, layer))
-                self._add_color_control(form, "Color", layer.color, lambda v: self._update_whole_color(layer.color, v, layer))
-
-            elif isinstance(layer, SpotLightLayer):
+            if isinstance(layer, SpotLightLayer):
                 self._add_float_control(form, "Intensity", layer.intensity, 0.0, 5.0, lambda v: self._set_attr(layer, 'intensity', v))
                 self._add_float_control(form, "Range", layer.range, 0.0, 1.0, lambda v: self._set_attr(layer, 'range', v))
                 self._add_float_control(form, "Blur", layer.blur, 0.0, 1.0, lambda v: self._set_attr(layer, 'blur', v))
+                
+                self._add_float_control(form, "Scale X", layer.scale_x, 0.1, 5.0, lambda v: self._set_attr(layer, 'scale_x', v))
+                self._add_float_control(form, "Scale Y", layer.scale_y, 0.1, 5.0, lambda v: self._set_attr(layer, 'scale_y', v))
+                self._add_float_control(form, "Rotation", layer.rotation, 0.0, 360.0, lambda v: self._set_attr(layer, 'rotation', v))
+                
                 self._add_float_control(form, "Dir X", layer.direction[0], -1.0, 1.0, lambda v: self._update_list(layer.direction, 0, v, layer))
                 self._add_float_control(form, "Dir Y", layer.direction[1], -1.0, 1.0, lambda v: self._update_list(layer.direction, 1, v, layer))
                 self._add_float_control(form, "Dir Z", layer.direction[2], -1.0, 1.0, lambda v: self._update_list(layer.direction, 2, v, layer))
