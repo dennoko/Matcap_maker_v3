@@ -78,51 +78,58 @@ class MainWindow(QMainWindow):
         about_action = help_menu.addAction("Third Party Notices")
         about_action.triggered.connect(self.show_about_dialog)
 
-        self.central_widget = QWidget()
-        self.setCentralWidget(self.central_widget)
-        self.main_layout = QHBoxLayout(self.central_widget)
-
-        # 1. Left Panel: Layer List
-        self.layer_list = None # Init after Preview since we need stack
-        
-        # 2. Center: Preview (Create first to get stack)
+        # Main Components Initialization
+        # 1. Preview (Needs to be created first for context/stack)
         self.preview = PreviewWidget()
         
-        # Initialize Layer List with stack from preview
+        # 2. Layer List (Needs stack from preview)
         self.layer_list = LayerListWidget(self.preview.layer_stack)
         self.layer_list.add_layer_requested.connect(self.on_add_layer)
         self.layer_list.layer_selected.connect(self.on_layer_selected)
         
-        # 3. Right: Properties
+        # 3. Properties
         self.properties = PropertiesWidget()
 
-        # Layout Assembly
-        # Left (Layers)
-        left_container = QFrame()
-        left_layout = QVBoxLayout(left_container)
-        left_layout.addWidget(self.layer_list)
-        self.main_layout.addWidget(left_container, 1)
+        # --- Central Widget ---
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)
+        self.main_layout = QHBoxLayout(self.central_widget)
+        self.main_layout.setContentsMargins(5, 5, 5, 5)
 
-        # Center (Preview + Export Button)
+        # 1. Preview + Export (Center/Left Area) - Stretch 1
         center_container = QWidget()
         center_layout = QVBoxLayout(center_container)
-        center_layout.setContentsMargins(0, 0, 0, 0) # align perfectly with sides
+        center_layout.setContentsMargins(0, 0, 0, 0)
         
         center_layout.addWidget(self.preview, 1) # Expand preview
         
         self.export_btn = QPushButton("Export Image")
-        self.export_btn.setMinimumHeight(40) # Make it easy to click
+        self.export_btn.setMinimumHeight(40) 
         self.export_btn.clicked.connect(self.export_image)
         center_layout.addWidget(self.export_btn, 0)
         
-        self.main_layout.addWidget(center_container, 3)
+        self.main_layout.addWidget(center_container, 1) # This part expands
 
-        # Right (Properties)
-        right_container = QFrame()
-        right_container.setFixedWidth(400) # Fixed width as requested by user
-        right_layout = QVBoxLayout(right_container)
-        right_layout.addWidget(self.properties)
-        self.main_layout.addWidget(right_container, 0) # 0 stretch factor since fixed width
+        # 2. Layer List (Middle Area) - Fixed Width
+        layer_container = QFrame()
+        layer_container.setFixedWidth(250)
+        layer_layout = QVBoxLayout(layer_container)
+        layer_layout.setContentsMargins(0, 0, 0, 0)
+        
+        # Add a title/header for visuals (optional but consistent with Frame)
+        # layer_layout.addWidget(QLabel("Layers")) 
+        layer_layout.addWidget(self.layer_list)
+        
+        self.main_layout.addWidget(layer_container, 0) # Fixed width
+
+        # 3. Properties (Right Area) - Fixed Width
+        prop_container = QFrame()
+        prop_container.setFixedWidth(350) 
+        prop_layout = QVBoxLayout(prop_container)
+        prop_layout.setContentsMargins(0, 0, 0, 0)
+        prop_layout.addWidget(self.properties)
+        
+        self.main_layout.addWidget(prop_container, 0) # Fixed width
 
         # Update Logic (Event Driven)
         self.properties.propertyChanged.connect(self.request_render)
