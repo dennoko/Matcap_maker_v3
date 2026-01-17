@@ -30,6 +30,14 @@ vec3 hsv2rgb(vec3 c) {
 
 void main() {
     vec4 color = texture(uTexture, TexCoords);
+    
+    // Mask by Alpha (Only affect non-transparent pixels)
+    // This allows the mask to work for any shape (Standard, Compare Mode, etc.)
+    if (color.a == 0.0) {
+        FragColor = color;
+        return;
+    }
+
     vec3 rgb = color.rgb;
 
     // 1. Hue & Saturation
