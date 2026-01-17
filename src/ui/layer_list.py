@@ -169,6 +169,8 @@ class LayerListWidget(QWidget):
         self.add_menu.addAction("Fresnel / Rim", lambda: self.add_layer_requested.emit("fresnel"))
         self.add_menu.addAction("Noise", lambda: self.add_layer_requested.emit("noise"))
         self.add_menu.addAction("Image", lambda: self.add_layer_requested.emit("image"))
+        self.add_menu.addSeparator()
+        self.add_menu.addAction("Color Adjustment", lambda: self.add_layer_requested.emit("adjustment"))
         self.add_btn.setMenu(self.add_menu)
         
         self.del_btn = QPushButton("Remove")

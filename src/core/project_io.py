@@ -3,9 +3,9 @@ import logging
 from src.layers.base_layer import BaseLayer
 from src.layers.spot_light_layer import SpotLightLayer
 from src.layers.fresnel_layer import FresnelLayer
-from src.layers.fresnel_layer import FresnelLayer
 from src.layers.noise_layer import NoiseLayer
 from src.layers.image_layer import ImageLayer
+from src.layers.adjustment_layer import AdjustmentLayer
 
 class ProjectIO:
     APP_VERSION = "3.0"
@@ -18,7 +18,8 @@ class ProjectIO:
         "FresnelLayer": FresnelLayer,
         "FresnelLayer": FresnelLayer,
         "NoiseLayer": NoiseLayer,
-        "ImageLayer": ImageLayer
+        "ImageLayer": ImageLayer,
+        "AdjustmentLayer": AdjustmentLayer
     }
 
     @staticmethod

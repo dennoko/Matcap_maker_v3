@@ -222,6 +222,9 @@ class MainWindow(QMainWindow):
                 layer = NoiseLayer()
             elif layer_type == "image":
                 layer = ImageLayer()
+            elif layer_type == "adjustment":
+                from src.layers.adjustment_layer import AdjustmentLayer
+                layer = AdjustmentLayer()
             
             if layer:
                 self.preview.layer_stack.add_layer(layer)

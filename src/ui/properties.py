@@ -6,6 +6,7 @@ from src.layers.fresnel_layer import FresnelLayer
 from src.layers.spot_light_layer import SpotLightLayer
 from src.layers.noise_layer import NoiseLayer
 from src.layers.image_layer import ImageLayer
+from src.layers.adjustment_layer import AdjustmentLayer
 from src.ui.params import FloatSlider, ColorPicker
 
 class PropertiesWidget(QWidget):
@@ -103,6 +104,12 @@ class PropertiesWidget(QWidget):
                 self._add_float_control(form, "Rotation", layer.rotation, 0.0, 360.0, lambda v: self._set_attr(layer, 'rotation', v))
                 self._add_float_control(form, "Opacity", layer.opacity, 0.0, 1.0, lambda v: self._set_attr(layer, 'opacity', v))
                 
+            elif isinstance(layer, AdjustmentLayer):
+                self._add_float_control(form, "Hue", layer.hue, -0.5, 0.5, lambda v: self._set_attr(layer, 'hue', v))
+                self._add_float_control(form, "Saturation", layer.saturation, 0.0, 2.0, lambda v: self._set_attr(layer, 'saturation', v))
+                self._add_float_control(form, "Brightness", layer.brightness, -1.0, 1.0, lambda v: self._set_attr(layer, 'brightness', v))
+                self._add_float_control(form, "Contrast", layer.contrast, 0.0, 2.0, lambda v: self._set_attr(layer, 'contrast', v))
+
             elif isinstance(layer, NoiseLayer):
                 self._add_float_control(form, "Intensity", layer.intensity, 0.0, 1.0, lambda v: self._set_attr(layer, 'intensity', v))
                 self._add_float_control(form, "Scale", layer.scale, 0.1, 10.0, lambda v: self._set_attr(layer, 'scale', v))

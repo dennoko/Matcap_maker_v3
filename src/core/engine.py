@@ -2,6 +2,7 @@ from OpenGL.GL import *
 from OpenGL.GL import shaders
 from PySide6.QtOpenGL import QOpenGLFramebufferObject, QOpenGLFramebufferObjectFormat
 import numpy as np
+from src.layers.adjustment_layer import AdjustmentLayer
 
 class Engine:
     # Blend Modes Mapping (Must match shader defines)
@@ -138,7 +139,39 @@ class Engine:
             # Standard Mode (0): Content is Square (1.0 x 1.0 half-extent) -> Bounds [-1, 1] x [-1, 1]
             # Comparison Mode (1): Content is Wide (~0.95 x 0.45 half-extent) -> Bounds [-0.95, 0.95] x [-0.45, 0.45]
             
-            # Note: We want to Maximize the content in the viewport without stretching.
+            # Check for Adjustment Layer
+            if isinstance(layer, AdjustmentLayer):
+                 # --- Ping-Pong Global Adjustment ---
+                 # 1. Source is current_fbo (Result of previous layers)
+                 # 2. Dest is next_fbo
+                 next_fbo.bind()
+                 glClearColor(0.0, 0.0, 0.0, 0.0)
+                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+                 
+                 glDisable(GL_BLEND)
+                 glUseProgram(layer.shader_program)
+                 
+                 # Bind Inputs
+                 glActiveTexture(GL_TEXTURE0)
+                 glBindTexture(GL_TEXTURE_2D, current_fbo.texture())
+                 
+                 # Set Uniforms (Layer handles logic)
+                 layer.render()
+                 
+                 # Draw Quad
+                 glBindVertexArray(self.quad_vao)
+                 glDrawArrays(GL_TRIANGLES, 0, 6)
+                 glBindVertexArray(0)
+                 
+                 next_fbo.release()
+                 
+                 # Swap
+                 current_fbo, next_fbo = next_fbo, current_fbo
+                 continue # Skip standard layer logic
+
+            # --- Step A: Render Layer to fbo_layer (Intermediate) ---
+            # Standard Layer Rendering Logic
+            # We want to Maximize the content in the viewport (Zoom to fit)
             
             # 1. Define Content Half-Extents (Approximation)
             content_hw = 1.0
