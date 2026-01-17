@@ -56,8 +56,7 @@ class PreviewWidget(QOpenGLWidget):
         
         # NOTE: Animation removed as requested.
         print("DEBUG: PreviewWidget Instance Created (Rev 3 - No Anim)")
-        import sys
-        sys.stdout.flush()
+        # sys.stdout.flush() # Removed to prevent crash in noconsole mode where stdout is None
         
     # Animation methods removed
     
@@ -288,11 +287,11 @@ class PreviewWidget(QOpenGLWidget):
         
         try:
             # Construct absolute path to ensure headers are found
-            base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            from src.core.utils import get_resource_path
             # base_dir should be .../src
             # shaders are in .../src/shaders
-            vert_path = os.path.join(base_dir, "shaders", "quad.vert")
-            frag_path = os.path.join(base_dir, "shaders", "quad.frag")
+            vert_path = get_resource_path("src/shaders/quad.vert")
+            frag_path = get_resource_path("src/shaders/quad.frag")
             
             print(f"Loading shaders from: {vert_path}")
             

@@ -18,9 +18,8 @@ class BaseLayer(LayerInterface):
         # Properties
         self.preview_mode = "Standard" # "Standard", "With Normal Map"
         # Default Normal Map
-        import os
-        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        self.normal_map_path = os.path.join(base_dir, "res", "texture", "test_leather.jpg")
+        from src.core.utils import get_resource_path
+        self.normal_map_path = get_resource_path("res/texture/test_leather.jpg")
         
         # Normal Map Options
         self.normal_strength = 1.0 

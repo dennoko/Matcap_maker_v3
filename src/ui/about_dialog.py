@@ -35,8 +35,8 @@ class AboutDialog(QDialog):
         # this file: src/ui/about_dialog.py
         # root: ../../
         
-        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        license_path = os.path.join(base_dir, "LICENSE", "ThirdPartyNotices.md")
+        from src.core.utils import get_resource_path
+        license_path = get_resource_path("LICENSE/ThirdPartyNotices.md")
         
         if os.path.exists(license_path):
             with open(license_path, "r", encoding="utf-8") as f:

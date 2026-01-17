@@ -1,1 +1,12 @@
-# matcapmaker.md is now tracked
+# Python
+__pycache__/
+*.pyc
+
+# IDE
+.vscode/
+.idea/
+
+# Build
+dist/
+build/
+*.spec

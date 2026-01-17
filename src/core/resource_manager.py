@@ -2,6 +2,7 @@ from OpenGL.GL import *
 from OpenGL.GL import shaders
 from PIL import Image
 import os
+from src.core.utils import get_resource_path
 
 class ResourceManager:
     _instance = None
@@ -19,12 +20,16 @@ class ResourceManager:
         
     def get_shader(self, vert_path, frag_path):
         """Get or compile a shader program."""
-        key = (vert_path, frag_path)
+        # Resolve paths for frozen environment
+        v_path = get_resource_path(vert_path)
+        f_path = get_resource_path(frag_path)
+        
+        key = (v_path, f_path)
         if key in self._shaders:
             return self._shaders[key]
             
         # Compile new shader
-        program = self._compile_shader(vert_path, frag_path)
+        program = self._compile_shader(v_path, f_path)
         if program:
             self._shaders[key] = program
             
@@ -32,16 +37,26 @@ class ResourceManager:
         
     def get_texture(self, path):
         """Get or load a texture."""
-        if not path or not os.path.exists(path):
+        if not path:
             return None
             
-        if path in self._textures:
-            return self._textures[path]
+        # Check if path is absolute (external file) or relative (internal resource)
+        # If absolute, use as is. If relative, resolve via utils.
+        full_path = path
+        if not os.path.isabs(path):
+             full_path = get_resource_path(path)
+             
+        if not os.path.exists(full_path):
+            print(f"ResourceManager: Texture not found: {full_path}")
+            return None
+            
+        if full_path in self._textures:
+            return self._textures[full_path]
             
         # Load new texture
-        tex_id = self._load_texture_from_file(path)
+        tex_id = self._load_texture_from_file(full_path)
         if tex_id:
-            self._textures[path] = tex_id
+            self._textures[full_path] = tex_id
             
         return tex_id
         
