@@ -371,3 +371,15 @@ class LayerListWidget(QWidget):
             if item.data(Qt.UserRole) == layer:
                 self.list_widget.setCurrentRow(i)
                 break
+
+    def update_active_layer_visuals(self):
+        # Called when properties might have changed the layer state externally
+        row = self.list_widget.currentRow()
+        if row >= 0:
+            item = self.list_widget.item(row)
+            # Widget is the item widget
+            widget = self.list_widget.itemWidget(item)
+            if widget:
+                widget.update_color_style()
+                widget.label.setText(widget.layer.name)
+

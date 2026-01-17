@@ -133,8 +133,13 @@ class MainWindow(QMainWindow):
 
         # Update Logic (Event Driven)
         self.properties.propertyChanged.connect(self.request_render)
-        self.layer_list.layer_changed.connect(self.request_render)
+        self.properties.propertyChanged.connect(self.layer_list.update_active_layer_visuals) # Sync Colors/Names
+        self.layer_list.layer_changed.connect(self.on_layer_changed)
         self.layer_list.stack_changed.connect(self.request_render)
+        
+        # Select Base Layer by default
+        if self.preview.base_layer:
+             self.layer_list.select_layer(self.preview.base_layer)
         
     def request_render(self):
         self.preview.update()
@@ -248,6 +253,11 @@ class MainWindow(QMainWindow):
         
     def on_layer_selected(self, layer):
         self.properties.set_layer(layer)
+
+    def on_layer_changed(self, layer):
+        self.request_render()
+        if self.properties.current_layer == layer:
+             self.properties.set_layer(layer)
         
     def show_about_dialog(self):
         from src.ui.about_dialog import AboutDialog
