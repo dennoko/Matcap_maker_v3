@@ -1,4 +1,5 @@
 from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QFrame, QFileDialog, QMessageBox, QPushButton
+from PySide6.QtGui import QAction, QActionGroup
 from PySide6.QtCore import Qt, QTimer
 from src.ui.preview_widget import PreviewWidget
 from src.ui.layer_list import LayerListWidget
@@ -12,31 +13,48 @@ from src.core.project_io import ProjectIO
 from src.core.settings import Settings
 import os
 from datetime import datetime
+from src.core.i18n import tr
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Matcap Maker v3")
+        self.setWindowTitle(tr("app.title"))
         self.resize(1200, 800)
 
         # Menu Bar
         menubar = self.menuBar()
-        file_menu = menubar.addMenu("File")
+        file_menu = menubar.addMenu(tr("menu.file")) # Keep English if key matches english text, but tr() allows fallback
         
-        load_action = file_menu.addAction("Open Project...")
+        load_action = file_menu.addAction(tr("menu.file.open"))
         load_action.triggered.connect(self.load_project)
         
-        save_action = file_menu.addAction("Save Project...")
+        save_action = file_menu.addAction(tr("menu.file.save"))
         save_action.triggered.connect(self.save_project)
 
         file_menu.addSeparator()
         
-        export_action = file_menu.addAction("Export Image")
+        export_action = file_menu.addAction(tr("menu.file.export"))
         export_action.triggered.connect(self.export_image)
 
         # Options Menu
-        options_menu = menubar.addMenu("Options")
-        res_menu = options_menu.addMenu("Resolution")
+        options_menu = menubar.addMenu(tr("menu.options"))
+        
+        # Language Menu
+        lang_menu = options_menu.addMenu(tr("menu.options.language"))
+        lang_group = QActionGroup(self)
+        
+        langs = [("English", "en"), ("日本語", "ja")]
+        current_lang = Settings().language
+        
+        for label, code in langs:
+            act = QAction(label, self, checkable=True)
+            if code == current_lang:
+                act.setChecked(True)
+            act.triggered.connect(lambda checked, c=code: self.set_language(c))
+            lang_group.addAction(act)
+            lang_menu.addAction(act)
+            
+        res_menu = options_menu.addMenu(tr("menu.options.resolution"))
         
         resolutions = [64, 128, 256, 512, 1024, 2048, 4096]
         self.res_actions = {}
@@ -44,7 +62,6 @@ class MainWindow(QMainWindow):
         settings = Settings()
         current_res = settings.export_resolution
         
-        from PySide6.QtGui import QAction, QActionGroup
         res_group = QActionGroup(self)
         
         for r in resolutions:
@@ -57,7 +74,7 @@ class MainWindow(QMainWindow):
             self.res_actions[r] = act
 
         # Padding Menu
-        pad_menu = options_menu.addMenu("Padding")
+        pad_menu = options_menu.addMenu(tr("menu.options.padding"))
         pads = [0, 2, 4, 8, 16, 32]
         self.pad_actions = {}
         
@@ -74,8 +91,8 @@ class MainWindow(QMainWindow):
             self.pad_actions[p] = act
 
         # Help Menu
-        help_menu = menubar.addMenu("Help")
-        about_action = help_menu.addAction("Third Party Notices")
+        help_menu = menubar.addMenu(tr("menu.help"))
+        about_action = help_menu.addAction(tr("menu.help.about"))
         about_action.triggered.connect(self.show_about_dialog)
 
         # Main Components Initialization
@@ -103,7 +120,7 @@ class MainWindow(QMainWindow):
         
         center_layout.addWidget(self.preview, 1) # Expand preview
         
-        self.export_btn = QPushButton("Export Image")
+        self.export_btn = QPushButton(tr("menu.file.export"))
         self.export_btn.setMinimumHeight(40) 
         self.export_btn.clicked.connect(self.export_image)
         center_layout.addWidget(self.export_btn, 0)
@@ -144,9 +161,16 @@ class MainWindow(QMainWindow):
     def request_render(self):
         self.preview.update()
 
+    def set_language(self, code):
+        s = Settings()
+        if s.language != code:
+            s.language = code
+            s.save()
+            QMessageBox.information(self, "Restart Required", tr("msg.restart_required"))
+
     def load_project(self):
         start_dir = Settings().get_projects_dir()
-        file_path, _ = QFileDialog.getOpenFileName(self, "Open Project", start_dir, "JSON Files (*.json)")
+        file_path, _ = QFileDialog.getOpenFileName(self, tr("dialog.open_project"), start_dir, "JSON Files (*.json)")
         if not file_path:
             return
             
@@ -180,15 +204,15 @@ class MainWindow(QMainWindow):
         default_name = f"project_{timestamp}.json"
         full_path = os.path.join(start_dir, default_name)
         
-        file_path, _ = QFileDialog.getSaveFileName(self, "Save Project", full_path, "JSON Files (*.json)")
+        file_path, _ = QFileDialog.getSaveFileName(self, tr("dialog.save_project"), full_path, "JSON Files (*.json)")
         if file_path:
             success, errors = ProjectIO.save_project(file_path, self.preview.layer_stack)
             
             if not success:
-                QMessageBox.critical(self, "Error", f"Failed to save project:\n{errors}")
+                QMessageBox.critical(self, "Error", f"{tr('msg.save_error')}\n{errors}")
             elif errors:
                 # Partial success (copy failed)
-                msg = "Project saved, but some assets could not be copied:\n" + "\n".join(errors)
+                msg = f"{tr('msg.project_saved')} (Asset copy failed):\n" + "\n".join(errors)
                 QMessageBox.warning(self, "Warning", msg)
             else:
                 # Success: Save Preview Image
@@ -257,16 +281,20 @@ class MainWindow(QMainWindow):
         default_name = f"matcap_{timestamp}.png"
         full_path = os.path.join(start_dir, default_name)
         
-        file_path, _ = QFileDialog.getSaveFileName(self, "Export Image", full_path, "Images (*.png *.jpg)")
+        file_path, _ = QFileDialog.getSaveFileName(self, tr("dialog.export_image"), full_path, "Images (*.png *.jpg)")
         if file_path:
             self.preview.save_render(file_path)
 
     def set_resolution(self, res):
-        Settings().export_resolution = res
+        s = Settings()
+        s.export_resolution = res
+        s.save()
         print(f"Export resolution set to {res}")
         
     def set_padding(self, pad):
-        Settings().export_padding = pad
+        s = Settings()
+        s.export_padding = pad
+        s.save()
         print(f"Export padding set to {pad}px")
         
     def on_layer_selected(self, layer):

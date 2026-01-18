@@ -1,6 +1,23 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QListWidget, QListWidgetItem, QPushButton, QHBoxLayout, QMenu, QLabel, QToolButton
-from PySide6.QtGui import QIcon
+from PySide6.QtGui import QIcon, QAction
 from PySide6.QtCore import Qt, Signal, QSize, QTimer
+from src.core.i18n import tr
+
+def get_translated_name(name):
+    # Mapping default English names to translation keys
+    # If not found, return original name (user might have renamed it in future versions)
+    map_ = {
+        "Base Layer": "layer.base",
+        "Spot Light": "layer.type.spot",
+        "Fresnel Layer": "layer.type.fresnel",
+        "Noise Layer": "layer.type.noise",
+        "Image Layer": "layer.type.image",
+        "Adjustment Layer": "layer.type.adjustment"
+    }
+    key = map_.get(name)
+    if key:
+        return tr(key)
+    return name
 
 class LayerItemWidget(QWidget):
     # Signals for parent to handle Reorder
@@ -31,7 +48,8 @@ class LayerItemWidget(QWidget):
         self.update_vis_style()
         
         # Name Label
-        self.label = QLabel(layer.name)
+        display_name = get_translated_name(layer.name)
+        self.label = QLabel(display_name)
         layout.addWidget(self.label)
         
         # Color Icon (if layer has color)
@@ -95,17 +113,6 @@ class LayerItemWidget(QWidget):
         """)
 
     def on_color_clicked(self):
-        # 1. Request Selection
-        # We can't emit selection directly to list widget via signal here easily without custom signal
-        # But we can assume the logical flow: User clicked this row's internal widget
-        # The parent ListWidget doesn't automatically know, so we might need a signal
-        
-        # Actually, let's emit a signal that LayerListWidget can catch
-        # We need a new signal in LayerItemWidget "selection_requested"?
-        # Or just reuse one?
-        # Let's add a "color_clicked" signal?
-        # Wait, the instruction said "click to show property and color window".
-        # So we should probably select the item first.
         self.open_color_picker()
 
     def open_color_picker(self):
@@ -114,13 +121,6 @@ class LayerItemWidget(QWidget):
         
         c = self.layer.color
         initial = QColor.fromRgbF(c[0], c[1], c[2])
-        
-        # We need to emit a signal so the main window knows to select this layer
-        # But we are inside the ItemWidget.
-        # We can emit a signal that LayerListWidget connects to.
-        # Let's add `color_change_requested`?
-        # Or simply handle it here and just emit `layer_changed` after update.
-        # But we also want to SELECT the layer.
         
         self.selection_needed.emit(self.layer)
         
@@ -169,17 +169,17 @@ class LayerListWidget(QWidget):
         btn_layout = QHBoxLayout()
         
         # Add Layer Menu Button
-        self.add_btn = QPushButton("Add Layer")
+        self.add_btn = QPushButton(tr("layer.add"))
         self.add_menu = QMenu(self)
-        self.add_menu.addAction("Spot Light", lambda: self.add_layer_requested.emit("spot"))
-        self.add_menu.addAction("Fresnel / Rim", lambda: self.add_layer_requested.emit("fresnel"))
-        self.add_menu.addAction("Noise", lambda: self.add_layer_requested.emit("noise"))
-        self.add_menu.addAction("Image", lambda: self.add_layer_requested.emit("image"))
+        self.add_menu.addAction(tr("layer.type.spot"), lambda: self.add_layer_requested.emit("spot"))
+        self.add_menu.addAction(tr("layer.type.fresnel"), lambda: self.add_layer_requested.emit("fresnel"))
+        self.add_menu.addAction(tr("layer.type.noise"), lambda: self.add_layer_requested.emit("noise"))
+        self.add_menu.addAction(tr("layer.type.image"), lambda: self.add_layer_requested.emit("image"))
         self.add_menu.addSeparator()
-        self.add_menu.addAction("Color Adjustment", lambda: self.add_layer_requested.emit("adjustment"))
+        self.add_menu.addAction(tr("layer.type.adjustment"), lambda: self.add_layer_requested.emit("adjustment"))
         self.add_btn.setMenu(self.add_menu)
         
-        self.del_btn = QPushButton("Remove")
+        self.del_btn = QPushButton(tr("layer.remove"))
         self.del_btn.clicked.connect(self.on_remove_clicked)
         
         btn_layout.addWidget(self.add_btn)
@@ -196,35 +196,13 @@ class LayerListWidget(QWidget):
             layer = item.data(Qt.UserRole)
             new_order.append(layer)
             
-        # Update Stack (Directly Access private _layers or use clear/add? 
-        # LayerStack logic needs to be respected. 
-        # Modifying internal list is safest if we trust our UI sync.
-        
-        # Assuming we can modify LayerStack._layers directly since we passed it in.
-        # But `LayerStack` api is clean. Let's use `clear` and `add`?
-        # `add` appends.
-        
         self.layer_stack.clear()
         for layer in new_order:
             self.layer_stack.add_layer(layer)
             
         self.stack_changed.emit()
-        
-        # NOTE: After drop, item widgets might be lost/reset by Qt?
-        # QListWidget usually keeps item data but wipes setItemWidget?
-        # Let's check. If widgets are gone, we must refresh visuals.
-        # Usually D&D in QListWidget with setItemWidget is tricky.
-        # It moves the *Item* but `setItemWidget` association might act weird.
-        # It's safer to FULL REFRESH to ensure widgets are correctly bound.
-        
-        # However, calling refresh() destroys current drag state? Drop is done.
-        # Let's try refresh() to be safe.
         self.refresh()
         
-        # Restore selection?
-        # Dropped item is usually selected?
-        # Let's just emit stack change.
-
     def on_remove_clicked(self):
         row = self.list_widget.currentRow()
         if row >= 0:
@@ -253,8 +231,6 @@ class LayerListWidget(QWidget):
              
              # Create custom widget
              item_widget = LayerItemWidget(layer)
-             # item_widget.move_up... Removed
-             # item_widget.move_down... Removed
              item_widget.visibility_toggled.connect(lambda l: self.layer_changed.emit(l))
              item_widget.layer_changed.connect(lambda l: self.layer_changed.emit(l)) 
              item_widget.selection_needed.connect(self.select_layer)
@@ -284,8 +260,8 @@ class LayerListWidget(QWidget):
         layer = item.data(Qt.UserRole)
         menu = QMenu(self)
         
-        duplicate_action = menu.addAction("Duplicate Layer")
-        delete_action = menu.addAction("Delete Layer")
+        duplicate_action = menu.addAction(tr("layer.duplicate"))
+        delete_action = menu.addAction(tr("layer.delete"))
         
         action = menu.exec(self.list_widget.mapToGlobal(pos))
         
@@ -355,5 +331,5 @@ class LayerListWidget(QWidget):
             widget = self.list_widget.itemWidget(item)
             if widget:
                 widget.update_color_style()
-                widget.label.setText(widget.layer.name)
+                widget.label.setText(get_translated_name(widget.layer.name))
 

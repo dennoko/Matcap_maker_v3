@@ -26,4 +26,4 @@ This project makes use of the following third-party libraries:
 ## Pillow (PIL Fork)
 *   **Description**: Python Imaging Library (Fork).
 *   **License**: HPND (Historical Permission Notice and Disclaimer)
-*   **Website**: [https://python-pillow.org/](https://python-pillow.org/)
+*   **Website**: [https://github.com/python-pillow/Pillow](https://github.com/python-pillow/Pillow)

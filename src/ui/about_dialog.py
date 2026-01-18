@@ -2,10 +2,11 @@ from PySide6.QtWidgets import QDialog, QVBoxLayout, QTextEdit, QPushButton, QLab
 from PySide6.QtCore import Qt
 import os
 
+from src.core.i18n import tr
 class AboutDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Third Party Notices")
+        self.setWindowTitle(tr("menu.help.about"))
         self.resize(600, 400)
         
         layout = QVBoxLayout(self)
