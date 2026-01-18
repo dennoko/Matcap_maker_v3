@@ -15,5 +15,7 @@ if __name__ == '__main__':
         f'--add-data=src/shaders{sep}src/shaders',
         # Include Resources (Icon, Texture, etc.)
         f'--add-data=res{sep}res',
+        # Include License
+        f'--add-data=LICENSE{sep}LICENSE',
         #'--windowed', # Implicit with --noconsole
     ])
