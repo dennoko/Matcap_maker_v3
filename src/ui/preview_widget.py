@@ -70,21 +70,35 @@ class PreviewWidget(QOpenGLWidget):
         # Initialize tracker if missing
         if not hasattr(self, "_known_layer_count"):
             self._known_layer_count = current_count
+        
+        # Track base layer identity to detect project loads/resets
+        if not hasattr(self, "_current_base_layer_id"):
+            self._current_base_layer_id = id(base_layer)
+            
+        base_layer_changed = id(base_layer) != self._current_base_layer_id
             
         # Preview Mode Update
         # We track `current_shape_name` as the geometry state key
         mode_changed = base_layer.preview_mode != self.current_shape_name
         layer_count_changed = current_count != self._known_layer_count
         
-        if mode_changed or layer_count_changed:
+        if mode_changed or layer_count_changed or base_layer_changed:
             self.current_shape_name = base_layer.preview_mode
             self._known_layer_count = current_count
+            self._current_base_layer_id = id(base_layer)
+            
+            # Force normal map reload when base layer changes (e.g. project load)
+            if base_layer_changed:
+                self.current_normal_path = ""  # Reset to force reload
+                self.normal_map_id = None      # Clear old texture reference
             
             self._update_all_geometry(self.current_shape_name)
             self.update() # Trigger redraw
             
         # Normal Map Update
-        if base_layer.normal_map_path != self.current_normal_path:
+        # Retry loading if path changed OR if we think we have a path but no texture ID (failed load or context reset)
+        if base_layer.normal_map_path != self.current_normal_path or (base_layer.normal_map_path and self.normal_map_id is None):
+            # print(f"Reloading Normal Map: {base_layer.normal_map_path}")
             self._load_normal_map(base_layer.normal_map_path)
             
         # Pass to Engine

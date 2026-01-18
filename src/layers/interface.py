@@ -76,8 +76,8 @@ class LayerInterface:
         params = {}
         for key, value in self.__dict__.items():
             if key.startswith('_'): continue
-            # Skip non-serializable objects (like OpenGL IDs)
-            if key in ["shader_program", "VAO", "VBO", "EBO", "index_count", "name", "enabled", "blend_mode", "texture_id", "_texture_loaded_path"]:
+            # Skip non-serializable objects (like OpenGL IDs) and preview state
+            if key in ["shader_program", "VAO", "VBO", "EBO", "index_count", "name", "enabled", "blend_mode", "texture_id", "_texture_loaded_path", "preview_mode"]:
                 continue
             
             # Deep copy mutable values (lists, dicts etc) to prevent sharing refs
@@ -106,6 +106,10 @@ class LayerInterface:
         # Restore params (Robustness logic)
         if "params" in data:
             for key, value in data["params"].items():
+                # Skip preview_mode from historical files
+                if key == "preview_mode":
+                    continue
+                    
                 if hasattr(self, key):
                      setattr(self, key, value)
                 else:

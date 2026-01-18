@@ -2451,3 +2451,16 @@ Traceback (most recent call last):
 AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
 
 --------------------------------------------------
+[2026-01-18 21:16:31] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\main.py", line 83, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\main.py", line 72, in main
+    sys.exit(app.exec())
+             ~~~~~~~~^^
+KeyboardInterrupt
+
+--------------------------------------------------
