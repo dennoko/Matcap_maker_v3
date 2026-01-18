@@ -24,6 +24,7 @@ class ImageLayer(LayerInterface):
         self.rotation = 0.0 # Degrees
         self.offset = [0.0, 0.0] # [x, y]
         self.aspect_ratio = 1.0 # width / height
+        self.blur = 0.0 # Blur amount 0.0 - 1.0
         
         # Internal state
         self._texture_loaded_path = None # To track reloading necessity
@@ -96,6 +97,7 @@ class ImageLayer(LayerInterface):
         glUniform1f(glGetUniformLocation(self.shader_program, "rotation"), self.rotation)
         glUniform2f(glGetUniformLocation(self.shader_program, "offset"), *self.offset)
         glUniform1f(glGetUniformLocation(self.shader_program, "opacity"), self.opacity)
+        glUniform1f(glGetUniformLocation(self.shader_program, "blur"), self.blur)
         
         # Pass Aspect Ratio
         glUniform1f(glGetUniformLocation(self.shader_program, "aspectRatio"), self.aspect_ratio)

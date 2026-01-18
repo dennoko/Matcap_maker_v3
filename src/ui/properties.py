@@ -120,6 +120,7 @@ class PropertiesWidget(QWidget):
                 self._add_float_control(form, tr("prop.offset_y"), layer.offset[1], -1.0, 1.0, lambda v: self._update_list(layer.offset, 1, v, layer))
                 self._add_float_control(form, tr("prop.scale"), layer.scale, 0.1, 5.0, lambda v: self._set_attr(layer, 'scale', v))
                 self._add_float_control(form, tr("prop.rotation"), layer.rotation, 0.0, 360.0, lambda v: self._set_attr(layer, 'rotation', v))
+                self._add_float_control(form, tr("prop.blur"), layer.blur, 0.0, 1.0, lambda v: self._set_attr(layer, 'blur', v))
                 self._add_float_control(form, tr("prop.opacity"), layer.opacity, 0.0, 1.0, lambda v: self._set_attr(layer, 'opacity', v))
                 
             elif isinstance(layer, AdjustmentLayer):

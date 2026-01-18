@@ -12,6 +12,7 @@ uniform float rotation;
 uniform vec2 offset;
 uniform float opacity;
 uniform float aspectRatio; // Image Aspect Ratio (w/h)
+uniform float blur;
 
 uniform int previewMode; // 0=Standard, 1=Comparison
 
@@ -162,7 +163,31 @@ void main()
     // 4. Sample & Output
     // ---------------------------------------------------------
     
-    vec4 texColor = texture(imageTexture, uv);
+    vec4 texColor = vec4(0.0);
+    
+    // Simple Blur Implementation
+    if (blur <= 0.001) {
+        texColor = texture(imageTexture, uv);
+    } else {
+        // 5x5 Kernel for smoother blur (25 taps)
+        // Or 3x3 (9 taps) is faster but blocky for large blur.
+        // Let's try 5x5 with step 1.0
+        
+        float totalWeight = 0.0;
+        float radius = blur * 0.02; // Max radius ~2% of texture size
+        
+        for (float x = -2.0; x <= 2.0; x += 1.0) {
+            for (float y = -2.0; y <= 2.0; y += 1.0) {
+                vec2 offset = vec2(x, y) * radius * 0.5; // *0.5 to keep range similar
+                float dist = length(vec2(x, y));
+                float weight = exp(-(dist * dist) / 2.0); // Gaussian-like weight
+                
+                texColor += texture(imageTexture, uv + offset) * weight;
+                totalWeight += weight;
+            }
+        }
+        texColor /= totalWeight;
+    }
     
     // Check Bounds for Planar? (Clamp to border?)
     // GL_REPEAT is set in load_texture, so it repeats.
