@@ -227,7 +227,22 @@ class MainWindow(QMainWindow):
                 layer = AdjustmentLayer()
             
             if layer:
-                self.preview.layer_stack.add_layer(layer)
+                # Insert after currently selected layer
+                current_sel = self.properties.current_layer
+                inserted = False
+                if current_sel:
+                    try:
+                        layers = self.preview.layer_stack.get_layers()
+                        if current_sel in layers:
+                            idx = layers.index(current_sel)
+                            self.preview.layer_stack.insert_layer(idx + 1, layer)
+                            inserted = True
+                    except Exception as e:
+                        print(f"Insertion Error: {e}")
+                
+                if not inserted:
+                    self.preview.layer_stack.add_layer(layer)
+
                 layer.initialize()
         finally:
             self.preview.doneCurrent()

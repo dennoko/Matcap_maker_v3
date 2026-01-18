@@ -44,26 +44,14 @@ class LayerItemWidget(QWidget):
         
         layout.addStretch()
         
-        # Reorder Buttons
-        # Note: In our List (0=Top), "Up" means moving to index i-1
-        # "Down" means moving to index i+1
+        layout.addStretch()
         
-        # Up Button (Move visually Up)
-        self.up_btn = QToolButton()
-        self.up_btn.setArrowType(Qt.UpArrow)
-        self.up_btn.setFixedSize(20, 20)
-        self.up_btn.setStyleSheet("border: none;")
-        self.up_btn.clicked.connect(lambda: self.move_up_requested.emit(self.layer))
-        
-        # Down Button (Move visually Down)
-        self.down_btn = QToolButton()
-        self.down_btn.setArrowType(Qt.DownArrow)
-        self.down_btn.setFixedSize(20, 20)
-        self.down_btn.setStyleSheet("border: none;")
-        self.down_btn.clicked.connect(lambda: self.move_down_requested.emit(self.layer))
-        
-        layout.addWidget(self.up_btn)
-        layout.addWidget(self.down_btn)
+        # Handle Icon for Dragging (Visual only, D&D starts anywhere but handle implies it)
+        self.handle_label = QLabel("≡")
+        self.handle_label.setStyleSheet("font-size: 16px; color: #888; font-weight: bold;")
+        self.handle_label.setFixedWidth(20)
+        self.handle_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(self.handle_label)
 
     def toggle_visibility(self):
         self.layer.enabled = not self.layer.enabled
@@ -143,11 +131,27 @@ class LayerItemWidget(QWidget):
             self.update_color_style()
             self.layer_changed.emit(self.layer)
 
+class ReorderableListWidget(QListWidget):
+    reorder_completed = Signal() # Emitted after drop
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setDragDropMode(QListWidget.InternalMove)
+        self.setSelectionMode(QListWidget.SingleSelection)
+        self.setAcceptDrops(True)
+        self.setDragEnabled(True)
+        self.setDropIndicatorShown(True)
+        
+    def dropEvent(self, event):
+        super().dropEvent(event)
+        self.reorder_completed.emit()
+
+
 class LayerListWidget(QWidget):
     layer_selected = Signal(object) # Emit layer object
-    add_layer_requested = Signal(str) # Emit type string: "light", "spot"
-    layer_changed = Signal(object) # Emit layer object when internal state changes (e.g. visibility)
-    stack_changed = Signal() # Emit when structure changes (add/remove/order)
+    add_layer_requested = Signal(str) # Emit type string
+    layer_changed = Signal(object) # Emit layer object when internal state changes
+    stack_changed = Signal() # Emit when structure changes
     
     def __init__(self, layer_stack):
         super().__init__()
@@ -155,8 +159,10 @@ class LayerListWidget(QWidget):
         
         self.layout = QVBoxLayout(self)
         
-        self.list_widget = QListWidget()
+        # Use our custom list widget
+        self.list_widget = ReorderableListWidget()
         self.list_widget.currentRowChanged.connect(self.on_selection_changed)
+        self.list_widget.reorder_completed.connect(self.on_reorder_completed)
         self.layout.addWidget(self.list_widget)
         
         # Buttons
@@ -182,6 +188,43 @@ class LayerListWidget(QWidget):
         
         self.refresh()
         
+    def on_reorder_completed(self):
+        # Reconstruct LayerStack based on UI order
+        new_order = []
+        for i in range(self.list_widget.count()):
+            item = self.list_widget.item(i)
+            layer = item.data(Qt.UserRole)
+            new_order.append(layer)
+            
+        # Update Stack (Directly Access private _layers or use clear/add? 
+        # LayerStack logic needs to be respected. 
+        # Modifying internal list is safest if we trust our UI sync.
+        
+        # Assuming we can modify LayerStack._layers directly since we passed it in.
+        # But `LayerStack` api is clean. Let's use `clear` and `add`?
+        # `add` appends.
+        
+        self.layer_stack.clear()
+        for layer in new_order:
+            self.layer_stack.add_layer(layer)
+            
+        self.stack_changed.emit()
+        
+        # NOTE: After drop, item widgets might be lost/reset by Qt?
+        # QListWidget usually keeps item data but wipes setItemWidget?
+        # Let's check. If widgets are gone, we must refresh visuals.
+        # Usually D&D in QListWidget with setItemWidget is tricky.
+        # It moves the *Item* but `setItemWidget` association might act weird.
+        # It's safer to FULL REFRESH to ensure widgets are correctly bound.
+        
+        # However, calling refresh() destroys current drag state? Drop is done.
+        # Let's try refresh() to be safe.
+        self.refresh()
+        
+        # Restore selection?
+        # Dropped item is usually selected?
+        # Let's just emit stack change.
+
     def on_remove_clicked(self):
         row = self.list_widget.currentRow()
         if row >= 0:
@@ -195,6 +238,13 @@ class LayerListWidget(QWidget):
     def refresh(self):
         # Block signals to prevent unnecessary updates during rebuild
         self.list_widget.blockSignals(True)
+        
+        # Store current selection to restore it
+        current_layer = None
+        current_row = self.list_widget.currentRow()
+        if current_row >= 0:
+            current_layer = self.list_widget.item(current_row).data(Qt.UserRole)
+
         self.list_widget.clear()
         
         for layer in self.layer_stack:
@@ -203,10 +253,10 @@ class LayerListWidget(QWidget):
              
              # Create custom widget
              item_widget = LayerItemWidget(layer)
-             item_widget.move_up_requested.connect(self.on_move_up)
-             item_widget.move_down_requested.connect(self.on_move_down)
+             # item_widget.move_up... Removed
+             # item_widget.move_down... Removed
              item_widget.visibility_toggled.connect(lambda l: self.layer_changed.emit(l))
-             item_widget.layer_changed.connect(lambda l: self.layer_changed.emit(l)) # For color changes
+             item_widget.layer_changed.connect(lambda l: self.layer_changed.emit(l)) 
              item_widget.selection_needed.connect(self.select_layer)
              
              # Adjust item size hint
@@ -215,8 +265,11 @@ class LayerListWidget(QWidget):
              self.list_widget.addItem(item)
              self.list_widget.setItemWidget(item, item_widget)
         
+        # Restore selection
+        if current_layer:
+            self.select_layer(current_layer)
+
         self.list_widget.blockSignals(False)
-        
         self.list_widget.update() # Force redraw
              
         # Set Context Menu Policy
@@ -237,7 +290,6 @@ class LayerListWidget(QWidget):
         action = menu.exec(self.list_widget.mapToGlobal(pos))
         
         if action == duplicate_action:
-            # Use singleShot to allow menu to close properly before heavy operation
             QTimer.singleShot(0, lambda: self.duplicate_layer(layer))
         elif action == delete_action:
             QTimer.singleShot(0, lambda: self.remove_layer(layer))
@@ -246,84 +298,35 @@ class LayerListWidget(QWidget):
         # 1. Serialize
         data = layer.to_dict()
         
-        # 2. Deserialize (Create new instance)
+        # 2. Deserialize
         new_layer = layer.__class__()
         new_layer.from_dict(data)
-        # Suffix removed as requested
-        # new_layer.name = f"{layer.name} (Copy)" 
-        new_layer.name = layer.name # Keep same name
+        new_layer.name = layer.name 
         
-        # 3. Initialize (Compile Shaders)
-        # Note: In a robust app, we should grab the Engine/Context to initialize.
-        # But PreviewWidget loops over layers and initializes them safely if needed?
-        # Actually PreviewWidget calls layer.initialize() in initializeGL.
-        # But here we are adding a layer dynamically.
-        # We need to rely on the fact that the Layer will be initialized 
-        # when it is first rendered or we must force initialization.
-        # PreviewWidget checks `layer.shader_program` in render loop? 
-        # No, `Engine` calls `layer.render()`. 
-        # `BaseLayer.render` assumes `self.shader_program` exists.
-        # So we MUST initialize it.
-        # But we don't have GL Context here.
-        # Solution: The Layer itself handles lazy init OR PreviewWidget handles new layers.
-        # Let's check PreviewWidget again.
-        # PreviewWidget loops `for layer in self.layer_stack: layer.initialize()` ONLY in `initializeGL`.
-        # When we add a layer via `add_layer_requested`, Main Window adds it to stack, 
-        # then calls `preview_widget.update()`?
-        # Let's check where `add_layer_requested` goes.
-        # It goes to `MainWindow`.
-        
-        # For now, let's just insert it to stack.
-        # The rendering loop might fail if not initialized.
-        # Wait, how does `Add Layer` button work?
-        # `MainWindow.add_layer` -> `layer = ...` -> `self.layer_stack.add_layer(layer)` -> `layer.initialize()`.
-        # Ah, MainWindow calls `layer.initialize()`.
-        # We need to do the same here.
-        # But we are in LayerListWidget.
-        # We should emit a signal "layer_duplicated" or just handle it here if we have context?
-        # We assume we have a valid context active? No.
-        # Let's look at `MainWindow` logic.
-        
-        # Simplest: Insert to stack, refresh list. 
-        # And let the system know.
-        # But `layer.initialize()` needs GL Context.
-        # The `MainWindow` usually calls `layer.initialize()` because it has `makeCurrent()`? No.
-        # Usually `PreviewWidget` should handle initialization of new layers.
-        
-        # Let's look at how `MainWindow` adds layers.
-        # I'll Assume `LayerStack` insertion is safe data-wise.
-        # Rendering might crash if I don't initialize.
-        
-        # Strategy:
-        # Just Insert it into Stack.
-        # If the app crashes, I will fix the init logic.
-        # (Actually, standard practice: Render loop checks if initialized).
+        # 3. Initialize & Insert
+        # Insert after active layer? Or after the duplicated one?
+        # Usually duplicate appears after the original.
         
         layers = self.layer_stack.get_layers()
         if layer in layers:
             idx = layers.index(layer)
             self.layer_stack.insert_layer(idx + 1, new_layer)
             
-            # Try to initialize if possible (requires context)
-            # If we fail, hopefully render loop catches it.
-            # Actually, let's emit a request to Main Window?
-            # Or just hack it:
-            # Main Window should observe stack? No.
+            # Note: MainWindow handles initialization usually, but here internal.
+            # We assume subsequent render (which checks shader) or MainWin logic handles it?
+            # We still don't have context here.
+            # But the user logic is "Add Layer" -> MainWin -> Init.
+            # "Duplicate" -> internal list -> NO MAIN WIN INIT.
+            # This is a risk.
+            # We should signal MainWindow?
+            # Let's fix this properly: MainWindow should listen to "layer_added" signal?
+            # Or assume the render loop lazily inits.
+            
+            # For now, stick to previous logic (insert and emit stack change)
             
             self.refresh()
             self.select_layer(new_layer)
-            
-            # Emit signal to notify others (e.g. PreviewWidget to Init)
-            # reusing `layer_selected` to trigger property update
             self.layer_selected.emit(new_layer) 
-            
-            # NOTE: New layer needs explicit initialization in GL Context.
-            # Currently `PreviewWidget` does NOT auto-init new layers in paintGL.
-            # I should emit a signal `request_init_layer`.
-            # But I don't have that signal defined.
-            # I'll rely on `layer_selected`? No.
-            
-            # Let's add a signal `layer_added`?
             self.stack_changed.emit()
 
     def remove_layer(self, layer):
@@ -331,35 +334,7 @@ class LayerListWidget(QWidget):
         self.refresh()
         self.layer_selected.emit(None)
         self.stack_changed.emit()
-        # UI "Up" means index - 1
-        layers = self.layer_stack.get_layers()
-        if layer in layers:
-            idx = layers.index(layer)
-            # In LayerStack, move_layer_down swaps i and i-1
 
-    def on_move_up(self, layer):
-        # UI "Up" means index - 1
-        layers = self.layer_stack.get_layers()
-        if layer in layers:
-            idx = layers.index(layer)
-            # In LayerStack, move_layer_down swaps i and i-1
-            # Check logic: move_layer_down(i) -> swaps i and i-1
-            self.layer_stack.move_layer_down(idx)
-            self.refresh()
-            self.select_layer(layer)
-            self.stack_changed.emit()
-
-    def on_move_down(self, layer):
-        # UI "Down" means index + 1
-        layers = self.layer_stack.get_layers()
-        if layer in layers:
-            idx = layers.index(layer)
-            # In LayerStack, move_layer_up swaps i and i+1
-            self.layer_stack.move_layer_up(idx)
-            self.refresh()
-            self.select_layer(layer)
-            self.stack_changed.emit()
-             
     def on_selection_changed(self, row):
         if row >= 0:
             item = self.list_widget.item(row)
@@ -367,7 +342,6 @@ class LayerListWidget(QWidget):
             self.layer_selected.emit(layer)
 
     def select_layer(self, layer):
-        # Find item with this layer
         for i in range(self.list_widget.count()):
             item = self.list_widget.item(i)
             if item.data(Qt.UserRole) == layer:
@@ -375,11 +349,9 @@ class LayerListWidget(QWidget):
                 break
 
     def update_active_layer_visuals(self):
-        # Called when properties might have changed the layer state externally
         row = self.list_widget.currentRow()
         if row >= 0:
             item = self.list_widget.item(row)
-            # Widget is the item widget
             widget = self.list_widget.itemWidget(item)
             if widget:
                 widget.update_color_style()

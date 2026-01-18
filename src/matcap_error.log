@@ -1,0 +1,2453 @@
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:50] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:51] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:51] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:51] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:51] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:51] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:51] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:51] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:51] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:51] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:51] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:51] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:51] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:51] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:51] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:51] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 04:01:51] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:37] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:37] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:37] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:37] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:37] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:37] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:37] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:37] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:37] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:37] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:37] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:37] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:37] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:37] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:37] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:37] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:37] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:37] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:37] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:37] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:37] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:38] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:39] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------
+[2026-01-18 19:34:40] CRITICAL ERROR:
+Traceback (most recent call last):
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 116, in <lambda>
+    self._add_float_control(form, "Seed Offset", layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
+                                                                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\dennoko\Programming\Python\Matcap_maker_v3\src\ui\properties.py", line 121, in _regen_noise
+    layer.regenerate()
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'NoiseLayer' object has no attribute 'regenerate'
+
+--------------------------------------------------

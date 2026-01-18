@@ -54,6 +54,9 @@ class NoiseLayer(LayerInterface):
         glDepthFunc(GL_LESS)
         glDepthMask(GL_TRUE)
         
+    def regenerate(self):
+        self._generate_noise_texture()
+
     def _generate_noise_texture(self):
         # Generate simple white noise for now
         width, height = 256, 256
