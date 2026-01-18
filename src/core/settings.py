@@ -14,7 +14,7 @@ class Settings:
     def _init(self):
         # Paths
         docs = Path(os.path.expanduser("~")) / "Documents"
-        self.base_dir = docs / "MatcapMakerV2"
+        self.base_dir = docs / "MatcapMaker"
         self.output_dir = self.base_dir / "output"
         self.projects_dir = self.base_dir / "projects"
         self.config_file = self.base_dir / "config.json"
