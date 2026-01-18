@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QListWidget, QListWidgetItem
 from PySide6.QtGui import QIcon, QAction
 from PySide6.QtCore import Qt, Signal, QSize, QTimer
 from src.core.i18n import tr
+from src.core.layer_serializer import LayerSerializer
 
 def get_translated_name(name):
     # Mapping default English names to translation keys
@@ -272,11 +273,11 @@ class LayerListWidget(QWidget):
             
     def duplicate_layer(self, layer):
         # 1. Serialize
-        data = layer.to_dict()
+        data = LayerSerializer.to_dict(layer)
         
         # 2. Deserialize
         new_layer = layer.__class__()
-        new_layer.from_dict(data)
+        LayerSerializer.from_dict(new_layer, data)
         new_layer.name = layer.name 
         
         # 3. Initialize & Insert

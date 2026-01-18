@@ -69,51 +69,9 @@ class LayerInterface:
         
         glBindVertexArray(0)
 
-    def to_dict(self):
-        """Serialize layer state to dictionary"""
-        import copy
-        # Collect all instance attributes that are not private or special types
-        params = {}
-        for key, value in self.__dict__.items():
-            if key.startswith('_'): continue
-            # Skip non-serializable objects (like OpenGL IDs) and preview state
-            if key in ["shader_program", "VAO", "VBO", "EBO", "index_count", "name", "enabled", "blend_mode", "texture_id", "_texture_loaded_path", "preview_mode"]:
-                continue
-            
-            # Deep copy mutable values (lists, dicts etc) to prevent sharing refs
-            try:
-                params[key] = copy.deepcopy(value)
-            except Exception:
-                # Fallback for non-copyable (shouldn't happen for basic types)
-                params[key] = value
-            
-        return {
-            "type": self.__class__.__name__,
-            "name": self.name,
-            "enabled": self.enabled,
-            "blend_mode": self.blend_mode,
-            "opacity": self.opacity,
-            "params": params
-        }
+    # Serialization is now handled by src.core.layer_serializer.LayerSerializer
+    # to_dict and from_dict have been removed to adhere to SRP.
 
-    def from_dict(self, data):
-        """Restore layer state from dictionary"""
-        self.name = data.get("name", self.name)
-        self.enabled = data.get("enabled", self.enabled)
-        self.blend_mode = data.get("blend_mode", self.blend_mode)
-        self.opacity = data.get("opacity", self.opacity)
-        
-        # Restore params (Robustness logic)
-        if "params" in data:
-            for key, value in data["params"].items():
-                # Skip preview_mode from historical files
-                if key == "preview_mode":
-                    continue
-                    
-                if hasattr(self, key):
-                     setattr(self, key, value)
-                else:
-                    print(f"Warning: Unknown parameter '{key}' for layer '{self.name}'. Ignored.")
 
     def setup_blend_func(self):
         from OpenGL.GL import glBlendFunc, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_DST_COLOR, GL_ZERO, GL_ONE_MINUS_SRC_COLOR, GL_ONE_MINUS_SRC_ALPHA

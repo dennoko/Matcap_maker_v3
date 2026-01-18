@@ -5,6 +5,7 @@ from PySide6.QtGui import QSurfaceFormat, QIcon
 from src.ui.main_window import MainWindow
 from src.ui.theme import apply_app_theme
 from src.core.utils import get_resource_path
+import src.layers # Register layers
 
 
 # Global Exception Hook to capture silent crashes in Noconsole mode

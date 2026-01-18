@@ -4,11 +4,7 @@ from PySide6.QtCore import Qt, QTimer
 from src.ui.preview_widget import PreviewWidget
 from src.ui.layer_list import LayerListWidget
 from src.ui.properties import PropertiesWidget
-from src.layers.spot_light_layer import SpotLightLayer
-from src.layers.fresnel_layer import FresnelLayer
-from src.layers.fresnel_layer import FresnelLayer
-from src.layers.noise_layer import NoiseLayer
-from src.layers.image_layer import ImageLayer
+from src.core.layer_registry import LayerRegistry
 from src.core.project_io import ProjectIO
 from src.core.settings import Settings
 import os
@@ -237,18 +233,19 @@ class MainWindow(QMainWindow):
         self.preview.makeCurrent()
         try:
             layer = None
-            layer = None
-            if layer_type == "spot":
-                layer = SpotLightLayer()
-            elif layer_type == "fresnel":
-                layer = FresnelLayer()
-            elif layer_type == "noise":
-                layer = NoiseLayer()
-            elif layer_type == "image":
-                layer = ImageLayer()
-            elif layer_type == "adjustment":
-                from src.layers.adjustment_layer import AdjustmentLayer
-                layer = AdjustmentLayer()
+            # Map UI keys (from LayerListWidget) to Class Names
+            # This mapping could eventually move to Registry or LayerListWidget
+            type_map = {
+                "spot": "SpotLightLayer",
+                "fresnel": "FresnelLayer",
+                "noise": "NoiseLayer",
+                "image": "ImageLayer",
+                "adjustment": "AdjustmentLayer"
+            }
+            
+            layer_class_name = type_map.get(layer_type)
+            if layer_class_name:
+                layer = LayerRegistry.create(layer_class_name)
             
             if layer:
                 # Insert after currently selected layer
