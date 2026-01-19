@@ -1,7 +1,8 @@
 {
     "app.title": "Matcap Maker",
     "menu.file": "File",
-    "menu.file.open": "Open Project...",
+    "menu.file.new": "新規プロジェクト",
+    "menu.file.open": "プロジェクトを開く...",
     "menu.file.save": "Save Project...",
     "menu.file.export": "Export Image",
     "menu.options": "Options",
@@ -54,6 +55,8 @@
     "dialog.open_project": "プロジェクトを開く",
     "dialog.save_project": "プロジェクトを保存",
     "dialog.export_image": "画像をエクスポート",
+    "dialog.save_changes.title": "変更を保存",
+    "dialog.save_changes.message": "現在のプロジェクトへの変更を保存しますか？",
     "msg.restart_required": "UIの一部を更新するには再起動が必要です。",
     "msg.project_saved": "プロジェクトが保存されました。",
     "msg.save_error": "プロジェクトの保存に失敗しました:"

@@ -21,6 +21,9 @@ class MainWindow(QMainWindow):
         menubar = self.menuBar()
         file_menu = menubar.addMenu(tr("menu.file")) # Keep English if key matches english text, but tr() allows fallback
         
+        new_action = file_menu.addAction(tr("menu.file.new"))
+        new_action.triggered.connect(self.new_project)
+        
         load_action = file_menu.addAction(tr("menu.file.open"))
         load_action.triggered.connect(self.load_project)
         
@@ -206,10 +209,12 @@ class MainWindow(QMainWindow):
             
             if not success:
                 QMessageBox.critical(self, "Error", f"{tr('msg.save_error')}\n{errors}")
+                return False
             elif errors:
                 # Partial success (copy failed)
                 msg = f"{tr('msg.project_saved')} (Asset copy failed):\n" + "\n".join(errors)
                 QMessageBox.warning(self, "Warning", msg)
+                return True
             else:
                 # Success: Save Preview Image
                 try:
@@ -228,6 +233,65 @@ class MainWindow(QMainWindow):
                     print(f"Failed to save project preview: {e}")
                     
                 print("Project saved successfully.")
+                return True
+        return False
+
+    def new_project(self):
+        # Confirm Save
+        reply = QMessageBox.question(
+            self, 
+            tr("dialog.save_changes.title"),
+            tr("dialog.save_changes.message"),
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No | QMessageBox.StandardButton.Cancel,
+            QMessageBox.StandardButton.Yes
+        )
+        
+        if reply == QMessageBox.StandardButton.Cancel:
+            return
+            
+        if reply == QMessageBox.StandardButton.Yes:
+            saved = self.save_project()
+            if not saved:
+                # If user cancelled save dialog or save failed, abort new project
+                return
+
+        # Reset Project
+        self.preview.makeCurrent()
+        try:
+            # Clear Stack
+            self.preview.layer_stack.clear()
+            
+            # Re-create Default Layers
+            # Base Layer
+            self.preview.base_layer = self.preview.base_layer.__class__() # New instance of BaseLayer
+            self.preview.base_layer.base_color = [0.0, 0.0, 0.0] # Default Black
+            self.preview.base_layer.initialize()
+            self.preview.layer_stack.add_layer(self.preview.base_layer)
+            
+            # Default Spot Light
+            from src.layers.spot_light_layer import SpotLightLayer
+            spot = SpotLightLayer()
+            spot.range = 0.13
+            spot.blur = 1.0
+            spot.direction = [0.35, -0.22, 1.0]
+            spot.initialize()
+            self.preview.layer_stack.add_layer(spot)
+            
+            # Reset Global State in PreviewWidget if needed
+            self.preview.current_shape_name = "Standard"
+            self.preview.current_normal_path = ""
+            self.preview.normal_map_id = None
+            
+        finally:
+            self.preview.doneCurrent()
+            
+        # Update UI
+        self.layer_list.layer_stack = self.preview.layer_stack # Ensure ref is correct (it should be same obj)
+        self.layer_list.refresh()
+        self.properties.set_layer(None)
+        self.layer_list.select_layer(self.preview.base_layer)
+        self.request_render()
+        print("New Project Created")
 
     def on_add_layer(self, layer_type):
         self.preview.makeCurrent()

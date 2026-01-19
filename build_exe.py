@@ -7,7 +7,7 @@ if __name__ == '__main__':
     
     PyInstaller.__main__.run([
         'src/main.py',
-        '--name=MatcapMaker_v3',
+        '--name=MatcapMaker',
         '--onefile',
         '--noconsole',
         '--icon=res/icon/icon.ico',
