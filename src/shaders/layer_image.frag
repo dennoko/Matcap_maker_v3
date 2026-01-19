@@ -108,10 +108,15 @@ void main()
         } else {
             // [LEFT SIDE GENERATOR - PLANAR MODE]
             // Standard Screen Space mapping for creating the Matcap.
-            float centerX = (previewMode == 1) ? -0.5 : 0.0;
+             float centerX = (previewMode == 1) ? -0.5 : 0.0;
             vec2 centerInfo = vec2(centerX, 0.0);
             vec2 pos = FragPos.xy - centerInfo;
-            uv = pos + 0.5;
+            
+            // Normalize based on Radius
+            // Preview Mode 1 (Comparison) -> Radius 0.45
+            // Preview Mode 0 (Standard)   -> Radius 1.0
+            float radius = (previewMode == 1) ? 0.45 : 1.0;
+            uv = (pos / radius) * 0.5 + 0.5;
         }
     }
     
