@@ -29,11 +29,6 @@ class PreviewWidget(QOpenGLWidget):
         self.engine = Engine()
         self.layer_stack = LayerStack()
         
-        # Register cache invalidation callback for layer structure changes
-        self.layer_stack.set_structure_changed_callback(
-            lambda: self.engine.compositor.invalidate_cache()
-        )
-        
         self.width_ = 400
         self.height_ = 400
         

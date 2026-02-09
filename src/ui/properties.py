@@ -138,7 +138,6 @@ class PropertiesWidget(QWidget):
     def _regen_noise(self, layer, val):
         layer.seed = int(val)
         layer.regenerate()
-        layer.mark_dirty()
         self.propertyChanged.emit()
 
     def _add_blend_mode_control(self, layout, layer):
@@ -156,7 +155,6 @@ class PropertiesWidget(QWidget):
             
         def on_change(text):
             setattr(layer, 'blend_mode', text)
-            layer.mark_dirty()
             self.propertyChanged.emit()
             
         combo.currentTextChanged.connect(on_change)
@@ -175,19 +173,16 @@ class PropertiesWidget(QWidget):
 
     def _set_attr(self, obj, name, val):
         setattr(obj, name, val)
-        obj.mark_dirty()
         self.propertyChanged.emit()
         
     def _update_list(self, target, idx, val, layer):
         target[idx] = val
-        layer.mark_dirty()
         self.propertyChanged.emit()
         
     def _set_image_path(self, layer, path):
         layer.image_path = path
         # Trigger reload immediately if possible, but layer handles logic in render loop or we can explicit call
         layer.load_texture(path)
-        layer.mark_dirty()
         self.propertyChanged.emit()
 
     def _set_normal_map(self, layer, path):
@@ -195,7 +190,6 @@ class PropertiesWidget(QWidget):
          # No immediate reload method on BaseLayer yet, logic will be handled in PreviewWidget
          # But maybe we should notify PreviewWidget?
          # Property changes are picked up next frame.
-         layer.mark_dirty()
          self.propertyChanged.emit()
         
     def _add_file_picker(self, layout, label, current_path, callback):
@@ -228,5 +222,4 @@ class PropertiesWidget(QWidget):
         target_list[0] = new_color[0]
         target_list[1] = new_color[1]
         target_list[2] = new_color[2]
-        layer.mark_dirty()
         self.propertyChanged.emit()

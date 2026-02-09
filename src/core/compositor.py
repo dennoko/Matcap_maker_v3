@@ -34,10 +34,6 @@ class Compositor:
         # Resources
         self.blend_program = None
         self.quad_vao = None
-        
-        # Cache for intermediate results
-        self._cached_fbo = None  # 最後にクリーンだった時点の中間結果
-        self._cache_valid_up_to = -1  # キャッシュが有効なレイヤーインデックス
 
     def initialize(self):
         self._create_fbos()
@@ -48,37 +44,6 @@ class Compositor:
         self.width = width
         self.height = height
         self._create_fbos()
-        self.invalidate_cache()  # サイズ変更時はキャッシュを無効化
-
-    def invalidate_cache(self):
-        """キャッシュを無効化（外部からの構造変更通知用）"""
-        self._cache_valid_up_to = -1
-
-    def _find_first_dirty_index(self, layer_stack):
-        """最初のダーティレイヤーのインデックスを返す。全てクリーンなら-1"""
-        for i, layer in enumerate(layer_stack):
-            if layer.enabled and layer.is_dirty():
-                return i
-        return -1
-
-    def _copy_fbo_to_cache(self, source_fbo):
-        """FBOの内容をキャッシュにコピー"""
-        if self._cached_fbo is None:
-            fmt = QOpenGLFramebufferObjectFormat()
-            fmt.setAttachment(QOpenGLFramebufferObject.CombinedDepthStencil)
-            self._cached_fbo = QOpenGLFramebufferObject(self.width, self.height, fmt)
-        
-        # Blit source to cache
-        QOpenGLFramebufferObject.blitFramebuffer(
-            self._cached_fbo, source_fbo
-        )
-
-    def _restore_from_cache(self, target_fbo):
-        """キャッシュからFBOに復元"""
-        if self._cached_fbo:
-            QOpenGLFramebufferObject.blitFramebuffer(
-                target_fbo, self._cached_fbo
-            )
 
     def render(self, layer_stack, context):
         """
@@ -105,23 +70,6 @@ class Compositor:
 
         glViewport(0, 0, self.width, self.height)
 
-        # --- Cache Logic ---
-        layer_list = list(layer_stack)
-        first_dirty = self._find_first_dirty_index(layer_list)
-        
-        # Determine start index
-        if first_dirty == -1:
-            # All layers are clean - nothing to render, use cached result
-            if self._cache_valid_up_to >= 0 and self.final_fbo:
-                return  # Already have valid result
-            start_index = 0  # Fallback: render all
-        elif first_dirty > 0 and self._cache_valid_up_to >= first_dirty - 1:
-            # Cache is valid up to the layer before the first dirty one
-            start_index = first_dirty
-        else:
-            # Cache invalid or dirty from the beginning
-            start_index = 0
-
         # Clear Accumulators
         self.fbo_ping.bind()
         glClearColor(0.0, 0.0, 0.0, 0.0)
@@ -136,16 +84,8 @@ class Compositor:
         current_fbo = self.fbo_ping
         next_fbo = self.fbo_pong
 
-        # Restore from cache if starting from a later index
-        if start_index > 0 and self._cached_fbo:
-            self._restore_from_cache(current_fbo)
-
-        for i, layer in enumerate(layer_list):
+        for layer in layer_stack:
             if not layer.enabled or not layer.shader_program:
-                continue
-            
-            # Skip layers before start_index (already in cache)
-            if i < start_index:
                 continue
 
             # --- Adjustment Layer Logic ---
@@ -170,7 +110,6 @@ class Compositor:
                 
                 next_fbo.release()
                 current_fbo, next_fbo = next_fbo, current_fbo
-                layer.mark_clean()  # Mark as clean after rendering
                 continue
 
             # --- Standard Layer Logic ---
@@ -270,13 +209,8 @@ class Compositor:
             next_fbo.release()
             
             current_fbo, next_fbo = next_fbo, current_fbo
-            layer.mark_clean()  # Mark as clean after rendering
 
         self.final_fbo = current_fbo
-        
-        # Update cache with current result
-        self._copy_fbo_to_cache(current_fbo)
-        self._cache_valid_up_to = len(layer_list) - 1
 
     def get_texture_id(self):
         return self.final_fbo.texture() if self.final_fbo else 0
