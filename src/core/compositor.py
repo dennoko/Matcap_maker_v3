@@ -34,6 +34,9 @@ class Compositor:
         # Resources
         self.blend_program = None
         self.quad_vao = None
+        
+        # Simple cache: only skip if ALL layers are clean
+        self._all_clean = False
 
     def initialize(self):
         self._create_fbos()
@@ -44,6 +47,18 @@ class Compositor:
         self.width = width
         self.height = height
         self._create_fbos()
+        self._all_clean = False  # Invalidate cache on resize
+
+    def invalidate_cache(self):
+        """キャッシュを無効化（外部からの構造変更通知用）"""
+        self._all_clean = False
+
+    def _any_layer_dirty(self, layer_stack):
+        """いずれかのレイヤーがダーティかどうかを確認"""
+        for layer in layer_stack:
+            if layer.enabled and layer.is_dirty():
+                return True
+        return False
 
     def render(self, layer_stack, context):
         """
@@ -56,6 +71,11 @@ class Compositor:
         """
         if not self.fbo_ping:
             return
+
+        # Simple cache: skip rendering if all layers are clean
+        layer_list = list(layer_stack)
+        if self._all_clean and not self._any_layer_dirty(layer_list):
+            return  # Nothing changed, keep existing result
 
         # Context Unpacking
         global_normal_id = context.get('global_normal_id')
@@ -211,6 +231,11 @@ class Compositor:
             current_fbo, next_fbo = next_fbo, current_fbo
 
         self.final_fbo = current_fbo
+        
+        # Mark all layers as clean and set cache valid
+        for layer in layer_list:
+            layer.mark_clean()
+        self._all_clean = True
 
     def get_texture_id(self):
         return self.final_fbo.texture() if self.final_fbo else 0

@@ -4,6 +4,19 @@ class LayerInterface:
         self.enabled = True
         self.opacity = 1.0
         self.blend_mode = "Normal" # "Normal", "Add", "Multiply", "Screen"
+        self._dirty = True  # 初期状態はダーティ（初回描画が必要）
+
+    def mark_dirty(self):
+        """パラメータ変更時に呼び出し、再描画が必要であることを示す"""
+        self._dirty = True
+
+    def mark_clean(self):
+        """レンダリング完了後に呼び出す"""
+        self._dirty = False
+
+    def is_dirty(self) -> bool:
+        """このレイヤーが再描画を必要とするかどうか"""
+        return self._dirty
 
     def initialize(self):
         """Called once when GL context is ready"""
