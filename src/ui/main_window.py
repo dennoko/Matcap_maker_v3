@@ -304,7 +304,8 @@ class MainWindow(QMainWindow):
                 "fresnel": "FresnelLayer",
                 "noise": "NoiseLayer",
                 "image": "ImageLayer",
-                "adjustment": "AdjustmentLayer"
+                "adjustment": "AdjustmentLayer",
+                "gradient": "GradientLayer"
             }
             
             layer_class_name = type_map.get(layer_type)

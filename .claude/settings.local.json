@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /c/Users/dennoko/Programming/Python/Matcap_maker_v3/src -name *.glsl -o -name *.frag -o -name *.vert)",
+      "Bash(python build_exe.py)",
+      "Bash(Start-Process \"c:/Users/dennoko/Programming/Python/Matcap_maker_v3/dist/MatcapMaker.exe\")",
+      "Bash(cmd.exe /c start \"\" \"c:\\\\Users\\\\dennoko\\\\Programming\\\\Python\\\\Matcap_maker_v3\\\\dist\\\\MatcapMaker.exe\")"
+    ]
+  }
+}

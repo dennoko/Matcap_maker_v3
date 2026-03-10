@@ -86,6 +86,23 @@ Adjusts the overall tone of the composite result up to this layer.
 *   **Brightness**: Adjusts the brightness.
 *   **Contrast**: Adjusts the contrast.
 
+### 7. Gradient
+Renders a smooth color gradient across the sphere surface. Can be combined with any blend mode for effects such as ambient color transitions (sky/ground), directional tonal variation, and color overlays.
+
+*   **Blend Mode**: Select how the gradient blends with layers below (Normal, Multiply, Add, etc.).
+*   **Angle**: The direction of the gradient in degrees (0–360°).
+    *   0° = left → right, 90° = bottom → top, 270° = top → bottom.
+*   **Type**: Selects the gradient style.
+    *   `Linear`: A straight gradient in the direction specified by Angle.
+    *   `Radial`: A gradient radiating outward from the center of the sphere.
+*   **Gradient Colors**: Visual gradient editor with up to 8 color stops.
+    *   **Click the gradient bar** to add a new color stop at that position (initial color is sampled from the existing gradient).
+    *   **Drag a pin** left or right to adjust its position.
+    *   **Click a pin** to select it — edit its color and exact position using the controls below.
+    *   **Double-click a pin** to open the color picker directly.
+    *   **Position spinbox**: Fine-tune the selected stop's position (0.0–1.0).
+    *   **Delete button**: Remove the selected stop (requires at least 2 stops to remain).
+
 ## Menu Operations
 
 ### File

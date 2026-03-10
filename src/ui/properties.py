@@ -1,5 +1,5 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QFormLayout, QComboBox
-from PySide6.QtCore import Qt, Signal # Added Signal
+from PySide6.QtWidgets import (QWidget, QVBoxLayout, QLabel, QFormLayout, QComboBox)
+from PySide6.QtCore import Qt, Signal
 from src.layers.base_layer import BaseLayer
 from src.layers.spot_light_layer import SpotLightLayer
 from src.layers.fresnel_layer import FresnelLayer
@@ -7,7 +7,9 @@ from src.layers.spot_light_layer import SpotLightLayer
 from src.layers.noise_layer import NoiseLayer
 from src.layers.image_layer import ImageLayer
 from src.layers.adjustment_layer import AdjustmentLayer
+from src.layers.gradient_layer import GradientLayer
 from src.ui.params import FloatSlider, ColorPicker
+from src.ui.gradient_editor import GradientEditorWidget
 
 from src.core.i18n import tr
 
@@ -22,7 +24,8 @@ def get_translated_name(name):
         "Noise": "layer.type.noise",
         "Image Layer": "layer.type.image",
         "Adjustment Layer": "layer.type.adjustment",
-        "Color Adjustment": "layer.type.adjustment"
+        "Color Adjustment": "layer.type.adjustment",
+        "Gradient": "layer.type.gradient",
     }
     key = map_.get(name)
     if key:
@@ -137,6 +140,19 @@ class PropertiesWidget(QWidget):
                 self._add_float_control(form, tr("prop.scale"), layer.scale, 0.1, 10.0, lambda v: self._set_attr(layer, 'scale', v))
                 self._add_float_control(form, tr("prop.seed_offset"), layer.seed, 0, 100, lambda v: self._regen_noise(layer, v)) # Hacky seed change
                 self._add_color_control(form, tr("prop.color"), layer.color, lambda v: self._update_whole_color(layer.color, v, layer))
+
+            elif isinstance(layer, GradientLayer):
+                self._add_float_control(form, tr("prop.angle"), layer.angle, 0.0, 360.0, lambda v: self._set_attr(layer, 'angle', v))
+                self._add_combo_control(form, tr("prop.gradient_type"), ["Linear", "Radial"], layer.gradient_type, lambda v: self._set_attr(layer, 'gradient_type', v))
+
+                self.layout.addWidget(QLabel(tr("prop.gradient_colors")))
+                gradient_editor = GradientEditorWidget(layer.gradient_stops)
+                def on_stops_changed(stops, lyr=layer):
+                    lyr.gradient_stops = stops
+                    lyr.mark_dirty()
+                    self.propertyChanged.emit()
+                gradient_editor.stopsChanged.connect(on_stops_changed)
+                self.layout.addWidget(gradient_editor)
                 
     def _regen_noise(self, layer, val):
         layer.seed = int(val)

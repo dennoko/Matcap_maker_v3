@@ -16,7 +16,8 @@ def get_translated_name(name):
         "Noise": "layer.type.noise",
         "Image Layer": "layer.type.image",
         "Adjustment Layer": "layer.type.adjustment",
-        "Color Adjustment": "layer.type.adjustment"
+        "Color Adjustment": "layer.type.adjustment",
+        "Gradient": "layer.type.gradient"
     }
     key = map_.get(name)
     if key:
@@ -181,6 +182,7 @@ class LayerListWidget(QWidget):
         self.add_menu.addAction(tr("layer.type.image"), lambda: self.add_layer_requested.emit("image"))
         self.add_menu.addSeparator()
         self.add_menu.addAction(tr("layer.type.adjustment"), lambda: self.add_layer_requested.emit("adjustment"))
+        self.add_menu.addAction(tr("layer.type.gradient"), lambda: self.add_layer_requested.emit("gradient"))
         self.add_btn.setMenu(self.add_menu)
         
         self.del_btn = QPushButton(tr("layer.remove"))
