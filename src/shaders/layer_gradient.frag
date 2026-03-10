@@ -2,6 +2,8 @@
 out vec4 FragColor;
 in vec3 Normal;
 in vec3 FragPos;
+in vec2 TexCoords;
+in mat3 TBN;
 
 const int MAX_STOPS = 8;
 uniform int   uNumStops;
@@ -10,9 +12,26 @@ uniform vec3  uStopColors[8];
 uniform float uAngle;             // radians
 uniform int   uGradientType;      // 0=Linear, 1=Radial
 
+uniform bool useNormalMap;
+uniform sampler2D normalMap;
+uniform float normalStrength;
+uniform float normalScale;
+uniform vec2 normalOffset;
+
+vec3 getNormal() {
+    if (useNormalMap && FragPos.x > 0.0) {
+        vec2 uv = TexCoords * normalScale + normalOffset;
+        vec3 normal = texture(normalMap, uv).rgb;
+        normal = normal * 2.0 - 1.0;
+        normal.xy *= normalStrength;
+        return normalize(TBN * normalize(normal));
+    }
+    return normalize(Normal);
+}
+
 void main()
 {
-    vec3 norm = normalize(Normal);
+    vec3 norm = getNormal();
     float t;
 
     if (uGradientType == 0) {

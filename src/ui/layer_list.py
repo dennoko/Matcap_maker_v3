@@ -78,6 +78,7 @@ class LayerItemWidget(QWidget):
 
     def toggle_visibility(self):
         self.layer.enabled = not self.layer.enabled
+        self.layer.mark_dirty()
         self.update_vis_style()
         self.visibility_toggled.emit(self.layer)
         

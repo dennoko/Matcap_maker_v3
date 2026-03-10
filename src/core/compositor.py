@@ -54,9 +54,9 @@ class Compositor:
         self._all_clean = False
 
     def _any_layer_dirty(self, layer_stack):
-        """いずれかのレイヤーがダーティかどうかを確認"""
+        """いずれかのレイヤーがダーティかどうかを確認（無効レイヤーの変化も検出）"""
         for layer in layer_stack:
-            if layer.enabled and layer.is_dirty():
+            if layer.is_dirty():
                 return True
         return False
 
