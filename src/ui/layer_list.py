@@ -11,9 +11,12 @@ def get_translated_name(name):
         "Base Layer": "layer.base",
         "Spot Light": "layer.type.spot",
         "Fresnel Layer": "layer.type.fresnel",
+        "Fresnel / Rim": "layer.type.fresnel",
         "Noise Layer": "layer.type.noise",
+        "Noise": "layer.type.noise",
         "Image Layer": "layer.type.image",
-        "Adjustment Layer": "layer.type.adjustment"
+        "Adjustment Layer": "layer.type.adjustment",
+        "Color Adjustment": "layer.type.adjustment"
     }
     key = map_.get(name)
     if key:

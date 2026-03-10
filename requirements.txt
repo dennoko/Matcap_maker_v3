@@ -3,3 +3,4 @@ qt-material
 PyOpenGL
 numpy
 Pillow
+PyInstaller

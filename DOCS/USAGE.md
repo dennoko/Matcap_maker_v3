@@ -3,6 +3,9 @@
 Matcap Maker is a tool for creating Matcap (Material Capture) textures for 3D models.
 By layering multiple effects (lights, fresnel, noise, images, etc.), you can intuitively create original Matcaps.
 
+## Language Support
+This application supports both English and Japanese. You can switch languages from the "Options" menu. Please note that changing the language requires restarting the application.
+
 ## Interface Overview
 
 The application is divided into three main areas:
