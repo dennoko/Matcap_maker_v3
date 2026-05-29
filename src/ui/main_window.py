@@ -188,7 +188,10 @@ class MainWindow(QMainWindow):
             return
         ratio = self.width() / max(1, self.height())
         self._is_tablet_aspect = ratio <= self.tablet_aspect_ratio
-        visible = self._is_tablet_aspect or self._layer_sidebar_user_visible
+        if self._is_tablet_aspect:
+            visible = True
+        else:
+            visible = self._layer_sidebar_user_visible
         self.layer_container.setVisible(visible)
         self.layer_toggle_btn.blockSignals(True)
         self.layer_toggle_btn.setChecked(visible)
