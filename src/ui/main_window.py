@@ -12,11 +12,12 @@ from datetime import datetime
 from src.core.i18n import tr
 
 class MainWindow(QMainWindow):
+    TABLET_ASPECT_RATIO_THRESHOLD = 1.5
+
     def __init__(self):
         super().__init__()
         self.setWindowTitle(tr("app.title"))
         self.resize(1200, 800)
-        self.tablet_aspect_ratio = 1.5
 
         # Menu Bar
         menubar = self.menuBar()
@@ -186,9 +187,9 @@ class MainWindow(QMainWindow):
     def _update_layer_sidebar_visibility(self):
         if not hasattr(self, "layer_container"):
             return
-        min_height = 1
-        ratio = self.width() / max(min_height, self.height())
-        self._is_tablet_aspect = ratio <= self.tablet_aspect_ratio
+        min_divisor = 1
+        ratio = self.width() / max(min_divisor, self.height())
+        self._is_tablet_aspect = ratio <= self.TABLET_ASPECT_RATIO_THRESHOLD
         # Tablet aspect ratios keep the sidebar visible for quick access.
         if self._is_tablet_aspect:
             visible = True

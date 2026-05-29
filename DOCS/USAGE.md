@@ -24,7 +24,7 @@ The application is divided into three main areas:
     *   **Reorder**: Drag and drop layers to change their order.
     *   **Context Menu**: Right-click on a layer to access "Duplicate" or "Delete" options.
     *   **Sidebar Toggle**: Use the "Layers" button to collapse/expand the sidebar.
-    *   **Tablet Aspect Ratios**: On 3:2 or narrower windows (including 4:3 and portrait), the sidebar stays visible.
+    *   **Tablet Aspect Ratios**: On aspect ratios <= 1.5 (3:2 or narrower, including 4:3 and portrait), the sidebar stays visible.
 
 ## Layer Types and Properties
 
