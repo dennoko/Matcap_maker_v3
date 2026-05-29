@@ -133,12 +133,12 @@ class MainWindow(QMainWindow):
         self.layer_toggle_btn.setChecked(True)
         self.layer_toggle_btn.toggled.connect(self.on_layer_toggle)
 
-        toggle_row = QWidget()
-        toggle_layout = QHBoxLayout(toggle_row)
+        self.layer_toggle_row = QWidget()
+        toggle_layout = QHBoxLayout(self.layer_toggle_row)
         toggle_layout.setContentsMargins(0, 0, 0, 0)
         toggle_layout.addWidget(self.layer_toggle_btn)
         toggle_layout.addStretch()
-        content_layout.addWidget(toggle_row, 0)
+        content_layout.addWidget(self.layer_toggle_row, 0)
 
         # Preview + Export (Top)
         preview_container = QWidget()
@@ -188,12 +188,12 @@ class MainWindow(QMainWindow):
             return
         ratio = self.width() / max(1, self.height())
         self._is_tablet_aspect = ratio <= self.tablet_aspect_ratio
-        visible = True if self._is_tablet_aspect else self._layer_sidebar_user_visible
+        visible = self._is_tablet_aspect or self._layer_sidebar_user_visible
         self.layer_container.setVisible(visible)
         self.layer_toggle_btn.blockSignals(True)
         self.layer_toggle_btn.setChecked(visible)
         self.layer_toggle_btn.blockSignals(False)
-        self.layer_toggle_btn.setEnabled(not self._is_tablet_aspect)
+        self.layer_toggle_row.setVisible(not self._is_tablet_aspect)
 
     def on_layer_toggle(self, checked):
         if self._is_tablet_aspect:
