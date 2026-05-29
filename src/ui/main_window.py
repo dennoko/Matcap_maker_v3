@@ -186,8 +186,8 @@ class MainWindow(QMainWindow):
     def _update_layer_sidebar_visibility(self):
         if not hasattr(self, "layer_container"):
             return
-        height_fallback = 1
-        ratio = self.width() / max(height_fallback, self.height())
+        min_height = 1
+        ratio = self.width() / max(min_height, self.height())
         self._is_tablet_aspect = ratio <= self.tablet_aspect_ratio
         # Tablet aspect ratios keep the sidebar visible for quick access.
         if self._is_tablet_aspect:
