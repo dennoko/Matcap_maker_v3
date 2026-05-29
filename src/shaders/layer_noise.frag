@@ -39,11 +39,8 @@ void main()
 {
     vec2 uv = TexCoords;
     
-    // Apply Normal Map Distortion ONLY if:
-    // 1. We have a specific Normal Map
-    // 2. We are in Comparison Mode (previewMode == 1)
-    // 3. We are drawing the Right Side (FragPos.x > 0.0)
-    if (useNormalMap && previewMode == 1 && FragPos.x > 0.0) {
+    // Apply Normal Map Distortion when enabled.
+    if (useNormalMap) {
         vec3 mappedNormal = getMappedNormal();
         uv -= mappedNormal.xy * 0.1; 
     }

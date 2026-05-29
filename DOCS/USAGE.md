@@ -10,10 +10,12 @@ This application supports both English and Japanese. You can switch languages fr
 
 The application is divided into three main areas:
 
-1.  **Preview Window (Center)**
+1.  **Preview Window (Top)**
     *   Displays a real-time rendering of your Matcap on a sphere.
     *   Use the "Export Image" button at the bottom to save the current result as an image file (PNG/JPG).
-2.  **Layer List (Left)**
+2.  **Properties Panel (Bottom)**
+    *   Adjust detailed settings for the layer selected in the list.
+3.  **Layer List (Left Sidebar)**
     *   Lists all layers currently in the project.
     *   Processing occurs from top to bottom.
     *   **Add**: Create a new layer using the "Add Layer" button.
@@ -21,8 +23,8 @@ The application is divided into three main areas:
     *   **Toggle Visibility**: Click the circular button next to each item to enable/disable the layer.
     *   **Reorder**: Drag and drop layers to change their order.
     *   **Context Menu**: Right-click on a layer to access "Duplicate" or "Delete" options.
-3.  **Properties Panel (Right)**
-    *   Adjust detailed settings for the layer selected in the list.
+    *   **Sidebar Toggle**: Use the "Layers" button to collapse/expand the sidebar.
+    *   **Tablet Aspect Ratios**: On 3:2 or 4:3 style windows, the sidebar stays visible.
 
 ## Layer Types and Properties
 
@@ -31,9 +33,7 @@ Sets the foundation color and preview settings for the Matcap.
 
 *   **Color**: Sets the base color.
 *   **Preview Options**:
-    *   **Mode**:
-        *   `Standard`: Standard sphere preview.
-        *   `With Normal Map`: Previews how the Matcap looks with a normal map applied.
+    *   **Normal Map Enabled**: Toggle normal map preview on/off (no side-by-side preview).
     *   **Normal Map**: Select a normal map image to load.
     *   **Strength/Scale/Offset**: Adjust the application of the normal map.
 

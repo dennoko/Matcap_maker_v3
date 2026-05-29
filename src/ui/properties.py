@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import (QWidget, QVBoxLayout, QLabel, QFormLayout, QComboBox)
+from PySide6.QtWidgets import (QWidget, QVBoxLayout, QLabel, QFormLayout, QComboBox, QCheckBox)
 from PySide6.QtCore import Qt, Signal
 from src.layers.base_layer import BaseLayer
 from src.layers.spot_light_layer import SpotLightLayer
@@ -81,11 +81,8 @@ class PropertiesWidget(QWidget):
             sub_form = QFormLayout()
             self.layout.addLayout(sub_form)
             
-            # Preview Mode Selector
-            modes = ["Standard", "With Normal Map"]
-            # Map old "Sphere"/"Combined" values if any? No, we reset default to "Standard".
-            # Just ensure UI sets 'preview_mode'.
-            self._add_combo_control(sub_form, tr("prop.mode"), modes, layer.preview_mode, lambda v: self._set_attr(layer, 'preview_mode', v))
+            normal_enabled = layer.preview_mode == "With Normal Map"
+            self._add_checkbox_control(sub_form, tr("prop.normal_map_enabled"), normal_enabled, lambda v: self._set_preview_mode(layer, v))
             self._add_file_picker(sub_form, tr("prop.normal_map"), layer.normal_map_path, lambda path: self._set_normal_map(layer, path))
             
             # Normal Map Tweaks
@@ -196,6 +193,11 @@ class PropertiesWidget(QWidget):
         setattr(obj, name, val)
         obj.mark_dirty()
         self.propertyChanged.emit()
+
+    def _set_preview_mode(self, layer, enabled):
+        layer.preview_mode = "With Normal Map" if enabled else "Standard"
+        layer.mark_dirty()
+        self.propertyChanged.emit()
         
     def _update_list(self, target, idx, val, layer):
         target[idx] = val
@@ -241,6 +243,12 @@ class PropertiesWidget(QWidget):
             combo.setCurrentIndex(index)
         combo.currentTextChanged.connect(callback)
         layout.addRow(label, combo)
+
+    def _add_checkbox_control(self, layout, label, checked, callback):
+        checkbox = QCheckBox()
+        checkbox.setChecked(checked)
+        checkbox.toggled.connect(callback)
+        layout.addRow(label, checkbox)
 
     def _update_whole_color(self, target_list, new_color, layer):
         # Update R, G, B in place

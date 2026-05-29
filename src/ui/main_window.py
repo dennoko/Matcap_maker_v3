@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QFrame, QFileDialog, QMessageBox, QPushButton
+from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QFrame, QFileDialog, QMessageBox, QPushButton, QToolButton
 from PySide6.QtGui import QAction, QActionGroup
 from PySide6.QtCore import Qt, QTimer
 from src.ui.preview_widget import PreviewWidget
@@ -16,6 +16,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle(tr("app.title"))
         self.resize(1200, 800)
+        self.tablet_aspect_ratio = 1.5
 
         # Menu Bar
         menubar = self.menuBar()
@@ -112,40 +113,58 @@ class MainWindow(QMainWindow):
         self.main_layout = QHBoxLayout(self.central_widget)
         self.main_layout.setContentsMargins(5, 5, 5, 5)
 
-        # 1. Preview + Export (Center/Left Area) - Stretch 1
-        center_container = QWidget()
-        center_layout = QVBoxLayout(center_container)
-        center_layout.setContentsMargins(0, 0, 0, 0)
-        
-        center_layout.addWidget(self.preview, 1) # Expand preview
-        
+        # 1. Layer Sidebar (Left)
+        self.layer_container = QFrame()
+        self.layer_container.setFixedWidth(250)
+        layer_layout = QVBoxLayout(self.layer_container)
+        layer_layout.setContentsMargins(0, 0, 0, 0)
+        layer_layout.addWidget(self.layer_list)
+        self.main_layout.addWidget(self.layer_container, 0)
+
+        # 2. Main Content (Right): Preview (Top) + Properties (Bottom)
+        content_container = QWidget()
+        content_layout = QVBoxLayout(content_container)
+        content_layout.setContentsMargins(0, 0, 0, 0)
+
+        # Sidebar Toggle (always accessible)
+        self.layer_toggle_btn = QToolButton()
+        self.layer_toggle_btn.setText(tr("ui.layers"))
+        self.layer_toggle_btn.setCheckable(True)
+        self.layer_toggle_btn.setChecked(True)
+        self.layer_toggle_btn.toggled.connect(self.on_layer_toggle)
+
+        toggle_row = QWidget()
+        toggle_layout = QHBoxLayout(toggle_row)
+        toggle_layout.setContentsMargins(0, 0, 0, 0)
+        toggle_layout.addWidget(self.layer_toggle_btn)
+        toggle_layout.addStretch()
+        content_layout.addWidget(toggle_row, 0)
+
+        # Preview + Export (Top)
+        preview_container = QWidget()
+        preview_layout = QVBoxLayout(preview_container)
+        preview_layout.setContentsMargins(0, 0, 0, 0)
+        preview_layout.addWidget(self.preview, 1)
+
         self.export_btn = QPushButton(tr("menu.file.export"))
         self.export_btn.setMinimumHeight(40) 
         self.export_btn.clicked.connect(self.export_image)
-        center_layout.addWidget(self.export_btn, 0)
-        
-        self.main_layout.addWidget(center_container, 1) # This part expands
+        preview_layout.addWidget(self.export_btn, 0)
+        content_layout.addWidget(preview_container, 3)
 
-        # 2. Layer List (Middle Area) - Fixed Width
-        layer_container = QFrame()
-        layer_container.setFixedWidth(250)
-        layer_layout = QVBoxLayout(layer_container)
-        layer_layout.setContentsMargins(0, 0, 0, 0)
-        
-        # Add a title/header for visuals (optional but consistent with Frame)
-        # layer_layout.addWidget(QLabel("Layers")) 
-        layer_layout.addWidget(self.layer_list)
-        
-        self.main_layout.addWidget(layer_container, 0) # Fixed width
-
-        # 3. Properties (Right Area) - Fixed Width
+        # Properties (Bottom)
         prop_container = QFrame()
-        prop_container.setFixedWidth(350) 
         prop_layout = QVBoxLayout(prop_container)
         prop_layout.setContentsMargins(0, 0, 0, 0)
         prop_layout.addWidget(self.properties)
-        
-        self.main_layout.addWidget(prop_container, 0) # Fixed width
+        content_layout.addWidget(prop_container, 2)
+
+        self.main_layout.addWidget(content_container, 1)
+
+        # Sidebar state
+        self._layer_sidebar_user_visible = True
+        self._is_tablet_aspect = False
+        self._update_layer_sidebar_visibility()
 
         # Update Logic (Event Driven)
         self.properties.propertyChanged.connect(self.request_render)
@@ -159,6 +178,28 @@ class MainWindow(QMainWindow):
         
     def request_render(self):
         self.preview.update()
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self._update_layer_sidebar_visibility()
+
+    def _update_layer_sidebar_visibility(self):
+        if not hasattr(self, "layer_container"):
+            return
+        ratio = self.width() / max(1, self.height())
+        self._is_tablet_aspect = ratio <= self.tablet_aspect_ratio
+        visible = True if self._is_tablet_aspect else self._layer_sidebar_user_visible
+        self.layer_container.setVisible(visible)
+        self.layer_toggle_btn.blockSignals(True)
+        self.layer_toggle_btn.setChecked(visible)
+        self.layer_toggle_btn.blockSignals(False)
+        self.layer_toggle_btn.setEnabled(not self._is_tablet_aspect)
+
+    def on_layer_toggle(self, checked):
+        if self._is_tablet_aspect:
+            return
+        self._layer_sidebar_user_visible = checked
+        self._update_layer_sidebar_visibility()
 
     def set_language(self, code):
         s = Settings()

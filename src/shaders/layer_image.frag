@@ -25,7 +25,7 @@ uniform vec2 normalOffset;
 #define PI 3.14159265359
 
 vec3 getNormal() {
-    if (useNormalMap && FragPos.x > 0.0) {
+    if (useNormalMap) {
         vec2 uv = TexCoords * normalScale + normalOffset;
         vec3 normal = texture(normalMap, uv).rgb;
         normal = normal * 2.0 - 1.0;
@@ -51,7 +51,7 @@ void main()
     // 1. Determine which Mapping Logic to use
     // ---------------------------------------------------------
     
-    bool isRightSidePreview = (previewMode == 1) && (FragPos.x > 0.0);
+    bool isNormalPreview = useNormalMap;
     
     if (mappingMode == 0) {
         // --- UV (Wrapped) ---
@@ -99,23 +99,20 @@ void main()
     } else {
         // --- Planar (Screen Space / Matcap) ---
         
-        if (isRightSidePreview) {
-            // [RIGHT SIDE PREVIEW - PLANAR MODE]
+        if (isNormalPreview) {
+            // [NORMAL MAP PREVIEW - PLANAR MODE]
             // If we are in Planar mode, the user likely wants to see how this Matcap looks 
             // on the sphere (Spherical Mapping driven by Normal).
             vec3 n = getNormal(); // Includes Normal Map distortion
             uv = n.xy * 0.5 + 0.5;
         } else {
-            // [LEFT SIDE GENERATOR - PLANAR MODE]
+            // [STANDARD GENERATOR - PLANAR MODE]
             // Standard Screen Space mapping for creating the Matcap.
-             float centerX = (previewMode == 1) ? -0.5 : 0.0;
-            vec2 centerInfo = vec2(centerX, 0.0);
+            vec2 centerInfo = vec2(0.0, 0.0);
             vec2 pos = FragPos.xy - centerInfo;
             
             // Normalize based on Radius
-            // Preview Mode 1 (Comparison) -> Radius 0.45
-            // Preview Mode 0 (Standard)   -> Radius 1.0
-            float radius = (previewMode == 1) ? 0.45 : 1.0;
+            float radius = 1.0;
             uv = (pos / radius) * 0.5 + 0.5;
         }
     }

@@ -19,7 +19,7 @@ uniform float normalScale;
 uniform vec2 normalOffset;
 
 vec3 getNormal() {
-    if (useNormalMap && FragPos.x > 0.0) {
+    if (useNormalMap) {
         vec2 uv = TexCoords * normalScale + normalOffset;
         vec3 normal = texture(normalMap, uv).rgb;
         normal = normal * 2.0 - 1.0;
