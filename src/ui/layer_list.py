@@ -1,6 +1,5 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QListWidget, QListWidgetItem, QPushButton, QHBoxLayout, QMenu, QLabel, QToolButton
-from PySide6.QtGui import QIcon, QAction
-from PySide6.QtCore import Qt, Signal, QSize, QTimer
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QListWidget, QListWidgetItem, QPushButton, QHBoxLayout, QMenu, QLabel
+from PySide6.QtCore import Qt, Signal, QTimer
 from src.core.i18n import tr
 from src.core.layer_serializer import LayerSerializer
 
@@ -66,9 +65,7 @@ class LayerItemWidget(QWidget):
             self.update_color_style()
         
         layout.addStretch()
-        
-        layout.addStretch()
-        
+
         # Handle Icon for Dragging (Visual only, D&D starts anywhere but handle implies it)
         self.handle_label = QLabel("≡")
         self.handle_label.setStyleSheet("font-size: 16px; color: #888; font-weight: bold;")
@@ -169,6 +166,8 @@ class LayerListWidget(QWidget):
         self.list_widget = ReorderableListWidget()
         self.list_widget.currentRowChanged.connect(self.on_selection_changed)
         self.list_widget.reorder_completed.connect(self.on_reorder_completed)
+        self.list_widget.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.list_widget.customContextMenuRequested.connect(self.show_context_menu)
         self.layout.addWidget(self.list_widget)
         
         # Buttons
@@ -254,10 +253,6 @@ class LayerListWidget(QWidget):
 
         self.list_widget.blockSignals(False)
         self.list_widget.update() # Force redraw
-             
-        # Set Context Menu Policy
-        self.list_widget.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.list_widget.customContextMenuRequested.connect(self.show_context_menu)
 
     def show_context_menu(self, pos):
         item = self.list_widget.itemAt(pos)

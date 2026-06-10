@@ -3,7 +3,6 @@ from PySide6.QtCore import Qt, Signal
 from src.layers.base_layer import BaseLayer
 from src.layers.spot_light_layer import SpotLightLayer
 from src.layers.fresnel_layer import FresnelLayer
-from src.layers.spot_light_layer import SpotLightLayer
 from src.layers.noise_layer import NoiseLayer
 from src.layers.image_layer import ImageLayer
 from src.layers.adjustment_layer import AdjustmentLayer
@@ -97,7 +96,8 @@ class PropertiesWidget(QWidget):
         else:
             # Common properties for all effect layers
             self._add_blend_mode_control(form, layer)
-            
+            self._add_float_control(form, tr("prop.opacity"), layer.opacity, 0.0, 1.0, lambda v: self._set_attr(layer, 'opacity', v))
+
             if isinstance(layer, SpotLightLayer):
                 self._add_float_control(form, tr("prop.intensity"), layer.intensity, 0.0, 5.0, lambda v: self._set_attr(layer, 'intensity', v))
                 self._add_float_control(form, tr("prop.range"), layer.range, 0.0, 1.0, lambda v: self._set_attr(layer, 'range', v))
@@ -127,8 +127,7 @@ class PropertiesWidget(QWidget):
                 self._add_float_control(form, tr("prop.scale"), layer.scale, 0.1, 5.0, lambda v: self._set_attr(layer, 'scale', v))
                 self._add_float_control(form, tr("prop.rotation"), layer.rotation, 0.0, 360.0, lambda v: self._set_attr(layer, 'rotation', v))
                 self._add_float_control(form, tr("prop.blur"), layer.blur, 0.0, 1.0, lambda v: self._set_attr(layer, 'blur', v))
-                self._add_float_control(form, tr("prop.opacity"), layer.opacity, 0.0, 1.0, lambda v: self._set_attr(layer, 'opacity', v))
-                
+
             elif isinstance(layer, AdjustmentLayer):
                 self._add_float_control(form, tr("prop.hue"), layer.hue, -0.5, 0.5, lambda v: self._set_attr(layer, 'hue', v))
                 self._add_float_control(form, tr("prop.saturation"), layer.saturation, 0.0, 2.0, lambda v: self._set_attr(layer, 'saturation', v))
@@ -202,13 +201,6 @@ class PropertiesWidget(QWidget):
         layer.mark_dirty()
         self.propertyChanged.emit()
         
-    def _set_image_path(self, layer, path):
-        layer.image_path = path
-        # Trigger reload immediately if possible, but layer handles logic in render loop or we can explicit call
-        layer.load_texture(path)
-        layer.mark_dirty()
-        self.propertyChanged.emit()
-
     def _set_normal_map(self, layer, path):
          layer.normal_map_path = path
          # No immediate reload method on BaseLayer yet, logic will be handled in PreviewWidget

@@ -1,6 +1,4 @@
 from OpenGL.GL import *
-from OpenGL.GL import shaders
-import numpy as np
 from PIL import Image
 from src.layers.interface import LayerInterface
 
@@ -8,45 +6,36 @@ class ImageLayer(LayerInterface):
     def __init__(self):
         super().__init__()
         self.name = "Image Layer"
-        self.blend_mode = "Normal" # Default to Normal for decals/textures
-        self.opacity = 1.0 # Add explicit opacity (handled by base/blend func usually, but good to have)
-        
-        self.shader_program = None
-        self.VAO = None
-        self.index_count = 0
+        self.blend_mode = "Add" # Default Add per user request
         self.texture_id = None
-        
+
         # Params
         self.image_path = ""
         self.mapping_mode = "UV" # "UV", "Planar" ("Spherical" omitted)
-        self.blend_mode = "Add" # Default changed from Normal to Add per user request
         self.scale = 1.0
         self.rotation = 0.0 # Degrees
         self.offset = [0.0, 0.0] # [x, y]
         self.aspect_ratio = 1.0 # width / height
         self.blur = 0.0 # Blur amount 0.0 - 1.0
-        
+
         # Internal state
         self._texture_loaded_path = None # To track reloading necessity
-        
+
     def initialize(self):
-        # Vertex Shader
-        # Vertex Shader (Load shared base shader with TBN support)
+        # Shared base vertex shader with TBN support
         from src.core.resource_manager import ResourceManager
         self.shader_program = ResourceManager().get_shader("src/shaders/layer_base.vert", "src/shaders/layer_image.frag")
-
-
-        # Geometry
         self._setup_geometry()
-        
+
         # Load Texture if needed
         if self.image_path:
             self.load_texture(self.image_path)
-            
+
     def load_texture(self, path):
+        """Load the image texture. Requires a current GL context."""
         if not path:
             return
-            
+
         try:
             # Get Aspect Ratio (Read only header)
             with Image.open(path) as img:
@@ -56,11 +45,11 @@ class ImageLayer(LayerInterface):
             # Get Texture ID from Manager
             from src.core.resource_manager import ResourceManager
             self.texture_id = ResourceManager().get_texture(path)
-            
+
             self.image_path = path
             self._texture_loaded_path = path
             print(f"Texture loaded: {path}")
-            
+
         except Exception as e:
             print(f"Failed to load texture {path}: {e}")
 
@@ -68,48 +57,31 @@ class ImageLayer(LayerInterface):
         if not self.shader_program or not self.enabled:
             return
 
-        # Check if we need to load/reload texture BEFORE checking texture_id
+        # Lazy (re)load: image_path may have been changed from the UI where
+        # no GL context is current.
         if self.image_path and self.image_path != self._texture_loaded_path:
             self.load_texture(self.image_path)
-        
-        # Now check if texture exists
+
         if not self.texture_id:
             return
 
-        self.setup_blend_func() 
-        glDepthFunc(GL_LEQUAL)
-        glDepthMask(GL_FALSE)
-        
         glUseProgram(self.shader_program)
-        
+
         glActiveTexture(GL_TEXTURE0)
         glBindTexture(GL_TEXTURE_2D, self.texture_id)
-        glUniform1i(glGetUniformLocation(self.shader_program, "imageTexture"), 0)
-        
-        if self.mapping_mode == "UV":
-            mode_int = 0
-        else:  # Planar
-            mode_int = 1
-            
-        glUniform1i(glGetUniformLocation(self.shader_program, "mappingMode"), mode_int)
-        
-        glUniform1f(glGetUniformLocation(self.shader_program, "scale"), self.scale)
-        glUniform1f(glGetUniformLocation(self.shader_program, "rotation"), self.rotation)
-        glUniform2f(glGetUniformLocation(self.shader_program, "offset"), *self.offset)
-        glUniform1f(glGetUniformLocation(self.shader_program, "opacity"), self.opacity)
-        glUniform1f(glGetUniformLocation(self.shader_program, "blur"), self.blur)
-        
-        # Pass Aspect Ratio
-        glUniform1f(glGetUniformLocation(self.shader_program, "aspectRatio"), self.aspect_ratio)
+        glUniform1i(self._uloc("imageTexture"), 0)
+
+        mode_int = 0 if self.mapping_mode == "UV" else 1  # 1 = Planar
+        glUniform1i(self._uloc("mappingMode"), mode_int)
+
+        # The shader divides UV by scale; avoid 0 (NaN UVs)
+        safe_scale = self.scale if abs(self.scale) > 1e-4 else 1e-4
+        glUniform1f(self._uloc("scale"), safe_scale)
+        glUniform1f(self._uloc("rotation"), self.rotation)
+        glUniform2f(self._uloc("offset"), *self.offset)
+        glUniform1f(self._uloc("blur"), self.blur)
+        glUniform1f(self._uloc("aspectRatio"), self.aspect_ratio)
 
         glBindVertexArray(self.VAO)
         glDrawElements(GL_TRIANGLES, self.index_count, GL_UNSIGNED_INT, None)
         glBindVertexArray(0)
-        
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-        glDepthFunc(GL_LESS)
-        glDepthMask(GL_TRUE)
-
-
-
-

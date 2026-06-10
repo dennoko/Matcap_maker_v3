@@ -9,6 +9,7 @@ Matcap Maker v3 — a layer-based Matcap texture generator. Desktop GUI app buil
 ## Commands
 
 ```powershell
+# Project venv lives at .venv (use .venv\Scripts\python.exe if python isn't on PATH)
 # Install dependencies (uv recommended, plain pip also works)
 uv pip install -r requirements.txt
 
@@ -20,6 +21,10 @@ python build_exe.py
 
 # Unit tests (unittest, no pytest config)
 python -m unittest tests.test_io
+
+# GL/UI verification scripts (open a real window briefly)
+python tests\verify_refactor.py   # full pipeline checks on a live GL context
+python tests\smoke_ui.py          # MainWindow + properties panel smoke test
 ```
 
 Other files in `tests/` (`test_render.py`, `verify_*.py`, `repro_export.py`) are ad-hoc verification scripts, not a test suite. They open a real Qt/OpenGL window, render headlessly, and write a PNG — run individually with `python tests/test_render.py` on a machine with a display.
@@ -32,7 +37,7 @@ Data flow: **UI (`src/ui/`) → Engine (`src/core/engine.py`) → Compositor (`s
 
 ### Rendering pipeline
 
-The Compositor uses **ping-pong FBOs**: each enabled layer renders itself into a temporary FBO, then `blend.frag` composites it onto the accumulator (swapping ping/pong each step). Complex blend modes (Overlay, Soft Light, etc.) are implemented as math in `blend.frag` (programmable blending), not `glBlendFunc`. Shaders assume **premultiplied alpha**. Layers carry a dirty flag (`mark_dirty()`) to trigger re-render; UI param widgets must call it after changing a layer attribute.
+The Compositor uses **ping-pong FBOs**: each enabled layer renders itself into a temporary FBO, then `blend.frag` composites it onto the accumulator (swapping ping/pong each step). All blend modes are implemented as math in `blend.frag` (programmable blending), not `glBlendFunc`; the accumulator stores **straight (un-premultiplied) alpha**. GL state (blend off, depth off, back-face culling) is set once by the Compositor — layer `render()` methods only set uniforms and draw. Layers whose class attribute `is_post_process = True` (e.g. AdjustmentLayer) are instead fed the accumulated texture on a full-screen quad. Layer opacity is applied centrally in the blend/post-process pass via `uOpacity`. Layers carry a dirty flag (`mark_dirty()`) to trigger re-render; UI param widgets must call it after changing a layer attribute. Anything needing a GL context (texture creation, geometry upload) must run during a render pass or inside `makeCurrent()` — UI callbacks defer such work to the next `render()` (see NoiseLayer.regenerate, ImageLayer lazy texture load).
 
 ### Layer system (the main extension point)
 
@@ -59,4 +64,4 @@ All file access to `res/`, `src/shaders/`, `LICENSE/` must go through `get_resou
 
 ### Export padding
 
-PNG export applies texture dilation (edge padding) to prevent UV seam bleeding — an iterative NumPy neighbor-fill, documented in `DOCS/technical_manual/05_export_padding.md`. Keep it vectorized; per-pixel Python loops are too slow at 2K/4K.
+PNG export applies texture dilation (edge padding) to prevent UV seam bleeding — an iterative NumPy neighbor-fill in `src/core/export_padding.py` (`dilate` + `fill_background`), documented in `DOCS/technical_manual/05_export_padding.md`. Keep it vectorized; per-pixel Python loops are too slow at 2K/4K.
