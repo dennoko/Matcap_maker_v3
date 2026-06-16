@@ -10,7 +10,6 @@ uniform int mappingMode; // 0=UV, 1=Planar
 uniform float scale;
 uniform float rotation;
 uniform vec2 offset;
-uniform float opacity;
 uniform float aspectRatio; // Image Aspect Ratio (w/h)
 uniform float blur;
 
@@ -196,6 +195,6 @@ void main()
     
     // Check Bounds for Planar? (Clamp to border?)
     // GL_REPEAT is set in load_texture, so it repeats.
-    
-    FragColor = vec4(texColor.rgb, texColor.a * opacity);
+    // Layer opacity is applied by the blend pass (blend.frag).
+    FragColor = texColor;
 }

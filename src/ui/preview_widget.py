@@ -3,11 +3,12 @@ from PySide6.QtCore import Qt, QTimer
 from OpenGL.GL import *
 from OpenGL.GL import shaders
 import numpy as np
+import ctypes
 
 from src.core.engine import Engine
 from src.core.layer_stack import LayerStack
+from src.core import export_padding
 from src.layers.base_layer import BaseLayer
-from src.layers.blend_layer import BlendLayer
 from src.core.settings import Settings
 from src.core.geometry import GeometryEngine
 from PIL import Image
@@ -223,22 +224,21 @@ class PreviewWidget(QOpenGLWidget):
 
         # Check for uninitialized layers (e.g. newly duplicated)
         for layer in self.layer_stack:
-            if not hasattr(layer, 'shader_program') or layer.shader_program is None:
+            if layer.shader_program is None:
                 try:
                     # We are in PaintGL, so Context is Active
                     layer.initialize()
-                    # Also sync geometry
-                    layer.update_geometry(*GeometryEngine.generate_sphere() if self.current_shape_name=="Standard" else GeometryEngine.generate_comparison_spheres())
+                    # Also sync geometry with the current preview shape
+                    if self.current_shape_name == "Standard":
+                        layer.update_geometry(*GeometryEngine.generate_sphere())
+                    else:
+                        layer.update_geometry(*GeometryEngine.generate_comparison_spheres())
                 except Exception as e:
                     print(f"Error lazy-initializing layer {layer.name}: {e}")
 
         # 1. Render Layers to FBO via Engine
-        # print("Render Stack") 
         self.engine.render(self.layer_stack)
-        
-        # 2. Render FBO Texture to Screen
-        # Restore the widget's FBO
-        glBindFramebuffer(GL_FRAMEBUFFER, default_fbo)
+
         # 2. Render FBO Texture to Screen
         # Restore the widget's FBO
         glBindFramebuffer(GL_FRAMEBUFFER, default_fbo)
@@ -358,152 +358,31 @@ class PreviewWidget(QOpenGLWidget):
             image = self.engine.render_offscreen(res, res, self.layer_stack, preview_mode_override=0, force_no_normal=True)
             
             # 4. Apply Padding (Edge Extension) if requested
-            padding = pad
-            if padding > 0 and image and not image.isNull():
-                print(f"Applying padding: {padding}px")
+            if pad > 0 and image and not image.isNull():
+                print(f"Applying padding: {pad}px")
                 try:
-                    # Convert to Numpy
-                    # QImage to bytes
                     if image.format() != QImage.Format.Format_RGBA8888:
                         image = image.convertToFormat(QImage.Format.Format_RGBA8888)
-                        
+
                     width = image.width()
                     height = image.height()
-                    ptr = image.constBits()
-                    
-                    # Use np.frombuffer with the pointer
-                    # Note: constBits returns a memoryview-compatible object in PySide6?
-                    # Or we need to be careful about the size.
-                    # bytesPerLine * height is the total size.
-                    
                     bpl = image.bytesPerLine()
-                    total_bytes = bpl * height
-                    
-                    # Create array from buffer
-                    # We assume tight packing for simple reshaping, but if bpl != w*4, we have padding.
-                    arr_raw = np.frombuffer(ptr, dtype=np.uint8, count=total_bytes)
-                    
-                    # Reshape including potential stride padding
-                    # Shape: (Height, BytesPerLine)
-                    # Then slice to (Height, Width * 4)
-                    arr_strided = arr_raw.reshape(height, bpl)
-                    
-                    # Extract valid data (first w*4 bytes of each line)
-                    # Shape (Height, Width, 4)
-                    arr = arr_strided[:, :width*4].reshape(height, width, 4)
-                    
-                    print(f"Numpy Array Shape: {arr.shape}")
-                    
-                    # Algorithm: Iterative Dilation
-                    # For N steps:
-                    #   Find edge pixels (alpha=0 but neighbor alpha>0)
-                    #   Fill with neighbor color
-                    
-                    # To avoid complex loops in Python, use checking shifts.
-                    # We want to fill transparent pixels with data from non-transparent neighbors.
-                    
-                    current_img = arr.copy()
-                    
-                    for _ in range(padding):
-                        # Mask of VALID pixels (Alpha > 0)
-                        mask = current_img[:, :, 3] > 0
-                        
-                        # We want pixels that represent HOLES (Alpha == 0)
-                        holes = ~mask
-                        
-                        # Prepare an accumulator for new colors to fill holes
-                        # We will average available neighbors? Or just take one (max)?
-                        # Max is dangerous for colors.
-                        # Simple directional smear:
-                        # For each of 8 directions, if neighbor is valid, copy it.
-                        
-                        # We can do this efficiently by shifting the image.
-                        # If pixel is hole, take pixel from shift.
-                        
-                        # Priority: Up, Down, Left, Right ...
-                        
-                        shifts = [
-                            (-1, 0), (1, 0), (0, -1), (0, 1), # Cardinal
-                            (-1, -1), (-1, 1), (1, -1), (1, 1) # Diagonal
-                        ]
-                        
-                        mixed_color = np.zeros_like(current_img, dtype=np.float32)
-                        # Count must match mixed_color dimensions for easy division, or manage broadcasting
-                        # Let's use (H, W, 1) for count
-                        count = np.zeros((height, width, 1), dtype=np.float32)
-                        
-                        for dy, dx in shifts:
-                            # Shifted image (rolled)
-                            # Note: np.roll wraps around, which is bad. We need slice.
-                            # Use slicing to shift.
-                            
-                            rolled = np.zeros_like(current_img)
-                            
-                            # Source slices
-                            sy_start = max(0, -dy)
-                            sy_end = min(height, height - dy)
-                            sx_start = max(0, -dx)
-                            sx_end = min(width, width - dx)
-                            
-                            # Dest slices
-                            dy_start = max(0, dy)
-                            dy_end = min(height, height + dy)
-                            dx_start = max(0, dx)
-                            dx_end = min(width, width + dx)
-                            
-                            rolled[dy_start:dy_end, dx_start:dx_end] = current_img[sy_start:sy_end, sx_start:sx_end]
-                            
-                            # Mask of rolled
-                            rolled_mask = rolled[:, :, 3] > 0
-                            
-                            # Where current is hole AND rolled is valid -> candidate
-                            fill_candidate = holes & rolled_mask
-                            
-                            # Accumulate
-                            # mixed_color[mask] returns (N, 4)
-                            mixed_color[fill_candidate] += rolled[fill_candidate]
-                            
-                            # count is (H, W, 1). count[mask] returns (N, 1)
-                            count[fill_candidate] += 1 
-                            
-                        # Normalize average
-                        # valid_fills is mask where count > 0
-                        valid_fills = count[:, :, 0] > 0
-                        
-                        # Divide
-                        # mixed_color[valid_fills] is (N, 4)
-                        # count[valid_fills] is (N, 1)
-                        # Broadcasting works: (N, 4) / (N, 1) -> (N, 4)
-                        mixed_color[valid_fills] /= count[valid_fills] 
-                        
-                        # Update current_img where we have valid fills
-                        # Convert back to uint8
-                        fill_values = mixed_color.astype(np.uint8)
-                        
-                        current_img[valid_fills] = fill_values[valid_fills]
-                        # Explicitly set alpha to 0 for filled pixels?
-                        # No, the user WANTS extended color.
-                        # But Matcap usage usually relies on Alpha masking to apply to sphere only?
-                        pass
-                        
-                    # 5. Fill remaining transparent area with Black (Background)
-                    # User requested: "Fill transparent part around generated image with black"
-                    # This refers to the area OUTSIDE the padding.
-                    
-                    final_mask = current_img[:, :, 3] == 0
-                    current_img[final_mask] = [0, 0, 0, 255]
-                    
-                    # Convert back to QImage
-                    # Ref: https://doc.qt.io/qtforpython/PySide6/QtGui/QImage.html
-                    # Must ensure data controls life cycle or copy
-                    
-                    # current_img is H, W, 4
-                    current_img = current_img.copy() # Ensure contiguous
-                    h, w, c = current_img.shape
-                    new_qimage = QImage(current_img.data, w, h, w * 4, QImage.Format.Format_RGBA8888).copy()
-                    image = new_qimage
+
+                    # View the QImage buffer as (H, W, 4), dropping per-line
+                    # stride padding if bytesPerLine != width * 4.
+                    arr_raw = np.frombuffer(image.constBits(), dtype=np.uint8, count=bpl * height)
+                    arr = arr_raw.reshape(height, bpl)[:, :width * 4].reshape(height, width, 4)
+
+                    # Dilate edges, then fill the remaining transparent
+                    # background with opaque black.
+                    result = export_padding.dilate(arr, pad)
+                    export_padding.fill_background(result)
+
+                    result = np.ascontiguousarray(result)
+                    image = QImage(result.data, width, height, width * 4,
+                                   QImage.Format.Format_RGBA8888).copy()
                     print("Padding applied successfully.")
-                    
+
                 except Exception as e:
                     print(f"Padding failed: {e}")
                     import traceback

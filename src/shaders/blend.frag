@@ -80,27 +80,28 @@ vec3 applyBlend(vec3 b, vec3 f, int mode) {
 void main() {
     vec4 fColor = texture(uSrc, TexCoords);
     vec4 bColor = texture(uDst, TexCoords);
-    
+
     // Layer Opacity can be applied to src alpha
     float srcAlpha = fColor.a * uOpacity;
-    
+
     // If src is fully transparent, result is background
     if (srcAlpha <= 0.0) {
         FragColor = bColor;
         return;
     }
-    
-    // Calculate Blended Color (treating both as opaque color for blending math usually)
-    // But we need to handle Alpha Compositing carefully.
-    // Standard formula: Out = Blend(B, S) * a + B * (1-a)
-    
+
+    // Blend modes only apply where the backdrop exists; over transparent
+    // areas the source color passes through unchanged (PDF/Photoshop model).
     vec3 blendedRGB = applyBlend(bColor.rgb, fColor.rgb, uMode);
-    
-    // Create final alpha (Union of alphas)
+    vec3 srcRGB = mix(fColor.rgb, blendedRGB, bColor.a);
+
+    // Union of alphas
     float outAlpha = srcAlpha + bColor.a * (1.0 - srcAlpha);
-    
-    // Interpolate between Background and Blended Result based on Source Alpha
-    vec3 finalRGB = mix(bColor.rgb, blendedRGB, srcAlpha);
-    
+
+    // Straight-alpha "over" compositing. Dividing by outAlpha keeps the
+    // accumulator un-premultiplied, so semi-transparent edge pixels don't
+    // darken toward the (black) clear color. outAlpha >= srcAlpha > 0 here.
+    vec3 finalRGB = (srcRGB * srcAlpha + bColor.rgb * bColor.a * (1.0 - srcAlpha)) / outAlpha;
+
     FragColor = vec4(finalRGB, outAlpha);
 }

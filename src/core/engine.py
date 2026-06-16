@@ -79,15 +79,14 @@ class Engine:
             
         # Render
         temp_comp.render(layer_stack, ctx)
-        
+
         # Get Image
         if temp_comp.final_fbo:
             img = temp_comp.final_fbo.toImage()
         else:
             img = None # Should not happen
-        
-        # Cleanup
-        # Explicit deletion might help with FBO release
-        del temp_comp
-        
+
+        # Release the temporary GL resources (VAO/VBO/FBOs)
+        temp_comp.cleanup()
+
         return img

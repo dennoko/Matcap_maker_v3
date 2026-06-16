@@ -9,6 +9,7 @@ uniform float uHue;        // -0.5 to 0.5 (shifts around circle)
 uniform float uSaturation; // 0.0 to 2.0 (1.0 = normal)
 uniform float uBrightness; // -1.0 to 1.0 (0.0 = normal)
 uniform float uContrast;   // 0.0 to 2.0 (1.0 = normal)
+uniform float uOpacity;    // 0.0 to 1.0 blend with the unadjusted input
 
 // RGB to HSV conversion
 vec3 rgb2hsv(vec3 c) {
@@ -52,6 +53,9 @@ void main() {
     // 3. Contrast
     // Interpolate around 0.5 (gray)
     rgb = (rgb - 0.5) * uContrast + 0.5;
+
+    // Layer opacity = strength of the adjustment
+    rgb = mix(color.rgb, rgb, clamp(uOpacity, 0.0, 1.0));
 
     FragColor = vec4(rgb, color.a);
 }
