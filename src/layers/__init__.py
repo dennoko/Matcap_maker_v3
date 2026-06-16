@@ -6,6 +6,7 @@ from src.layers.noise_layer import NoiseLayer
 from src.layers.image_layer import ImageLayer
 from src.layers.adjustment_layer import AdjustmentLayer
 from src.layers.gradient_layer import GradientLayer
+from src.layers.blur_sharpen_layer import BlurSharpenLayer
 
 # Explicitly register layers here.
 # In a more advanced setup, this could be done via decorators or auto-discovery,
@@ -18,3 +19,4 @@ LayerRegistry.register(NoiseLayer)
 LayerRegistry.register(ImageLayer)
 LayerRegistry.register(AdjustmentLayer)
 LayerRegistry.register(GradientLayer)
+LayerRegistry.register(BlurSharpenLayer)

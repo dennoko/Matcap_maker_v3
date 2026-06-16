@@ -8,6 +8,7 @@ in mat3 TBN;
 uniform sampler2D imageTexture;
 uniform int mappingMode; // 0=UV, 1=Planar
 uniform float scale;
+uniform vec2 scaleXY; // Per-axis multipliers on top of `scale`
 uniform float rotation;
 uniform vec2 offset;
 uniform float aspectRatio; // Image Aspect Ratio (w/h)
@@ -142,8 +143,9 @@ void main()
     // Rotation
     uv = rotateUV(uv, radians(rotation));
     
-    // Scale
-    uv = uv / scale;
+    // Scale (overall * per-axis)
+    uv.x /= scale * scaleXY.x;
+    uv.y /= scale * scaleXY.y;
     
     // Offset (Applied after scale/rot? Or before? User usually expects "Move image")
     // If we move AFTER scaling/aspect, "Offset" unit depends on scale/aspect.
@@ -168,29 +170,39 @@ void main()
     // ---------------------------------------------------------
     
     vec4 texColor = vec4(0.0);
-    
-    // Simple Blur Implementation
+
     if (blur <= 0.001) {
         texColor = texture(imageTexture, uv);
     } else {
-        // 5x5 Kernel for smoother blur (25 taps)
-        // Or 3x3 (9 taps) is faster but blocky for large blur.
-        // Let's try 5x5 with step 1.0
-        
+        // Gaussian blur in the image's own texel space. Two tricks keep it
+        // smooth and artifact-free regardless of blur amount:
+        //  1) Tap spacing scales with the radius (in texels), so taps never
+        //     spread into the sparse ghosting the old fixed kernel produced.
+        //  2) Each tap reads a mip level matched to that spacing (textureLod),
+        //     so it is pre-filtered and the gaps between taps don't alias.
+        // Premultiplied alpha avoids dark halos bleeding from transparent texels.
+        ivec2 ts = textureSize(imageTexture, 0);
+        vec2 texel = 1.0 / vec2(ts);
+        float maxDim = float(max(ts.x, ts.y));
+
+        const int K = 3;                              // 7x7 taps
+        float radiusTexels = blur * maxDim * 0.04;    // up to ~4% of the image
+        float spacing = max(radiusTexels / float(K), 1.0);
+        float sigma = max(radiusTexels * 0.5, 1e-3);
+        float lod = max(0.0, log2(spacing));
+
         float totalWeight = 0.0;
-        float radius = blur * 0.02; // Max radius ~2% of texture size
-        
-        for (float x = -2.0; x <= 2.0; x += 1.0) {
-            for (float y = -2.0; y <= 2.0; y += 1.0) {
-                vec2 offset = vec2(x, y) * radius * 0.5; // *0.5 to keep range similar
-                float dist = length(vec2(x, y));
-                float weight = exp(-(dist * dist) / 2.0); // Gaussian-like weight
-                
-                texColor += texture(imageTexture, uv + offset) * weight;
+        for (int x = -K; x <= K; x++) {
+            for (int y = -K; y <= K; y++) {
+                vec2 o = vec2(float(x), float(y)) * spacing;
+                float weight = exp(-dot(o, o) / (2.0 * sigma * sigma));
+                vec4 c = textureLod(imageTexture, uv + o * texel, lod);
+                texColor += vec4(c.rgb * c.a, c.a) * weight;  // premultiply
                 totalWeight += weight;
             }
         }
         texColor /= totalWeight;
+        texColor.rgb = (texColor.a > 1e-5) ? texColor.rgb / texColor.a : vec3(0.0);
     }
     
     // Check Bounds for Planar? (Clamp to border?)

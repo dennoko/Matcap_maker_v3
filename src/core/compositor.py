@@ -205,21 +205,52 @@ class Compositor:
         next_fbo.release()
 
     def _render_post_process(self, layer, current_fbo, next_fbo):
-        """Run a full-screen post-process layer over the accumulated result."""
-        next_fbo.bind()
+        """Run a full-screen post-process layer over the accumulated result.
+
+        Layers may declare ``num_passes = 2`` (e.g. separable Gaussian blur).
+        For the 2-pass case we reuse ``fbo_layer`` (idle during post-process)
+        as the intermediate buffer: pass 0 reads the accumulated result and
+        writes the intermediate; pass 1 reads the intermediate (unit 0) plus
+        the untouched original (unit 1, ``uOriginal``) and writes ``next_fbo``.
+        ``uPass`` tells the shader which axis/stage to run.
+        """
+        prog = layer.shader_program
+        passes = getattr(layer, "num_passes", 1)
+
+        if passes <= 1:
+            self._run_post_pass(layer, prog, current_fbo, next_fbo,
+                                pass_index=0, original_fbo=None)
+            return
+
+        # Pass 0: accumulated result -> fbo_layer (intermediate)
+        self._run_post_pass(layer, prog, current_fbo, self.fbo_layer,
+                            pass_index=0, original_fbo=None)
+        # Pass 1: intermediate -> next_fbo, with original on unit 1
+        self._run_post_pass(layer, prog, self.fbo_layer, next_fbo,
+                            pass_index=1, original_fbo=current_fbo)
+
+    def _run_post_pass(self, layer, prog, src_fbo, dst_fbo, pass_index, original_fbo):
+        """Execute one full-screen pass of a post-process layer."""
+        dst_fbo.bind()
         glClearColor(0.0, 0.0, 0.0, 0.0)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
-        prog = layer.shader_program
         glUseProgram(prog)
 
         glActiveTexture(GL_TEXTURE0)
-        glBindTexture(GL_TEXTURE_2D, current_fbo.texture())
+        glBindTexture(GL_TEXTURE_2D, src_fbo.texture())
+
+        if original_fbo is not None:
+            glActiveTexture(GL_TEXTURE1)
+            glBindTexture(GL_TEXTURE_2D, original_fbo.texture())
+            glUniform1i(self._uloc(prog, "uOriginal"), 1)
+
         glUniform1f(self._uloc(prog, "uOpacity"), layer.opacity)
+        glUniform1i(self._uloc(prog, "uPass"), pass_index)
 
         layer.render()  # sets the layer's own uniforms (incl. uTexture = 0)
         self._draw_quad()
-        next_fbo.release()
+        dst_fbo.release()
 
     # ------------------------------------------------------------------
     # Helpers

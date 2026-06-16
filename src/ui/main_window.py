@@ -305,7 +305,8 @@ class MainWindow(QMainWindow):
                 "noise": "NoiseLayer",
                 "image": "ImageLayer",
                 "adjustment": "AdjustmentLayer",
-                "gradient": "GradientLayer"
+                "gradient": "GradientLayer",
+                "blursharpen": "BlurSharpenLayer"
             }
             
             layer_class_name = type_map.get(layer_type)

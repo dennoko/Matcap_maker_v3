@@ -7,6 +7,7 @@ from src.layers.noise_layer import NoiseLayer
 from src.layers.image_layer import ImageLayer
 from src.layers.adjustment_layer import AdjustmentLayer
 from src.layers.gradient_layer import GradientLayer
+from src.layers.blur_sharpen_layer import BlurSharpenLayer
 from src.ui.params import FloatSlider, ColorPicker
 from src.ui.gradient_editor import GradientEditorWidget
 
@@ -25,6 +26,7 @@ def get_translated_name(name):
         "Adjustment Layer": "layer.type.adjustment",
         "Color Adjustment": "layer.type.adjustment",
         "Gradient": "layer.type.gradient",
+        "Blur / Sharpen": "layer.type.blursharpen",
     }
     key = map_.get(name)
     if key:
@@ -125,6 +127,8 @@ class PropertiesWidget(QWidget):
                 self._add_float_control(form, tr("prop.offset_x"), layer.offset[0], -1.0, 1.0, lambda v: self._update_list(layer.offset, 0, v, layer))
                 self._add_float_control(form, tr("prop.offset_y"), layer.offset[1], -1.0, 1.0, lambda v: self._update_list(layer.offset, 1, v, layer))
                 self._add_float_control(form, tr("prop.scale"), layer.scale, 0.1, 5.0, lambda v: self._set_attr(layer, 'scale', v))
+                self._add_float_control(form, tr("prop.scale_x"), layer.scale_x, 0.1, 5.0, lambda v: self._set_attr(layer, 'scale_x', v))
+                self._add_float_control(form, tr("prop.scale_y"), layer.scale_y, 0.1, 5.0, lambda v: self._set_attr(layer, 'scale_y', v))
                 self._add_float_control(form, tr("prop.rotation"), layer.rotation, 0.0, 360.0, lambda v: self._set_attr(layer, 'rotation', v))
                 self._add_float_control(form, tr("prop.blur"), layer.blur, 0.0, 1.0, lambda v: self._set_attr(layer, 'blur', v))
 
@@ -133,6 +137,11 @@ class PropertiesWidget(QWidget):
                 self._add_float_control(form, tr("prop.saturation"), layer.saturation, 0.0, 2.0, lambda v: self._set_attr(layer, 'saturation', v))
                 self._add_float_control(form, tr("prop.brightness"), layer.brightness, -1.0, 1.0, lambda v: self._set_attr(layer, 'brightness', v))
                 self._add_float_control(form, tr("prop.contrast"), layer.contrast, 0.0, 2.0, lambda v: self._set_attr(layer, 'contrast', v))
+
+            elif isinstance(layer, BlurSharpenLayer):
+                self._add_combo_control(form, tr("prop.mode"), ["Blur", "Sharpen"], layer.mode, lambda v: self._set_attr(layer, 'mode', v))
+                self._add_float_control(form, tr("prop.radius"), layer.radius, 0.0, 1.0, lambda v: self._set_attr(layer, 'radius', v))
+                self._add_float_control(form, tr("prop.amount"), layer.amount, 0.0, 2.0, lambda v: self._set_attr(layer, 'amount', v))
 
             elif isinstance(layer, NoiseLayer):
                 self._add_float_control(form, tr("prop.intensity"), layer.intensity, 0.0, 1.0, lambda v: self._set_attr(layer, 'intensity', v))
