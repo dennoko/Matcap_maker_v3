@@ -103,6 +103,16 @@ Renders a smooth color gradient across the sphere surface. Can be combined with 
     *   **Position spinbox**: Fine-tune the selected stop's position (0.0–1.0).
     *   **Delete button**: Remove the selected stop (requires at least 2 stops to remain).
 
+### 8. Blur / Sharpen
+A post-process layer that applies a blur or sharpen to the entire composite result up to this layer. Place it above the layers you want to affect.
+
+*   **Blend Mode / Opacity**: Control how the effect is blended back in. Opacity also acts as the overall strength of the effect.
+*   **Mode**:
+    *   `Blur`: Softens the image using a high-quality separable Gaussian blur. The Matcap circle keeps its original size — only the content inside it is blurred (the edges are not expanded outward).
+    *   `Sharpen`: Emphasizes edges and detail using an unsharp mask.
+*   **Radius**: The size of the blur (also the internal radius used for sharpening). Larger values blur over a wider area.
+*   **Amount**: The strength of the sharpening (used in `Sharpen` mode). In `Blur` mode, use Opacity to control the strength.
+
 ## Menu Operations
 
 ### File
