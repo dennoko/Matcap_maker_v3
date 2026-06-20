@@ -63,6 +63,39 @@ uv pip install -r requirements.txt
 python -m src.main
 ```
 
+## Distribution / Installer
+
+Matcap Maker is distributed as a Windows installer (Inno Setup). End users run
+`MatcapMaker-Setup-<version>.exe`, which installs the app under
+`Program Files\MatcapMaker`, registers Start Menu / Desktop shortcuts, and
+provides an uninstaller.
+
+### Building the installer
+
+Requires **Inno Setup 6** (`ISCC.exe`):
+```powershell
+winget install JRSoftware.InnoSetup
+```
+
+Then, from the repo root:
+```powershell
+# One command: PyInstaller (onedir) + Inno Setup
+python build_installer.py
+# -> dist/installer/MatcapMaker-Setup-<version>.exe
+```
+
+To build only the unpacked app (no installer):
+```powershell
+python build_exe.py   # -> dist/MatcapMaker/MatcapMaker.exe (onedir)
+```
+
+The distribution version is defined in [src/version.py](src/version.py); update
+it there and both the exe metadata and the installer pick it up. The installer
+script lives at [installer/MatcapMaker.iss](installer/MatcapMaker.iss).
+
+> Note: a frozen build writes crash logs to `%LOCALAPPDATA%\MatcapMaker\matcap_error.log`
+> (the install directory is read-only).
+
 ## License
 
 This project uses several third-party libraries. Please verify their licenses in the `LICENSE/` directory.

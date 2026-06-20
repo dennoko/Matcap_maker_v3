@@ -16,8 +16,12 @@ uv pip install -r requirements.txt
 # Run the app (from repo root — imports are rooted at `src.`)
 python -m src.main
 
-# Build Windows exe (PyInstaller → dist/MatcapMaker.exe)
+# Build Windows app (PyInstaller onedir → dist/MatcapMaker/MatcapMaker.exe)
 python build_exe.py
+
+# Build the Windows installer (PyInstaller onedir + Inno Setup → dist/installer/MatcapMaker-Setup-<ver>.exe)
+# Requires Inno Setup 6 (winget install JRSoftware.InnoSetup). Distribution version lives in src/version.py.
+python build_installer.py
 
 # Unit tests (unittest, no pytest config)
 python -m unittest tests.test_io
@@ -29,7 +33,7 @@ python tests\smoke_ui.py          # MainWindow + properties panel smoke test
 
 Other files in `tests/` (`test_render.py`, `verify_*.py`, `repro_export.py`) are ad-hoc verification scripts, not a test suite. They open a real Qt/OpenGL window, render headlessly, and write a PNG — run individually with `python tests/test_render.py` on a machine with a display.
 
-The app logs uncaught exceptions to `matcap_error.log` (next to the exe when frozen, in `src/` when run from source) — check it when the GUI crashes silently.
+The app logs uncaught exceptions to `matcap_error.log` (in `%LOCALAPPDATA%\MatcapMaker\` when frozen — the install dir is read-only; in `src/` when run from source) — check it when the GUI crashes silently.
 
 ## Architecture
 

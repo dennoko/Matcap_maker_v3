@@ -17,16 +17,22 @@ def setup_exception_hook():
         error_msg = f"[{timestamp}] CRITICAL ERROR:\n"
         error_msg += "".join(traceback.format_exception(exctype, value, traceback_obj))
         
-        # Write to log file in executable directory (or temp if not writable)
-        # In frozen mode, sys.executable is the exe path.
+        # Write to a user-writable log directory.
+        # When installed under Program Files the exe directory is read-only,
+        # so frozen builds log to %LOCALAPPDATA%\MatcapMaker (temp as fallback).
         if getattr(sys, 'frozen', False):
-            base_dir = os.path.dirname(sys.executable)
+            base_dir = os.environ.get("LOCALAPPDATA")
+            if not base_dir:
+                import tempfile
+                base_dir = tempfile.gettempdir()
+            base_dir = os.path.join(base_dir, "MatcapMaker")
         else:
             base_dir = os.path.dirname(os.path.abspath(__file__)) # src/
-            
+
         log_path = os.path.join(base_dir, "matcap_error.log")
-        
+
         try:
+            os.makedirs(base_dir, exist_ok=True)
             with open(log_path, "a") as f:
                 f.write(error_msg + "\n" + "-"*50 + "\n")
         except Exception:
