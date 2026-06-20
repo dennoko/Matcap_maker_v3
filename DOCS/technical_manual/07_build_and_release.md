@@ -51,11 +51,22 @@ src/version.py (__version__)
 
 ## インストーラの更新（既存ユーザーの上書きインストール）
 
-`installer/MatcapMaker.iss` の `AppId`（GUID）が **同一である限り**、新しいバージョンのインストーラを実行すると **既存インストールを検出して上書き更新** されます。
+`installer/MatcapMaker.iss` の `AppId`（GUID）が **同一である限り**、新しいバージョンのインストーラを実行すると **既存インストールを検出して更新** されます。
 
 - `AppId` は **絶対に変更しない**（変更すると別アプリ扱いになり、旧版が残って二重インストールになる）。
 - インストール先（`{autopf}\MatcapMaker`）やショートカット名を変えても、`AppId` が同じなら更新として扱われる。
-- 上書き時、旧バージョンのファイルは Inno Setup が自動で置き換える（`[Files]` は `ignoreversion` 指定）。
+
+### 旧バージョンの完全削除（クリーン更新）
+`[InstallDelete]` セクションで、**新ファイルを展開する前に `{app}` 配下を一掃**してから入れ直すように設定済み。
+
+```ini
+[InstallDelete]
+Type: filesandordirs; Name: "{app}\*"
+```
+
+- これにより、PyInstaller/PySide6 のバージョンアップで **依存DLLのファイル名が変わっても、古いファイルが取り残されない**。
+- **ユーザーデータは削除されない**。設定・プロジェクト・出力はすべて `Documents\MatcapMaker\`（`config.json` / `projects/` / `output/`）、クラッシュログは `%LOCALAPPDATA%\MatcapMaker\` にあり、**`{app}` の外**にあるため `[InstallDelete]` の対象外。
+- ⚠️ この前提を守るため、**`{app}`（インストール先）にユーザーデータを書き込むコードを追加しないこと**。設定類は必ず `Settings`（`src/core/settings.py`、`Documents\MatcapMaker`）経由にする。
 
 ### アイコンを変更したい場合
 - `res/icon/icon.ico` を差し替えるだけで、以下すべてに反映される（コード変更不要）:

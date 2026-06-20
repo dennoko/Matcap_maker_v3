@@ -37,6 +37,13 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
+[InstallDelete]
+; Remove the previous version's program files before installing the new one,
+; so renamed/removed dependencies don't linger as orphans. SAFE: user data
+; (settings/projects/exports) lives in Documents\MatcapMaker and logs in
+; %LOCALAPPDATA%\MatcapMaker — never under {app} — so nothing here is touched.
+Type: filesandordirs; Name: "{app}\*"
+
 [Files]
 ; onedir output from PyInstaller (build_exe.py): dist\MatcapMaker\*
 Source: "..\dist\MatcapMaker\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs ignoreversion
